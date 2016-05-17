@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>메모리 읽고 쓰기 - 태초의 프로그래밍 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="메모리 읽고 쓰기 - 태초의 프로그래밍 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1087/7434">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="태초의 프로그래밍 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1087/7434';
+		var path_context = 'module/1087';
+		var user_id = 9992;
+		var topic_id = 7434;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1087">태초의 프로그래밍 언어 어셈블리</a></p>
+					<p class="subtitle"><small>assembly, 8086, x86</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1087" title="assembly, 8086, x86">태초의 프로그래밍 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>assembly, 8086, x86</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1087/7434">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1087/7434" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">49</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1087/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1087">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_7415" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7415" class="depth_0"><span class="title">8086프로세서를 경험하게 해주는 emu8086 프로그램 소개</span></a></div>
+																			</li>
+									<li id="list_7421" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7421" class="depth_0"><span class="title">컴퓨터 세상의 원리: 수</span></a></div>
+																			</li>
+									<li id="list_7423" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7423" class="depth_0"><span class="title">8086의 기본 구조</span></a></div>
+																			</li>
+									<li id="list_7431" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7431" class="depth_0"><span class="title">mov 명령어</span></a></div>
+																			</li>
+									<li id="list_7434" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7434" class="selected depth_0"><span class="title">메모리 읽고 쓰기</span></a></div>
+																			</li>
+									<li id="list_7436" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7436" class="depth_0"><span class="title">메모리 주소 표현 방법들</span></a></div>
+																			</li>
+									<li id="list_7443" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7443" class="depth_0"><span class="title">mov의 사용법 정리</span></a></div>
+																			</li>
+									<li id="list_7444" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7444" class="depth_0"><span class="title">변수</span></a></div>
+																			</li>
+									<li id="list_7447" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7447" class="depth_0"><span class="title">배열</span></a></div>
+																			</li>
+									<li id="list_7448" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7448" class="depth_0"><span class="title">변수의 주소값 알아내기</span></a></div>
+																			</li>
+									<li id="list_7456" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7456" class="depth_0"><span class="title">어셈블리를 하는 이유</span></a></div>
+																			</li>
+									<li id="list_7460" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7460" class="depth_0"><span class="title">참과 거짓을 구별할때 쓰는 논리 연산</span></a></div>
+																			</li>
+									<li id="list_7473" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7473" class="depth_0"><span class="title">덧셈,뺄셈,곱셈</span></a></div>
+																			</li>
+									<li id="list_7474" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7474" class="depth_0"><span class="title">분량조절실패로 분리된 나눗셈</span></a></div>
+																			</li>
+									<li id="list_7622" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7622" class="depth_0"><span class="title">변태 명령어 inc, dec</span></a></div>
+																			</li>
+									<li id="list_7628" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7628" class="depth_0"><span class="title">이리저리 점프(함수)</span></a></div>
+																			</li>
+									<li id="list_7631" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7631" class="depth_0"><span class="title">필요할 때만 점프하기</span></a></div>
+																			</li>
+									<li id="list_7634" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7634" class="depth_0"><span class="title">같은지 다른지 비교하기</span></a></div>
+																			</li>
+									<li id="list_7635" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7635" class="depth_0"><span class="title">여러번 반복하기</span></a></div>
+																			</li>
+									<li id="list_7637" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7637" class="depth_0"><span class="title">임시 데이터를 보관하는 스택</span></a></div>
+																			</li>
+									<li id="list_7636" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7636" class="depth_0"><span class="title">함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7654" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7654" class="depth_0"><span class="title">함수 호출 규약과 지역변수</span></a></div>
+																			</li>
+									<li id="list_7655" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7655" class="depth_0"><span class="title">바이오스가 제공하는 인터럽트</span></a></div>
+																			</li>
+									<li id="list_7659" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7659" class="depth_0"><span class="title">매크로 함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7661" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7661" class="depth_0"><span class="title">emu8086.inc 사용법</span></a></div>
+																			</li>
+									<li id="list_7662" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7662" class="depth_0"><span class="title">어셈블리 공부하는 방법</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1087/7434/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1087/7434/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/1087/7434/revision">버전(<span class="count">7</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">메모리 읽고 쓰기</h1>
+							<div class="props">
+								<time datetime="">2014-07-16 13:35:58</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p><span style="font-size: 17px; line-height: 1.8;">데이터를 레지스터에 넣어봤습니다. 그런데 데이터가 여러개라면 어떻게 해야될까요? 주소록을 만들거나 수백명 학생들의 학점 관리를 해야하는데 몇개뿐인 레지스터를 가지고 처리할 수 없겠지요. 그래서 메모리에 데이터를 쓰고 읽고 해야합니다.</span></p>
+
+<p>보통의 프로그래밍 언어에서는 변수를 하나의 이름으로 생각합니다. C에서는 int a; 와 같이 a라는 이름으로 변수를 지정합니다. 그런데 컴퓨터에게는 변수란게 없습니다. 변수는 사람이 기억하기 쉽도록 이름을 지어놓은 것입니다. 변수란 사실은 메모리의 특정한 위치를 말합니다. C에서는 포인터라는 개념을 배우는데요 이게 메모리 주소를 말합니다. 어셈블리 언어에서는 변수없이 포인터로만 데이터를 사용할 수 있어야합니다. 어셈블러에서는 변수 이름을 만들 수 있도록 해주는데 사실은 눈속임입니다. 그냥 특정 메모리 주소를 변수 이름으로 바꿀 뿐입니다.&nbsp;</p>
+
+<p>다시한번 말씀드리겠습니다. 변수는 눈속임입니다. 컴퓨터는 이름을 모릅니다. a가 뭔지 모릅니다. 컴퓨터가 이해할 수 있는 것은 주소입니다. 주소는 숫자이니까 이해할 수 있습니다. (왜 수가 첫번째 글이 되었는지 납득이 되시나요? 모든게 수입니다!!)</p>
+
+<p>실습을 해볼까요? 쓸데없이 복잡합니다만 다 이해가 안되도 상관없습니다. 메모리 주소를 표현하는 방법만 생각하세요.</p>
+
+<p>org 100h<br />
+mov ax, 0b800h<br />
+mov ds, ax<br />
+mov cl, &#39;A&#39;<br />
+mov ch, 11011111b<br />
+mov bx, 15eh<br />
+mov [bx], cx<br />
+ret</p>
+
+<p>&nbsp;</p>
+
+<p>메모장을 실행해서 이 코드를 입력하고 var.txt 라는 이름으로 저장한 후 emu8086.exe var.txt를 실행합니다.</p>
+
+<p>그리고 에물레이터 화면의 밑부분에 있는 screen이라는 버튼을 누릅니다. 그럼 빈 화면의 윈도우가 나타나지요. 그리고 single step 버튼으로 프로그램을 ret까지 실행해봅니다. screen 화면에 A라는 핑크색 글자가 나타났나요?</p>
+
+<p>소스를 설명하겠습니다.</p>
+
+<p>처음에 org 100h는 죄송하지만 설명하지 않겠습니다. org 100h은 그냥 프로그램 처음에 무조건 넣는 걸로 하겠습니다. 굳이 간단하게 설명하자면 에물레이터를 처음 실행하면 ip가 100h인데 그렇게 프로그램이 100h 위치에서 실행한다는 것을 의미합니다. 왜 100h가 필요한지 왜 다른 값이 아니라 100h인지 등등 설명할게 많은데 사실 알아도 지금은 전혀 쓸모없는 지식입니다. 8086에서만 해당되는 내용이고 요즘 프로세서와는 상관없는 내용이므로 그냥 그렇게 쓰겠습니다.</p>
+
+<p>그 다음이 0b800h라는 주소를 ds에 저장합니다. 0b800h라는 값을 곧바로 ds 레지스터같은 세그먼트 레지스터에 곧바로 저장할 수는 없습니다. 8086 프로세서의 하드웨어적인 제약사항입니다. 그냥 프로세서가 그렇게 못하도록 만들어진 것입니다. 그래서 값을 바로 쓸 수 있는 범용 레지스터에 먼저 저장한 후에 레지스터의 값을 ds에 복사한 것입니다.</p>
+
+<p>그리고 ds가 또 나타나는 지점은 mov ds:[bx], cx입니다. 여기의 ds:[bx]라는 표현이 바로 메모리의 위치를 나타내는 표현입니다. 이전 글에서 메모리 주소는 세그먼트 주소와 범용 레지스터를 결합해서 나타낸다고 말씀드렸습니다. ds에는 0b800h 값이 있고 bx에는 15eh 값이 있으므로 ds:[bx]는 0b8000h + 15eh라는 주소를 말합니다. 그럼 [] 표시는 뭘까요? mov bx, cx는 bx 레지스터에 cx레지스터의 값을 복사하라는 명령입니다. bx에 메모리 주소가 있고 bx에 저장된 메모리 위치에 cx 값을 넣으라는 명령을 내리고 싶을 때는 bx에 []를 붙입니다. 그래서 결국 mov [bx], cx 혹은 mov ds:[bx], cx 가 됩니다. ds는 생략이 가능합니다. 프로세서가 알아서 메모리 주소를 계산할 때 ds를 읽습니다.(주1) mov [bx], cx로 바꿔서 실행해보세요. 결과는 같습니다.</p>
+
+<p>그리고 cl에 &#39;A&#39;를 씁니다. 이건 화면에 출력할 문자입니다. &#39;1&#39;을 써도 되고 &#39;a&#39;를 써도 됩니다. 작은 따옴표는 그 문자의 아스키코드를 말하는데 아스키코드라는 것을 아신다면 이해하시면 되고 아니라면 그냥 &#39;A&#39;는 A라는 문자 자체를 의미한다고 생각하시면 됩니다.</p>
+
+<p>ch에는 이상한 값을 쓰는데 이것은 그냥 바탕은 핑크색 글자는 흰색이라는 것을 의미합니다.</p>
+
+<p>bx는 화면에서 어느 위치를 말합니다. 혹시 옛날 386AT 컴퓨터가 기억나시나요? 흑백 화면이나 녹색 화면일때도 있었고 브라운관 모니터였지요. 그때 화면은 지금의 윈도우처럼 그래픽이 출력되는 화면이 아니었습니다. 가로 80글자 세로 25글자만 출력할수 있었습니다. 그게 바로 지금 보시는 screen 화면입니다. 옛날의 화면 출력을 에물레이트해준 것이지요.</p>
+
+<p>옛날 화면에 하나의 문자를 출력할때는 2바이트의 값을 써야합니다. 화면 한 줄이 80개의 문자를 출력할 수 있으니까 한 줄당 160바이트입니다. 350은 몇번째 줄일까요? 첫번째 줄은 0~158, 두번째 줄은 160~318, 세번째 줄이 320~ 이므로 350이라는 값은 세번째 줄에 표시한다는 것입니다.</p>
+
+<p>세번째 줄에서 몇번째 칸일까요? 350-320은 30인데 한 문자당 2바이트입니다. 30은 15번째 위치를 말합니다.</p>
+
+<p>이해가 안되고 어렵다고 생각하시는게 당연합니다. 얼마나 많은 사람들이 C언어의 포인터 개념을 이해하지 못해서 컴퓨터 공학을 포기하고 전자/전기 공학으로 전공을 바꾸는지 아신다면 위안이 되실겁니다. 태어나서 이런 식으로 수학을 사용해본 일이 없으니 당연한 일입니다. 그냥 ds:[bx]만 써넣으면 재미가 없을것 같아서 스크린에 글자 출력하는 소스도 넣어봤습니다. 이해가 안되시면 그냥 넘기세요. ds:[bx]만 알면 됩니다.</p>
+
+<p>우리가 여기에서 배워야할 것은 화면에 몇번째 위치냐가 아니고 메모리의 특정 위치를 지정하는 방법입니다. 다시한번 말씀드리면 ds:bx가 메모리 주소이고 레지스터 값을 읽는게 아니라 레지스터 값을 메모리 주소로 인식해서 메모리에 접근하라는 표현이 ds:[bx]입니다.&nbsp;</p>
+
+<p>마지막에 있는 ret 명령어는 프로그램을 끝내는 명령입니다.</p>
+
+<p>&nbsp;</p>
+
+<hr />
+<p>주1: 메모리 주소가 저장된 레지스터라니 뭔가가 생각나지 않으세요? bx 레지스터가 바로 C언어에서 포인터의 역할을 하는 것입니다. 포인터는 그냥 읽으면 정수값이지요. 그런데 *를 붙이면 그 값을 메모리 주소로 인식해서 메모리에 접근하지요. C에서의 * 연산자가 어셈블리 언어에서 []가 되었습니다. 정확하게는 반대로 []가 C언어에서 *로 계승된 것입니다. 그거 아세요? C언어는 어셈블리 언어보다는 조금 쉬우면서 비슷하게 강력하고 자유로운 언어를 만들기위해서 생겨났습니다. 그래서 앞으로 어셈블리 언어를 공부하다보면 C언어가 다르게 보일 것입니다. 인간 컴파일러가 되서 C언어 코드를 보면 어떤 어셈블리 명령어에 해당되는지가 보일 것입니다. 매트릭스의 네오가 되는 것이지요.</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">11</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1087/7431">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1087/7436">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1087/7434/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1087">
+				<input type="hidden" name="topic_id" value="7434">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment22356" data-id="22356">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="16797" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/16797.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>강우진</strong><a href="#comment22356" name="comment22356"><time datetime="2016-02-12 15:22:52">3개월 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				mov bx, 15eh 의 경우, 16진수로 15E 값을 bx 레지스터에 복사하라는 말입니다.<br />
+mov [bx], cx 의 경우, cx의 값을 bx에 저장된 메모리 위치에 넣으라는 말입니다.<br />
+bx가 0x15E 위치에 있으니 그 곳에 cx 의 값을 넣으라는 말 같습니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="14322">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment14375" data-id="14375">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment14375" name="comment14375"><time datetime="2015-05-09 08:53:04">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예 주소가 15eh이고 [15eh]는 그 주소에 있는 16비트 값이 됩니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="14368">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment14368" data-id="14368">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>음..</strong><a href="#comment14368" name="comment14368"><time datetime="2015-05-08 23:36:40">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				그니까 <br />
+mov bx, 15eh<br />
+mov [bx], cx<br />
+에서 위에꺼 bx주소에 15eh대입한거에서<br />
+bx의 값을 cx로 값으로 바꾸는건가요?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment14324" data-id="14324">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment14324" name="comment14324"><time datetime="2015-05-08 08:28:16">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				위에는 주소값이고요 아래는 그 주소에서 값을 읽으라는 의미입니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="14322">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment14322" data-id="14322">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>궁금한게요</strong><a href="#comment14322" name="comment14322"><time datetime="2015-05-08 07:49:55">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				mov bx, 15eh<br />
+mov [bx], cx<br />
+이때 왜 위에껀[]안쓰고 밑에것만 쓰나요?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment13362" data-id="13362">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="15746" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/15746.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>TeacherK</strong><a href="#comment13362" name="comment13362"><time datetime="2015-04-03 12:38:55">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				org 100h<br />
+mov ax, 0b800h<br />
+mov ds, ax<br />
+mov cl, 048h<br />
+mov ch, 01001111b<br />
+mov bx, 160<br />
+mov [bx], cx <br />
+mov cl, 01000101b<br />
+mov ch, 01001111b<br />
+mov bx, 162<br />
+mov [bx], cx <br />
+add cl, 7<br />
+add bx, 2<br />
+mov [bx], cx<br />
+add bx, 2<br />
+mov [bx], cx<br />
+add cl, 3<br />
+add bx, 2<br />
+mov [bx], cx<br />
+ret <br />
+저도 따라하긴 하는데 뭔진 잘 모르겠어요...<br />
+ds:bx에 값을 넣으면 왜 화면에 출력되는 건지...<br />
+<br />
+열심히 따라해 보겠습니다...			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment11575" data-id="11575">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="13340" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>참치통조림</strong><a href="#comment11575" name="comment11575"><time datetime="2014-12-22 14:42:05">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				좋은 강의 감사합니다.<br />
+<br />
+org 100h<br />
+<br />
+mov ax, 0b800h<br />
+mov ds, ax<br />
+<br />
+mov cl, 'H'<br />
+mov ch, 11011111b<br />
+mov bx, 160d<br />
+mov [bx], cx<br />
+ <br />
+mov cl, 'e'<br />
+mov bx, 162d<br />
+mov [bx], cx<br />
+<br />
+mov cl, 'l'<br />
+mov bx, 164d<br />
+mov [bx], cx<br />
+<br />
+mov bx, 166d<br />
+mov [bx], cx<br />
+<br />
+mov cl, 'o'<br />
+mov bx, 168d<br />
+mov [bx], cx<br />
+<br />
+mov cl, '!'<br />
+mov bx, 170d<br />
+mov [bx], cx<br />
+<br />
+ret			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment10569" data-id="10569">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment10569" name="comment10569"><time datetime="2014-10-13 22:07:59">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				ia32 IA16  instruction set (번역판도없고 다영문이니 쩝)~!!혼자  삽질(이해)할려고하니<br />
+microProcessor로 가네요 방향이~!!..하여튼 답변감사하고요  !!  뭐 ~같이 생각해보고 분석하는 재미죠.ㅋ <br />
+<br />
+아는사람도 별로없고 관심도 없는데 ,그래도 오픈튜도리얼에서  많이 어셈블 배우고있어서 참 좋은것같습니다.  ..			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment10556" data-id="10556">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment10556" name="comment10556"><time datetime="2014-10-13 08:42:05">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				제가 ia-16을 잘 몰라서 무얼 말씀하시는지는 모르겠습니다만<br />
+ax값이 바뀌지는 않겠지요.<br />
+ALU는 연산을 하는 유닛이니 다른 메모리관련 유닛에서<br />
+데이터를 가지고 있다가 버스를 통해서 메모리로 전송할것 같습니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="10552">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment10552" data-id="10552">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment10552" name="comment10552"><time datetime="2014-10-13 04:49:28">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				갑자기 글을 읽다고 궁금해서 질문 합니다!ㅋ <br />
+<br />
+org 100h<br />
+mov ax,0700h<br />
+mov ds,ax<br />
+mov bx, 010fh<br />
+<br />
+<br />
+mov word ptr [bx], 1<br />
+ret<br />
+ <br />
+<br />
+위 어셈블에서 <br />
+<br />
+<br />
+mov word ptr [bx], 1<br />
+<br />
+기계어 코드로 하면 <br />
+<br />
+C7(1100 0111) 07(00 000 111)  1(0000 0001)  <br />
+<br />
+인데요 <br />
+<br />
+iA-16에서보면 <br />
+<br />
+07에 앞 00은 변위없는 111은 [bx] 엑세스 의미인것같은데  <br />
+        중간에 000은 AX레지스터 지정  조작에 의미로 알고있습니다. <br />
+<br />
+그럼 결국 DS:[bx]값 번지에 1을 넣을경우 일단 000(AX)레지스터에 값을 쓰고 난 후에 <br />
+메모리로 넣으라는 의미인가요??<br />
+<br />
+<br />
+<br />
+질문에 요지는 1흐름이 CPU에서  <br />
+<br />
+IR    C7(1100 0111) 07(00 000 111)  1(0000 0001)  <br />
+에 있다가 <br />
+<br />
+C7 07은 디코더에 들어가서 CPU에게 명령을 내리고 나머지 부분은 <br />
+ ---&gt; ALU --&gt;AX있다가---&gt;<br />
+메모리값으로 입력된다는 의미인가요?<br />
+<br />
+아니면 그냥 ---&gt; AX에 있다가  메모리로 간다는 의미인가요?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9803" data-id="9803">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment9803" name="comment9803"><time datetime="2014-08-29 15:02:09">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				밑에 있는 변수 챕터를 읽어보시면 해결될 질문같습니다.<br />
+한번 읽어보시고 또 질문해주세요.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9795">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9795" data-id="9795">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment9795" name="comment9795"><time datetime="2014-08-29 01:08:45">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예제를 읽고 작성해 봤슴니다! <br />
+<br />
+1)<br />
+code   segment <br />
+       assume cs:code,ds:data<br />
+       mov ax,data<br />
+       mov ds,ax <br />
+   <br />
+       mov bx,offset aaa<br />
+    <br />
+<br />
+code  ends <br />
+<br />
+data segment <br />
+aaa  db ?<br />
+<br />
+data ends <br />
+     end   <br />
+<br />
+<br />
+2)<br />
+code   segment <br />
+       assume cs:code,ds:data<br />
+       mov ax,data<br />
+       mov ds,ax <br />
+   <br />
+       mov bx,offset aaa<br />
+       mov ah,'k'<br />
+       mov byte ptr [bx],ah <br />
+<br />
+<br />
+code  ends <br />
+<br />
+data segment <br />
+aaa  db ?<br />
+<br />
+data ends <br />
+     end <br />
+<br />
+질문1)c에서 <br />
+1)이면  전역변수 chr korea; 선언이고? 그러게 생각하면 변수 선언은 포인트 뿐 하는것 아무것도없네요. <br />
+2)이면  전역변수 chr korea; korea='k';   선언인가요?<br />
+<br />
+질문2) db ?는 변수에  값이 기존이 있던값들이  들어있다는 말인데   <br />
+db   어떻게  00 초기화할수없나요?? 명령어형식이.?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9757" data-id="9757">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment9757" name="comment9757"><time datetime="2014-08-27 14:07:39">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				b800h를 표기할 때 b가 16진수의 b라는 것을 나타내기 위해 0을 붙여줘서 0b800h가 됩니다.<br />
+0이 레지스터에 들어가는 것이 아닙니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9752">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9752" data-id="9752">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment9752" name="comment9752"><time datetime="2014-08-27 06:00:28">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예를 들어서 mov al,8888h 하면 오류 같은데용??<br />
+mov ax, 0b800h 이것은 오류 아닌가요? 헛갈리네용.!?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9737" data-id="9737">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment9737" name="comment9737"><time datetime="2014-08-26 13:53:55">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예 실행이 된 것입니다. 그렇게 끝까지 실행된게 중요한게 아니라<br />
+그 과정에서 레지스터 값들이 어떻게 변하는지가 중요합니다. 그게 본문 내용입니다.<br />
+<br />
+자바는 잘 모르겠습니다만 C++에서 클래스를 만들면<br />
+클래스라는건 그냥 표현일 뿐이고 최종적으로는 변수만 남습니다.<br />
+즉 Person per; per.a = 10; 이렇게하면 per.a라는 변수만 남는것이지<br />
+객체라는 것은 없어집니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9735">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9735" data-id="9735">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment9735" name="comment9735"><time datetime="2014-08-26 12:31:33">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				Assembly코드를 복사해서 txt파일만들어 실행을 했더니 <br />
+<br />
+PROGRAM HAS RETURNED CONTROL<br />
+TO THE OPERATING SYSTEM<br />
+<br />
+요렇게 나오네요  이러면 실행이 된것인가요?? <br />
+<br />
+질문2)<br />
+<br />
+pubiic classs Person { <br />
+public int age;<br />
+public float height; <br />
+} <br />
+person abc =new person();<br />
+자바 클래스 문장에서 <br />
+<br />
+public int age 는<br />
+public float height 는 <br />
+   <br />
+ mov dword ptr ss:[ebp-4],0 <br />
+ mov dowrd ptr ss:[ebp-8],0 이렇게 표현되나요? <br />
+<br />
+ 변수는  대충 메트릭스눈으로 보이는데, Person 클라스 는 전체  어떻게 표현되나요?<br />
+Person클라스는 어떻게 표현이 되는지?<br />
+메트릭스눈으로 안보여용~!!ㅋㅋ?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9731" data-id="9731">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment9731" name="comment9731"><time datetime="2014-08-26 08:45:42">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예 전역변수를 다루는 예제입니다.<br />
+어떻게 실행이 안되세요? 어셈블이 안되세요? 아니면 주소값이 잘못된 건가요?<br />
+지금 제가 다시 실행해봐도 실행은 잘됩니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9729">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9729" data-id="9729">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="10604" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>starlee3</strong><a href="#comment9729" name="comment9729"><time datetime="2014-08-26 03:31:46">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				예제를 복사해서 실행은 안되는데, 개념이 DS에 주소를 넣고 BX에 offset 주소를 넣고  <br />
+<br />
+DS랑 bx주소로 기반으로 연산해서  물리 번지를 생성해서   포인트하는 메모리주소에  Cx내용을 넣으라는 말인가요?  C에  전역변수 개념인가요?			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2014-07-16 13:13:30</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2014-07-16 13:13:30</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1087%2F7434">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

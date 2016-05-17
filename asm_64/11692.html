@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>좋은 자료들 - 요즘도 쓰는 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="좋은 자료들 - 요즘도 쓰는 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/2004/11692">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="요즘도 쓰는 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/2004/11692';
+		var path_context = 'module/2004';
+		var user_id = 9992;
+		var topic_id = 11692;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/2004">요즘도 쓰는 언어 어셈블리</a></p>
+					<p class="subtitle"><small>x86_64, AMD64, 64bit</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/2004" title="x86_64, AMD64, 64bit">요즘도 쓰는 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>x86_64, AMD64, 64bit</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/2004/11692">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/2004/11692" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">4</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/2004/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/2004">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_11691" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11691" class="depth_0"><span class="title">요즘시대에 어셈블리가 필요한가?</span></a></div>
+																			</li>
+									<li id="list_11692" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11692" class="selected depth_0"><span class="title">좋은 자료들</span></a></div>
+																			</li>
+									<li id="list_11696" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11696" class="depth_0"><span class="title">nasm 어셈블러로 Hello, world! 출력하기</span></a></div>
+																			</li>
+									<li id="list_11710" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11710" class="depth_0"><span class="title">gdb로 어셈블리 실행하기</span></a></div>
+																			</li>
+									<li id="list_11711" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11711" class="depth_0"><span class="title">gdb로 어셈블리 코드 디버깅하기</span></a></div>
+																			</li>
+									<li id="list_11712" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11712" class="depth_0"><span class="title">분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부</span></a></div>
+																			</li>
+									<li id="list_11699" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11699" class="depth_0"><span class="title">16비트 32비트 64비트</span></a></div>
+																			</li>
+									<li id="list_11702" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11702" class="depth_0"><span class="title">64비트 함수 호출 규약</span></a></div>
+																			</li>
+									<li id="list_11698" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11698" class="depth_0"><span class="title">gcc 최적화 옵션 실험</span></a></div>
+																			</li>
+									<li id="list_11700" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11700" class="depth_0"><span class="title">리눅스 커널에있는 어셈블리 코드 소개</span></a></div>
+																			</li>
+									<li id="list_11695" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11695" class="depth_0"><span class="title">Protected mode와 Long mode</span></a></div>
+																			</li>
+									<li id="list_11697" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11697" class="depth_0"><span class="title">리눅스 커널 디버깅</span></a></div>
+																			</li>
+									<li id="list_11701" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11701" class="depth_0"><span class="title">MMX 프로그래밍 소개</span></a></div>
+																			</li>
+									<li id="list_11817" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11817" class="depth_0"><span class="title">리눅스 커널에서 ACCESS_ONCE 이해하기 (volatile 키워드)</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/2004/11692/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/2004/11692/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/2004/11692/revision">버전(<span class="count">2</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">좋은 자료들</h1>
+							<div class="props">
+								<time datetime="">2016-02-16 00:23:19</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>http://www.drpaulcarter.com/pcasm/</p>
+
+<p>원래 좋은 문서인데 한글로 번여해주신 분이 계셔서 저자 홈페이지에 한글 버전이 등록되어있습니다. 처음 시작하시는 분들이 보시면 좋고, 이정도만 알아도 훌륭하겠다싶은 내용입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>http://savannah.nongnu.org/projects/pgubook/</p>
+
+<p><a href="http://www.joinc.co.kr/modules/moniwiki/wiki.php/Site/Assembly/Documents/ProgrammingGroundUp/index.html">한글 번역본도 있습니다.</a></p>
+
+<p>좀더 자세한 문서입니다. 윤상배님께서 번역하셨습니다.</p>
+
+<p>&nbsp;</p>
+
+<p>&quot;IT EXPERT, 64비트 멀티코어 OS 원리와 구조 1권: OS 개발 60일 프로젝트&quot;-한승훈지음</p>
+
+<p>어셈블리를 아는 사람이 64비트에 관련된 내용만 파악하기위해서는 좋은 책입니다. 운영체제를 공부하기 위해서는 더더더 좋은 책입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>그 외에도 많은 좋은 문서들이 있습니다.&nbsp;문제는 64비트 버전이 부족하다는 것 같습니다. 이 강좌는 앞선 &quot;태초의 프로그래밍 언어 어셈블리&quot;를 다 읽으신 분이 64비트로 넘어갈때 징검다리가 되는게 목표입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>사실 64비트 어셈블리의 가장 좋은 책은 Intel 프로세서 메뉴얼입니다. 인텔 홈페이지에서 신청하시면 퍼런 책 세권이 집으로 날아옵니다. 공짜로요.</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/2004/11691">이전</a></li><li class="next"><a href="http://opentutorials.org/module/2004/11696">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/2004/11692/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="2004">
+				<input type="hidden" name="topic_id" value="11692">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment22696" data-id="22696">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>Joshua</strong><a href="#comment22696" name="comment22696"><time datetime="2016-02-21 04:47:21">2개월 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				인텔의 프로세서 메뉴얼의 하드카피본은 이제 공짜로 제공되지는 않는 듯 하네요. 인텔 홈페이지에 가 보면 lulu 라는 써드파티 벤더를 통해서 구입할 수 있다고 안내하고 있습니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2016-02-15 15:35:06</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2016-02-15 15:35:06</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F2004%2F11692">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

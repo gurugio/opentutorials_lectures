@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>평범한 개발자의 C 프로그래밍 이야기</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1329">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_basic/1329';
+		var path_context = 'module/1329';
+		var user_id = 9992;
+		var topic_id = false;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="module_index" class="module sidebar view everystudy cover logged_in controls controls">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1329">평범한 개발자의 C 프로그래밍 이야기</a></p>
+					<p class="subtitle"><small></small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1329" title="">평범한 개발자의 C 프로그래밍 이야기<span class="ico ico_public"> </span></a>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_basic/1329">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1329" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="breadcrumb_line">
+						평범한 개발자의 C 프로그래밍 이야기					</span>
+
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">12</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1329/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover selected">
+									<a href="http://opentutorials.org/module/1329">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_8571" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8571" class="ready depth_0"><span class="title">터미널 환경 꾸미기</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8572" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8572" class="depth_0"><span class="title">emacs 설정</span></a></div>
+																			</li>
+									<li id="list_8573" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8573" class="depth_0"><span class="title">emacs 패키지</span></a></div>
+																			</li>
+									<li id="list_8574" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8574" class="depth_0"><span class="title">emacs로 소스 빌드하기</span></a></div>
+																			</li>
+									<li id="list_8575" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8575" class="depth_0"><span class="title">make 시작</span></a></div>
+																			</li>
+									<li id="list_8576" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8576" class="depth_0"><span class="title">make - configure.in 작성</span></a></div>
+																			</li>
+									<li id="list_8577" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8577" class="depth_0"><span class="title">make - 예제 소스</span></a></div>
+																			</li>
+									<li id="list_8578" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8578" class="depth_0"><span class="title">make - 간단한 예제</span></a></div>
+																			</li>
+									<li id="list_8579" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8579" class="depth_0"><span class="title">make - 좀더 복잡하게</span></a></div>
+																			</li>
+									<li id="list_8580" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8580" class="depth_0"><span class="title">make - 최종</span></a></div>
+																			</li>
+									<li id="list_8581" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8581" class="depth_0"><span class="title">make - cmake 소개</span></a></div>
+																			</li>
+									<li id="list_8583" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8583" class="depth_0"><span class="title">변하는 것과 변하지 않는 것을 구분하는 프로그래밍</span></a></div>
+																			</li>
+									<li id="list_8582" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8582" class="depth_0"><span class="title">테스트를 위한 입출력 값을 테이블로 정의하기</span></a></div>
+																			</li>
+									<li id="list_8584" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8584" class="depth_0"><span class="title">인증 번호 생성 1/2</span></a></div>
+																			</li>
+									<li id="list_8585" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8585" class="depth_0"><span class="title">인증 번호 생성 2/2</span></a></div>
+																			</li>
+									<li id="list_8645" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8645" class="depth_0"><span class="title">linux kernel 3.16</span></a></div>
+																			</li>
+									<li id="list_8644" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8644" class="ready depth_0"><span class="title">linux kernel - ion에서 사용된 데이터 heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8647" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8647" class="ready depth_0"><span class="title">linux kernel - ion에서 heap을 등록하는 코드</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8654" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8654" class="ready depth_0"><span class="title">linux kernel - ion의 system heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8718" class="private ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8718" class="private ready depth_0"><span class="title">구조체 안에 배열 넣기</span><span class="ready">준비중</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+									<a href="http://opentutorials.org/module/1329/edit" id="edit" class="btn">편집</a>								</div>
+							</div>
+						</div>
+						<article class="hentrypublic">
+							<hgroup>
+								<h1 class="entry-title">평범한 개발자의 C 프로그래밍 이야기</h1>
+								<div class="props">
+									<time datetime="" pubdate>2016-04-04 21:06:00</time>
+								</div>
+							</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>C 프로그래밍을 잘할려면 뭘 해야할까요.</p>
+
+<p>C 언어로 대규모 프로그램을 만드려면 어떻게 디자인하고 구현해야할까요.</p>
+
+<p>저는 C 언어의 기본을 알티베이스라는 국내 개발자들이 모여 DBMS 엔진 자체를 만드는 회사에서 배웠습니다.</p>
+
+<p>C 언어로 DBMS를 만드려면 얼마나 좋은 디자인과 테크닉들이 들어가야할지 상상이 가시나요?</p>
+
+<p>10년 넘게 한 제품만 개발한 노하우가 어마어마했었습니다.</p>
+
+<p>그리고 리눅스 커널에서 C 언어로 할 수 있는 한계가 뭔지를 배웠다고 생각합니다.</p>
+
+<p>전세계 어떤 프로그램이 리눅스 커널보다 크고 복잡하다고 말할 수 있을까요?</p>
+
+<p>그렇게 많은 사람이 같이 개발하는 프로그램이 또 있을까요?</p>
+
+<p>그런 소프트웨어가 C로 개발되는데, 이상하게 많은 사람들이 C 언어가 개발하기 불편하고 생산성이 떨어지고 등등 후진 언어라고 말합니다.</p>
+
+<p>저는 감히 C 언어가 후진게 아니라 C 언어로 대규모 프로그램을 디자인하는 방법을 몰라서라고 말씀드리고 싶습니다.</p>
+
+<p>저도 그 방법을 다 아는건 아니지만, 그 중에 하나는 이해한다고 자부하고, 그 하나가 리눅스 커널의 곳곳이 너무나 많이 적용되고 있기 때문에, 그 방법을 소개하려고합니다.</p>
+
+<p>우선 emacs &amp; make 를 사용해서 프로그래밍 환경을 꾸미고, 간단한 예제 프로그램을 만들어본 다음에, 리눅스에서는 어떻게 대규모 프로그램을 만드는지 소개하겠습니다.</p>
+
+<p>&nbsp;</p>
+
+<p>아마 이 강좌는 어셈블리 강좌에 비해서&nbsp;내용도 길고, 글쓰는 시간도 오래 걸릴것 같습니다.</p>
+
+<p>누구에게 보여주기 위한 강좌라고 생각하지않고, 일기쓰듯이 써보겠습니다.</p>
+
+<p>내용을 보시다가 혹시 이상하거나 부족한 점들이 보이시면 아낌없이 지적해주시길 간절히 부탁드립니다.</p>
+						</div>
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><span>이전</span></li><li class="next"><a href="http://opentutorials.org/module/1329/8571">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1329">
+				<input type="hidden" name="topic_id" value="0">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1329">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

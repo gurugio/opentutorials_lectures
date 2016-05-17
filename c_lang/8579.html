@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>make - 좀더 복잡하게 - 평범한 개발자의 C 프로그래밍 이야기</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="make - 좀더 복잡하게 - 평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1329/8579">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1329/8579';
+		var path_context = 'module/1329';
+		var user_id = 9992;
+		var topic_id = 8579;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1329">평범한 개발자의 C 프로그래밍 이야기</a></p>
+					<p class="subtitle"><small></small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1329" title="">평범한 개발자의 C 프로그래밍 이야기<span class="ico ico_public"> </span></a>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1329/8579">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1329/8579" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">12</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1329/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1329">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_8571" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8571" class="ready depth_0"><span class="title">터미널 환경 꾸미기</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8572" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8572" class="depth_0"><span class="title">emacs 설정</span></a></div>
+																			</li>
+									<li id="list_8573" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8573" class="depth_0"><span class="title">emacs 패키지</span></a></div>
+																			</li>
+									<li id="list_8574" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8574" class="depth_0"><span class="title">emacs로 소스 빌드하기</span></a></div>
+																			</li>
+									<li id="list_8575" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8575" class="depth_0"><span class="title">make 시작</span></a></div>
+																			</li>
+									<li id="list_8576" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8576" class="depth_0"><span class="title">make - configure.in 작성</span></a></div>
+																			</li>
+									<li id="list_8577" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8577" class="depth_0"><span class="title">make - 예제 소스</span></a></div>
+																			</li>
+									<li id="list_8578" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8578" class="depth_0"><span class="title">make - 간단한 예제</span></a></div>
+																			</li>
+									<li id="list_8579" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8579" class="selected depth_0"><span class="title">make - 좀더 복잡하게</span></a></div>
+																			</li>
+									<li id="list_8580" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8580" class="depth_0"><span class="title">make - 최종</span></a></div>
+																			</li>
+									<li id="list_8581" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8581" class="depth_0"><span class="title">make - cmake 소개</span></a></div>
+																			</li>
+									<li id="list_8583" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8583" class="depth_0"><span class="title">변하는 것과 변하지 않는 것을 구분하는 프로그래밍</span></a></div>
+																			</li>
+									<li id="list_8582" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8582" class="depth_0"><span class="title">테스트를 위한 입출력 값을 테이블로 정의하기</span></a></div>
+																			</li>
+									<li id="list_8584" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8584" class="depth_0"><span class="title">인증 번호 생성 1/2</span></a></div>
+																			</li>
+									<li id="list_8585" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8585" class="depth_0"><span class="title">인증 번호 생성 2/2</span></a></div>
+																			</li>
+									<li id="list_8645" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8645" class="depth_0"><span class="title">linux kernel 3.16</span></a></div>
+																			</li>
+									<li id="list_8644" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8644" class="ready depth_0"><span class="title">linux kernel - ion에서 사용된 데이터 heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8647" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8647" class="ready depth_0"><span class="title">linux kernel - ion에서 heap을 등록하는 코드</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8654" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8654" class="ready depth_0"><span class="title">linux kernel - ion의 system heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8718" class="private ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8718" class="private ready depth_0"><span class="title">구조체 안에 배열 넣기</span><span class="ready">준비중</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1329/8579/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1329/8579/add" id="add2" class="btn">하위 토픽 추가</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">make - 좀더 복잡하게</h1>
+							<div class="props">
+								<time datetime="">2014-11-10 19:54:39</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>빌드 순서를 생각해보면 configure는 프로젝트를 빌드할 플랫폼에 대한 정보를 얻습니다. 그리고 make가 실행되면서 make에 지정된 옵션에 따라 빌드가 시작됩니다. 따라서 실질적으로 빌드 프로세스를 조정할 수 있는 것은 make의 옵션입니다. 따라서 make의 옵션을 인식해서 옵션에 맞게 빌드를 진행할 수 있도록 Makefile을 작성해보겠습니다.</p>
+
+<p>우리가 가장 먼저 만들 파일은 calib.mk.in입니다. .in이라는 확장자에서 알 수 있듯이 configure을 통해 calib.mk 파일을 생성합니다. calib.mk 파일에는 빌드에 관련된 모든 내용을 저장합니다. 빌드할 소스 파일의 이름, 위치, 빌드 옵션 뿐 아니라 빌드중 생성되는 오브젝트 파일들이 저장될 위치, 최종 생성될 라이브러리 이름까지 저장됩니다. 최대한 빌드와 관련된 모든 정보를 calib.mk에 모아서 각 서브 디렉토리의 Makefile은 calib.mk를 참조해서 빌드 관련 정보를 얻을 수 있습니다. 서브 디렉토리의 Makefile에는 서브 디렉토리에서만 실행되는 명령들이 저장됩니다. 모듈간의 독립성을 높이면서도 각 모듈의 빌드를 통일되게 관리할 수 있습니다.</p>
+
+<p>이전에서 설명했듯이 빌드와 관련된 파일을 한곳에 모으는 것이 중요합니다. 빌드과 배포 등은 따로 담당자를 두어서 제품의 각 모듈 개발자들은 자신들이 담당한 소스에 집중할 수 있도록 해주어야합니다. 그래야 모든 모듈이 같은 옵션으로 빌드되고 통합될 수 있습니다. 또한 빌드와 관련된 사항을 수정할 때도 각 모듈별로 작업하지 않고 한 곳에 모인 빌드 관련 파일들만 수정하게되는 장점이 있습니다.</p>
+
+<p>먼저 다음과 같이 configure.in 파일에 calib.mk를 추가합니다.</p>
+
+<p><br />
+AC_CONFIG_FILES([config.mk calib.mk])</p>
+
+<p>다음은 calib.mk.in 파일의 내용입니다.</p>
+
+<p># making calib<br />
+# There values are used by every Makefile<br />
+# so that they are defined here.<br />
+CALIB_SRCS = sys_info.c hello.c<br />
+CALIB_OBJS = $(CALIB_SRCS:.c=.o)</p>
+
+<p>CALIB_NAME = libca.a<br />
+빌드하려는 파일들의 파일 이름과 소스 파일을 관리합니다. 이 파일에서는 calib이라는 제품을 빌드하려고 하며, calib이라는 제품은 최종 생성 파일이 libca.a 이고, 관련된 소스는 sys_info.c와 hello.c 입니다. 상황에 따라 여러개의 최종 생성 파일이 있을 수 있고, 각 최종 생성 파일마다 관련된 소스를 정의해줄 수 있습니다.</p>
+
+<p><br />
+# BUILD_MODE setup<br />
+# eg) make build_mode=debug<br />
+AVAILABLE_BUILD_MODE = debug release<br />
+DEFAULT_BUILD_MODE = debug<br />
+빌드를 디버그 모드와 릴리즈 모드로 나눠서 진행할 수 있도록 합니다. 개발중에는 자주 디버그 모드로 빌드하므로 기본 설정은 디버그 모드로 합니다.</p>
+
+<p>ifneq ($(DEFAULT_BUILD_MODE),)<br />
+&nbsp;ifeq ($(origin build_mode), undefined)<br />
+&nbsp; BUILD_MODE = $(DEFAULT_BUILD_MODE)<br />
+&nbsp;else<br />
+&nbsp; BUILD_MODE = $(filter $(build_mode), $(AVAILABLE_BUILD_MODE))<br />
+&nbsp; ifneq ($(BUILD_MODE), $(build_mode))<br />
+&nbsp; &nbsp;$(error Unknown build mode: $(build_mode))<br />
+&nbsp; endif<br />
+&nbsp;endif<br />
+endif<br />
+make를 실행할 때 build_mode 옵션을 지정하지 않았다면, origin 함수가 undefined를 반환해줍니다. 그럴때는 기본 값으로 지정됩니다. build_mode 옵션을 지정했다면, AVAILABLE_BUILD_MODE 중에 있는 값인지 확인한 후 BUILD_MODE 변수에 값을 저장합니다.</p>
+
+<p><br />
+# COMPILE_BIT setup<br />
+# eg) make compile_bit=64<br />
+# AVAILABLE_COMPILE_BIT, DEFAULT_COMPILE_BIT are setup at configure.in<br />
+AVAILABLE_COMPILE_BIT=@CALIB_CFG_AVAIL_COMPILE_BIT@<br />
+DEFAULT_COMPILE_BIT=@CALIB_CFG_CPU_BIT@<br />
+컴파일 비트는 플랫폼 환경에 따라 달라질 수 있으므로 configure에서 설정한 값을 가져옵니다.</p>
+
+<p>ifneq ($(DEFAULT_COMPILE_BIT),)<br />
+&nbsp;ifeq ($(origin compile_bit), undefined)<br />
+&nbsp; COMPILE_BIT = $(DEFAULT_COMPILE_BIT)<br />
+&nbsp;else<br />
+&nbsp; COMPILE_BIT = $(filter $(compile_bit), $(AVAILABLE_COMPILE_BIT))<br />
+&nbsp; ifneq ($(COMPILE_BIT), $(compile_bit))<br />
+&nbsp; &nbsp;$(error Unknown compile bit: $(compile_bit))<br />
+&nbsp; endif<br />
+&nbsp;endif<br />
+else<br />
+&nbsp;$(error No setting for compile bit: $(DEFAULT_COMPILE_BIT))<br />
+endif<br />
+BUILD_MODE 변수를 설정하는 것과 동일하게 compile_bit 옵션이 지정되었는지, 지정되었으면 옳바른 값이 지정되었는지를 확인합니다.</p>
+
+<p><br />
+SUB_DIRS = src lib test<br />
+서브 디렉토리는 lib, src, test로 총 3개입니다.</p>
+
+<p><br />
+ROOT_DIR := @ROOT_DIR@<br />
+LIB_DIR = $(ROOT_DIR)/lib<br />
+SRC_DIR = $(ROOT_DIR)/src<br />
+TEST_DIR = $(ROOT_DIR)/test<br />
+configure는 소스 트리의 가장 상위에서 실행됩니다. 따라서 configure에서 소스의 최상위 디렉토리를 알려줍니다. 각 서브 디렉토리의 경로를 최상위 디렉토리의 경로를 바탕으로 알 수 있습니다.</p>
+
+<p><br />
+#<br />
+# compile tools<br />
+#<br />
+CC=@CC@<br />
+LD=@LD@<br />
+AR=@AR@<br />
+configure가 찾아낸 컴파일러와 링커를 활용합니다.</p>
+
+<p>INCLUDES_OPT += $(ROOT_DIR)/include<br />
+헤더가 저장된 디렉토리는 include 입니다.</p>
+
+<p><br />
+INCLUDES_OPT += $(ROOT_DIR)/include</p>
+
+<p>DEFINES_OPT += CALIB_CFG_BUILD_MODE=\&quot;$(BUILD_MODE)\&quot;</p>
+
+<p>ifeq ($(BUILD_MODE), debug)<br />
+&nbsp;DEFINES_OPT += CALIB_CFG_BUILD_MODE_DEBUG<br />
+else<br />
+&nbsp;ifeq ($(BUILD_MODE), release)<br />
+&nbsp; DEFINES_OPT += CALIB_CFG_BUILD_MODE_RELEASE<br />
+&nbsp;endif<br />
+endif<br />
+각 소스에서 빌드 모드와 컴파일 비트를 알 수 있도록 매크로 상수를 만듭니다. 설정 값을 변수로 사용할 수 있도록 상수 값 CALIB_CFG_BUILD_MODE=&quot;debug&quot;, CALIB_CFG_COMPILE_BIT=64 을 만듭니다. 조건부 컴파일로 사용할 수 있도록 CALIB_CFG_BUILD_MODE_DEBUG, CALIB_CFG_BUILD_MODE_64 매크로도 정의합니다.</p>
+
+<p><br />
+INCLUDES = $(addprefix -I,$(INCLUDES_OPT))<br />
+DEFINES = $(addprefix -D,$(DEFINES_OPT))<br />
+헤더 디렉토리와 매크로 상수를 빌드 옵션에 사용할 수 있도록 -I와 -D 옵션을 추가해서 컴파일 옵션을 완성합니다.</p>
+
+<p>CFLAGS += -Wextra -Wall</p>
+
+<p>ifeq ($(BUILD_MODE), debug)<br />
+&nbsp;CFLAGS += -g<br />
+else<br />
+&nbsp;CFLAGS += -O2<br />
+endif</p>
+
+<p>ifeq ($(COMPILE_BIT), 64)<br />
+&nbsp;CFLAGS += -m64<br />
+else<br />
+&nbsp;CFLAGS += -m32<br />
+endif<br />
+컴파일러 옵션을 설정합니다. 디버그 모드에서는 -g, 릴리즈 모드에서는 -O2 옵션을 사용합니다. 컴파일 비트에 따라서 -m32와 -m64 중에 하나를 선택합니다.</p>
+
+<p><br />
+ifeq ($(COMPILE_BIT), 64)<br />
+&nbsp;LD_FLAGS += -m64<br />
+else<br />
+&nbsp;LD_FLAGS += -m32<br />
+endif<br />
+링커에게 전달할 컴파일 비트 옵션입니다.</p>
+
+<p><br />
+AR_FLAGS = sruv<br />
+정적 라이브러리를 만들기 위해서 ar에 지정할 옵션입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>다음은 ./Makefile의 내용입니다.</p>
+
+<p>&nbsp;</p>
+
+<p># config.mk is generated by configure<br />
+include calib.mk<br />
+include config.mk</p>
+
+<p><br />
+all: $(SUB_DIRS)<br />
+&nbsp;&nbsp; &nbsp;$(foreach dir,$(SUB_DIRS),make -C $(dir);)</p>
+
+<p><br />
+clean:<br />
+&nbsp;&nbsp; &nbsp;$(foreach dir,$(SUB_DIRS),make -C $(dir) clean;)<br />
+최초로 실행되는 Makefile답게 각 서브 디렉토리의 Makefile을 실행합니다. config.mk와 calib.mk를 포함해야합니다.</p>
+
+<p>다음은 src/Makefile 입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p>all: $(CALIB_OBJS)</p>
+
+<p>%.o:%.c<br />
+&nbsp;&nbsp; &nbsp;$(CC) -c $(CFLAGS) $(INCLUDES) $(DEFINES) -o $@ $&lt;</p>
+
+<p>clean:<br />
+&nbsp;&nbsp; &nbsp;rm $(CALIB_OBJS)<br />
+config.mk를 참조할 때 ROOT_DIR 변수를 사용해서 파일의 경로를 찾아갑니다. ROOT_DIR 변수가 calib.mk에 정의되어있으므로, calib.mk를 가장 먼저 포함해야합니다. src 디렉토리의 Makefile은 CALIB_OBJS에 정의된 오브젝트 파일을 생성하는 일을 합니다. 따라서 Makefile파일이 컴파일러를 호출하는 명령 한줄로만 이루어져있습니다. 또한 Makefile에 사용된 모든 옵션과 파일 이름 등등이 모두 calib.mk에 정의된 변수들을 사용하는 것을 알 수 있습니다. src 디렉토리 내부에서만 사용할 파일이나 기타 설정 등에 대한 사항을 정의해서 사용할 수 있지만, 전체 빌드에 필요한 모든 사항은 calib.mk에 정의된 변수들을 사용해야 합니다.</p>
+
+<p>예를 들어 src디렉토리안에 또다른 서브 디렉토리인 m1, m2, m3가 있다고 했을 때, src/Makefile은 또다시 서브 디렉토리를 정의하고, 각 서브 디렉토리에서 생성될 결과물들을 정의할 수 있습니다. 하지만 최상위에서 전체 빌드에서 사용하도록 설정한 옵션을 수정해서는 안되고, 또 src보다 동일한 레벨인 lib나 test에서 사용해야하는 값을 src/Makefile에서 정의해서도 안됩니다. 즉, 상위 디렉토리에서 정의한 설정들만을 사용한다는 큰 원칙을 지켜야합니다. 이렇게 상하위 빌드에 대한 원칙을 가지고 빌드 프로세스를 만드는 것은 SW 개발에서 모듈간 독립성을 지키는 것과 일맥상통합니다.</p>
+
+<p>&nbsp;</p>
+
+<p>다음은 lib/Makefile입니다.</p>
+
+<p>&nbsp;</p>
+
+<p>include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p>all: $(CALIB_NAME)</p>
+
+<p>$(CALIB_NAME): $(addprefix $(SRC_DIR)/,$(CALIB_OBJS))<br />
+&nbsp;&nbsp; &nbsp;ar sruv $@ $^</p>
+
+<p><br />
+clean:<br />
+&nbsp;&nbsp; &nbsp;rm $(CALIB_NAME)<br />
+최종 생성 파일은 CALIB_NAME 변수에 이름이 저장된대로 libca.a 파일입니다. 라이브러리를 빌드하기위한 의존성에 src에 저장된 소스 파일들의 이름이 설정됩니다. 따라서 소스 파일이 변경될때마다 라이브러리 파일을 새로 생성합니다. 소스 파일이 변경되지 않았으면 라이브러리를 다시 빌드하지 않습니다.</p>
+
+<p><br />
+다음은 test/Makefile 입니다.</p>
+
+<p><br />
+# config.mk is generated by configure<br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p>all: test_hello test_sys_info</p>
+
+<p>test_hello: test_hello.c ../lib/libca.a<br />
+&nbsp;&nbsp; &nbsp;$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^<br />
+&nbsp;&nbsp; &nbsp;./$@</p>
+
+<p>test_sys_info: test_sys_info.c ../lib/libca.a<br />
+&nbsp;&nbsp; &nbsp;$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^<br />
+&nbsp;&nbsp; &nbsp;./$@</p>
+
+<p>clean:<br />
+&nbsp;&nbsp; &nbsp;rm -rf test_hello test_sys_info<br />
+테스트 소스와 라이브러리 파일을 가지고 링크해서 실행파일을 생성합니다.</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1329/8578">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1329/8580">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1329/8579/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1329">
+				<input type="hidden" name="topic_id" value="8579">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment10937" data-id="10937">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment10937" name="comment10937"><time datetime="2014-11-10 19:55:00">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				<a href="https://github.com/gurugio/calib_book/tree/master/ch02/ch02.3/ch02.3.3">https://github.com......3.3</a><br />
+전체 소스			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1329%2F8579">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

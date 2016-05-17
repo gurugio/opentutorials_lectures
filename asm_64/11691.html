@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>요즘시대에 어셈블리가 필요한가? - 요즘도 쓰는 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="요즘시대에 어셈블리가 필요한가? - 요즘도 쓰는 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/2004/11691">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="요즘도 쓰는 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/2004/11691';
+		var path_context = 'module/2004';
+		var user_id = 9992;
+		var topic_id = 11691;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/2004">요즘도 쓰는 언어 어셈블리</a></p>
+					<p class="subtitle"><small>x86_64, AMD64, 64bit</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/2004" title="x86_64, AMD64, 64bit">요즘도 쓰는 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>x86_64, AMD64, 64bit</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/2004/11691">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/2004/11691" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">4</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/2004/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/2004">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_11691" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11691" class="selected depth_0"><span class="title">요즘시대에 어셈블리가 필요한가?</span></a></div>
+																			</li>
+									<li id="list_11692" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11692" class="depth_0"><span class="title">좋은 자료들</span></a></div>
+																			</li>
+									<li id="list_11696" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11696" class="depth_0"><span class="title">nasm 어셈블러로 Hello, world! 출력하기</span></a></div>
+																			</li>
+									<li id="list_11710" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11710" class="depth_0"><span class="title">gdb로 어셈블리 실행하기</span></a></div>
+																			</li>
+									<li id="list_11711" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11711" class="depth_0"><span class="title">gdb로 어셈블리 코드 디버깅하기</span></a></div>
+																			</li>
+									<li id="list_11712" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11712" class="depth_0"><span class="title">분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부</span></a></div>
+																			</li>
+									<li id="list_11699" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11699" class="depth_0"><span class="title">16비트 32비트 64비트</span></a></div>
+																			</li>
+									<li id="list_11702" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11702" class="depth_0"><span class="title">64비트 함수 호출 규약</span></a></div>
+																			</li>
+									<li id="list_11698" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11698" class="depth_0"><span class="title">gcc 최적화 옵션 실험</span></a></div>
+																			</li>
+									<li id="list_11700" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11700" class="depth_0"><span class="title">리눅스 커널에있는 어셈블리 코드 소개</span></a></div>
+																			</li>
+									<li id="list_11695" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11695" class="depth_0"><span class="title">Protected mode와 Long mode</span></a></div>
+																			</li>
+									<li id="list_11697" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11697" class="depth_0"><span class="title">리눅스 커널 디버깅</span></a></div>
+																			</li>
+									<li id="list_11701" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11701" class="depth_0"><span class="title">MMX 프로그래밍 소개</span></a></div>
+																			</li>
+									<li id="list_11817" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11817" class="depth_0"><span class="title">리눅스 커널에서 ACCESS_ONCE 이해하기 (volatile 키워드)</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/2004/11691/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/2004/11691/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/2004/11691/revision">버전(<span class="count">9</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">요즘시대에 어셈블리가 필요한가?</h1>
+							<div class="props">
+								<time datetime="">2016-02-15 18:38:47</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>이 질문에 대한 답으로&nbsp;제가 했던&nbsp;일, 하는 일을 소개하겠습니다.</p>
+
+<p>&nbsp;</p>
+
+<h2>커널 패닉 디버깅</h2>
+
+<p>https://codeascraft.com/2012/03/30/kernel-debugging-101/</p>
+
+<p>위 링크의 포스팅만 보셔도 커널 디버깅이 어떻게 진행되는지 아실 수 있습니다. 그런데 이 문서를 보고 이해하실 정도면 제 강좌를 안보셔도 되고 안보시고 다른 일을 하셔야 시간일 낭비하지 않는 길이겠지요.&nbsp;이 문서가 이해가 안되시는 분들이 이 강좌를 보셔야 됩니다. 그리고 이 강좌를 보신 후에 그 다음에는 이 문서가 이해가 되시기를 바랍니다.</p>
+
+<p>위 포스팅의&nbsp;내용이 뭐냐면 커널이 죽더라는 이야기입니다. 그런데 커널이 죽으면서 뭐를 하다가 문제가 생겼다는걸 알려주는데&nbsp;</p>
+
+<div class="note">BUG: unable to handle kernel NULL pointer dereference at 0000000000000060<br />
+IP: [&lt;ffffffff8142bb40&gt;] __netif_receive_skb+0x60/0x6e0<br />
+PGD 10e0fe067 PUD 10e0b0067 PMD 0<br />
+Oops: 0000 [#1] SMP<br />
+last sysfs file: /sys/devices/virtual/block/dm-6/removable<br />
+CPU 12<br />
+Modules linked in: veth bridge stp llc e1000e serio_raw<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;i2c_i801 i2c_core sg iTCO_wdt<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;iTCO_vendor_support ioatdma dca i7core_edac<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;edac_core shpchp ext3 jbd mbcache sd_mod<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;crc_t10dif ahci dm_mirror dm_region_hash<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dm_log dm_mod [last unloaded: scsi_wait_scan]<br />
+Pid: 0, comm: swapper Not tainted &lt;kernel&gt; #1 Supermicro X8DTT-H/X8DTT-H<br />
+RIP: 0010:[&lt;ffffffff8142bb40&gt;] &nbsp;[&lt;ffffffff8142bb40&gt;] __netif_receive_skb+0x60/0x6e0<br />
+RSP: 0018:ffff88034ac83dc0 &nbsp;EFLAGS: 00010246<br />
+RAX: 0000000000000060 RBX: ffff8805353896c0 RCX: 0000000000000000<br />
+RDX: ffff88053e8c3380 RSI: 0000000000000286 RDI: ffff8805353896c0<br />
+RBP: ffff88034ac83e10 R08: 00000000000000c3 R09: 0000000000000000<br />
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000<br />
+R13: 0000000000000015 R14: ffff88034ac93770 R15: ffff88034ac93784<br />
+FS: &nbsp;0000000000000000(0000) GS:ffff88034ac80000(0000) knlGS:0000000000000000<br />
+CS: &nbsp;0010 DS: 0018 ES: 0018 CR0: 000000008005003b<br />
+CR2: 0000000000000060 CR3: 000000010e130000 CR4: 00000000000006e0<br />
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000<br />
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400<br />
+Process swapper (pid: 0, threadinfo ffff880637d18000,<br />
+task ffff880337eb9580)<br />
+Stack:<br />
+&nbsp;ffffc90013e37000 ffff880334bdc868 ffff88034ac83df0 0000000000000000<br />
+&lt;0&gt; ffff880334bdc868 ffff88034ac93788 ffff88034ac93700 0000000000000015<br />
+&lt;0&gt; ffff88034ac93770 ffff88034ac93784 ffff88034ac83e60 ffffffff8142c25a<br />
+Call Trace:<br />
+&nbsp;&lt;IRQ&gt;<br />
+&nbsp;[&lt;ffffffff8142c25a&gt;] process_backlog+0x9a/0x100<br />
+&nbsp;[&lt;ffffffff814308d3&gt;] net_rx_action+0x103/0x2f0<br />
+&nbsp;[&lt;ffffffff81072001&gt;] __do_softirq+0xc1/0x1d0<br />
+&nbsp;[&lt;ffffffff810d94a0&gt;] ? handle_IRQ_event+0x60/0x170<br />
+&nbsp;[&lt;ffffffff8100c24c&gt;] call_softirq+0x1c/0x30<br />
+&nbsp;[&lt;ffffffff8100de85&gt;] do_softirq+0x65/0xa0<br />
+&nbsp;[&lt;ffffffff81071de5&gt;] irq_exit+0x85/0x90<br />
+&nbsp;[&lt;ffffffff814f4dc5&gt;] do_IRQ+0x75/0xf0<br />
+&nbsp;[&lt;ffffffff8100ba53&gt;] ret_from_intr+0x0/0x11<br />
+&nbsp;&lt;EOI&gt;<br />
+&nbsp;[&lt;ffffffff812c4b0e&gt;] ? intel_idle+0xde/0x170<br />
+&nbsp;[&lt;ffffffff812c4af1&gt;] ? intel_idle+0xc1/0x170<br />
+&nbsp;[&lt;ffffffff813fa027&gt;] cpuidle_idle_call+0xa7/0x140<br />
+&nbsp;[&lt;ffffffff81009e06&gt;] cpu_idle+0xb6/0x110<br />
+&nbsp;[&lt;ffffffff814e5ffc&gt;] start_secondary+0x202/0x245<br />
+Code: 00 44 8b 1d cb be 79 00 45 85 db 0f 85 61 06 00 00 f6 83 b9<br />
+&nbsp; &nbsp; &nbsp; 00 00 00 10 0f 85 5d 04 00 00 4c 8b 63 20 4c 89 65 c8 49 8d<br />
+&nbsp; &nbsp; &nbsp; 44 24 60 &lt;49&gt; 39 44 24 60 74 44 4d 8b ac 24 00 04 00 00 4d<br />
+&nbsp; &nbsp; &nbsp; 85 ed 74 37 49<br />
+RIP &nbsp;[&lt;ffffffff8142bb40&gt;] __netif_receive_skb+0x60/0x6e0<br />
+&nbsp;RSP &lt;ffff88034ac83dc0&gt;<br />
+CR2: 0000000000000060</div>
+
+<p>이렇게 어셈블리를 모르면 제대로 이해할 수 없는 형태로 정보를 줍니다.</p>
+
+<p>대강 보면 ip 레지스터 값이 ffffffff8142bb40일때, C 코드로 말하면 __netif_receive_skb 함수 중간 0x60지점에서 죽었다는 것입니다. 그리고 __netif_receive_skb 함수가 어떤 과정으로 호출되었는지를 알려주고, 스택에 어떤 값들이 있는지, 죽을 때 어떤 레지스터에 어떤 값이 있었는지를 알려줍니다.</p>
+
+<p>어떤 레지스터가 어떻게 사용되고, 함수 호출을 위해 스택에 어떤 값이 들어가야하는지, 함수의 시작 지점에서 0x60을 더한 주소에 어떤 명령어가 있었는지 등등 디버깅을 하려면 어셈블리를 알아야합니다.</p>
+
+<p>__netif_receive_skb 함수 몇번째 줄에서 어떤 변수의 값이 잘못된건지를 알려주면 좋겠지만, 아직 그정도까지는 개발이 안되었으니 어쩔 수 없습니다. 누군가 그정도까지되는 디버거를 개발해주시기를 바래야지요.</p>
+
+<p>커널 패닉 메세지를 보고 디버깅하는 것은 이 강좌의 후반부에 실전 예제로 제대로 다시 설명하겠습니다. 그 전에는 디버깅을 하기 위한 배경지식이 먼저겠지요.</p>
+
+<p>&nbsp;</p>
+
+<h2>64비트 ARM 벤치마크 성능 측정</h2>
+
+<p>예전에 했던 일중에 하나입니다. 같은 ARM프로세서에 32비트로 동작할때와 64비트로 동작할 때의&nbsp;성능을 비교하기위해 어떤&nbsp;벤치마크 툴을 돌렸습니다. 벤치마크 항목이 여러개있는데&nbsp;대부분 당연히 비등비등하게 나왔는데 어떤 항목에서 64비트 성능이 이상하게 낮았습니다.</p>
+
+<p>우선 질문 하나. 왜 32비트 64비트의 성능이 비슷해야할까요? 컴퓨터 구조를 모르면 이상하게 64비트로 동작하는게 빨라보입니다. 마치 큰 차가 작은 차보다 빠른 것처럼 보이는거랑 같습니다. 속도가 빠른게 빠른거지 크고 작고가 성능에 영향을 주는게 아닙니다. 64비트라는건 프로세서의 레지스터와 버스가 64비트로 동작한다는 의미입니다. 32비트는 32비트 레지스터라는 것이구요. 메모리에서 데이터를 읽을 때는 128비트등 메모리 규약에 따라 버스폭이 정해집니다. 캐시에서 데이터를 읽을 때는 프로세서 내부 버스 크기에 따라 읽구요. 따라서 캐시에서 데이터를 읽을 때 32비트든&nbsp;64비트든 읽어오는 속도는 버스 클럭에 따라 같습니다.</p>
+
+<p>물론 한 클럭에 64비트를 읽으면 32비트보다 더 큰 값을 읽을 수 있겠지요. 그런데 컴퓨터 세상에서 얼마나 많은 데이터가 32비트보다 더 클까요? 사실 엄청 정밀하거나 대규모 연산이 아닌 이상 32비트 데이터가 대부분입니다. 즉 레지스터가 64비트로 늘어났다고해서 데이터 연산이 두배로 빨리지지 않는다는 것입니다.&nbsp;MMX등 특수하게 64비트 레지스터를 통채로 활용하는 경우도 있습니다. 그런 연산을 쓰면 32비트 레지스터를 쓸때보다 속도가 2배 가까이 빨라질 수 있습니다. 특히 암호 관련된 라이브러리들은 64비트로 빌드된게 더 빠릅니다. 하지만 범용 연산에서는 속도 차가 없습니다.&nbsp;칩 벤더들이 새로운 칩을 출시하면서 64비트 칩이며 성능이 무려 수십% 높아졌다고 광고하는데요. 사실은 새로운 칩 자체가 빨라진거지 64비트가 되서 빨라진게 아닙니다. 그 새로운 칩에 32비트 프로그램을 돌려보고 64비트를 돌려보면 성능은 비슷합니다.&nbsp;레지스터나 버스등 컴퓨터의 구조를 모르면 이해가 안될 수밖에 없지요.</p>
+
+<p>그럼 다음 질문. 왜 벤치마킹 점수가 다 비슷한게 하나만 유독 떨어질까요? 저는 해답을 얻기 위해 벤치마킹&nbsp;프로그램을 디스어셈블했습니다. 소스가 있어서 할 수 있었습니다. 그리고 발견한게 32비트와 64비트 코드의 차이가 있었는데, 64비트 코드에서는 데이터 연산의 중간 결과를 저장하기위해서 스택을 사용한게 아니라 MMX 레지스터를 사용하는 것이었습니다. 컴파일러가 메모리보다 레지스터에 데이터를 읽고 쓰는게 더 빠르니까 그렇게 기계 코드를 만든 것입니다.</p>
+
+<p>그런데 뭐가 문제일까요? 사실은 레지스터에 따라 접근 속도가 다릅니다. (ARM 아키텍처의 경우)&nbsp;ax,bx같은 범용 레지스터들은 접근 속도가 같은데 MMX나 부동소수점 연산에 사용되는 레지스터들은 CPU 코어 내부에 있는게 아니라 부동소수점 연산 유닛에 들어가있어서 결국 메모리에 데이터를 저장하는 것보다 더 느려졌던 것입니다. 단순히 접근 속도만 놓고보면 부동소수점 연산 유닛이 더 빠릅니다. 하지만 부동소수점 연산 레지스터에 접근하는 기계어는 CPU의 파이프라인이 멈추도록 만들고, 메모리에 접근하는 기계어는 메모리에 접근하는 동안 다른 연산이 파이프라인에서 처리될 수 있으므로 속도 차이가 나게됩니다. 결국은 컴파일러 커뮤니티에 문의를 했고, 이미 알려진 문제여서 다음 버전에서는 고쳐질 거라는 답을 얻었었습니다. ARM의 64비트 코어가 출시된지 얼마안된 때여서 생겼던 문제였습니다.</p>
+
+<p>어셈블리를 모르고 CPU구조를 모르는 사람은&nbsp;이 문제를 파악할 수 있었을까요?</p>
+
+<p>&nbsp;</p>
+
+<h2>strcpy 인라인 어셈블리</h2>
+
+<p>http://lxr.free-electrons.com/source/arch/x86/lib/memcpy_64.S</p>
+
+<p>커널에서 쓰는 memcpy() 함수가 여기 있습니다. 어셈블리로 만들어져있습니다. 왜일까요? 주석을 보면 알 수 있습니다.</p>
+
+<div class="note">/*<br />
+&nbsp;* memcpy_erms() - enhanced fast string memcpy. This is faster and<br />
+&nbsp;* simpler than memcpy. Use memcpy_erms when possible.<br />
+*/</div>
+
+<p>다른거 없습니다. 빠르면 끝입니다. memcpy, strcpy, strcmp 등등 순전히 메모리에 접근해야하는 함수들이 느리면 프로그램의 전체적인 성능에 얼마나 치명적인지 최적화를 해본 사람만 압니다. 요즘 멀티코어에 3기가넘는 프로세스가 있는데 뭐가 걱정이냐하는 분들도 계십니다. 이런 최적화가 밑바탕에 있어서 우리가쓰는 커널이나 libc 라이브러리가 그만한 성능을 가지고 있고, 그래서 최적화 고민없이 개발할 수 있다는걸 모르기 때문입니다. 하드웨어의 성능을 최대한 끌어내고, 하드웨어의 최신 기능을 최대한 활용하는 방법은 어셈블리로 구현하는 것입니다.</p>
+
+<p>궁금하지 않으세요? 세계 최고의 프로그래머들이 만든 리눅스 커널에서 이 함수가 빠르다라고 주석에 써있는 함수는 얼마나 빠른걸까 궁금하지 않으신가요?</p>
+
+<p>&nbsp;</p>
+
+<h2>컴파일러란 뭘까?</h2>
+
+<p>누가 어셈블리로 개발하나 다 컴파일러가 해주는데.</p>
+
+<p>컴파일러는 언어를 기계어 명령의 리스트로 변환하는 예술의 한 분야입니다. 인간의 과학이 만들어낸 예술중 하나이지요. 예술의 경지에 이른 과학이라는데 완벽히 동의합니다만, 다시 말하면 인간이 만든 것뿐이라는 것입니다.</p>
+
+<p>컴파일러가 최적화를 잘해줍니다. 우리 대부분이 아무리 고민해봐야 컴파일러 최적화 옵션 올리는것만 못할때가 많습니다. 그런데 컴파일러도 인간이 만든 것이라 대자연처럼 인간이 손대지 않아도 잘 흘러가는게 아닙니다. 컴파일러를 잘 동작시키고 최적화가 잘되게 하려면 뭔가 조건이 필요합니다.</p>
+
+<p>http://lxr.free-electrons.com/source/lib/string.c#L713</p>
+
+<p>여기 memcpy()의 C 언어 버전이 있습니다. 완벽하게 동작하는 memcpy() 함수입니다. 이 함수를 아무리 최적화해도 memcpy_erms()를 따라기지 못합니다. 왜 그럴까요?</p>
+
+<p>컴파일러는 고급언어로 개발된 코드 중에 어떤 조건에 맞는 코드 패턴이 나타나면 최적화하게 됩니다. 즉 그 패턴에 맞게 프로그래밍을 해야 최적화를 할 수 있다는 것입니다. 그 패턴이란게 무엇일까요? 제가 쓴 강좌 &quot;태초의 프로그래밍 언어 어셈블리&quot;를 보신 분은 아실 것입니다. C라는 언어가 어떻게 생겨난 언어인지를요. 어셈블리로 개발하던 사람들이 어셈블리보다 약간 더 쉬우면서 어셈블리처럼 좋은 성능을 내기위해 만든 언어가 C입니다. 많은 부분이 어셈블리와 유사합니다. 그리고 그 당시의 많은 개발자들은 어셈블리를 아는 상태였기 때문에 C로 개발하면서도 이&nbsp;코드가&nbsp;컴파일러를 통해&nbsp;어떤 코드로 변환될지를&nbsp;예측하면서 개발했었습니다. 컴파일러는 패턴을 찾기가 쉬웠고, 패턴에 맞게 최적화하기 쉬웠습니다. 지금의 많은 개발자들은 어셈블리와 기계에 대해서 모르는 상태에서 언어를 언어로만 배웠습니다. 컴파일러의 최적화 패턴도 결국은 기계가 어떻게하면 더 빠르게 동작하는지를 활용하려는 것이므로, 기계를 모르는 사람은 컴파일러의 패턴을 이해할 수가 없습니다. 결국 컴파일러가 잘 최적화할 수 있는 코드를 만들 수가 없습니다. &quot;패턴 365&quot;같은 천페이지짜리 책이 나와서 달달 외워서 최적화가 잘되는 코드를 만들 수도 있겠지요. 어느게 더 쉬울까요?</p>
+
+<p>완전 추상화를 지향하는 함수형 언어나 LISP같이 어떤 고급언어들은 약간 다른 패러다임을 가지고 있습니다. 분명 그런 언어들의 개발에는 기계에 대한&nbsp;지식이 없어도 됩니다. 그런데 그런 언어의 컴파일러는 누가 만들까요? 그런 언어의 라이브러리는 누가 만들까요? 그런 언어라고 해도 디버깅할 때 동기화 문제, 데드락 문제, 타이밍 문제가 생기면 어떻게 해결할 수 있을까요? 고급 언어로 개발하면서&nbsp;그런 미묘한 문제를 만나신 적이 없다면, 솔직히 말씀드리면 정말 제대로된 소프트웨어를 개발한 적이 없으신 겁니다. 아니면 QA를 제대로안해서 문제를 발견하지 못하신 것일 수도 있습니다. 많은 국산 소프트웨어가 출시는 되는데 막상 써보면 이런저런 문제가 많아서 제대로 쓸 수가 없습니다. QA를 안하거나 문제가 발견되도 해결을 안하는 것입니다. 개발자의 문제가 아닌 경우도 있겠지만, 개발자의 문제도 있습니다. 능력이 되고 금방 해결할 능력이 있다면 회사 차원에서도 해결안하고 그냥 출시할 이유가 없습니다. 시간이 많다면 개발자를 기다려주겠지만, 시간은 전세계 어느 회사나 없습니다. 빨리 해결할 수 있는 개발자가 있나 없나 차이일 수 있습니다.</p>
+
+<p>당연한 소리겠지만 좋은 알고리즘, 자료구조를 쓰는게 최고이며 첫번째로 할 최적화입니다. 그 다음에 할 일이 컴파일러에 맞는 최적화이고, 그 다음이 하드웨어에 맞는 최적화입니다. 내가 만든 코드가 컴파일러에게 어떻게 읽혀지고, 컴파일러가 어떻게 판단하게될지를 알면서 코딩해야만 컴파일러&nbsp;최적화의 도움을 받을 수 있습니다. 컴파일러의 목적은 최적화된 기계 코드를 만드는 것입니다. 따라서 기계를 모르는 사람은 컴파일러가 이해하기 쉬운 코드를 만들기 힘듭니다.</p>
+
+<p>&nbsp;</p>
+
+<h2>Write Great Code 책에 대한 평가: 한국과 아마존비교</h2>
+
+<p><span style="font-size: 16.5px; line-height: 1.8;">위의 디버깅, 속도 측정, 컴파일러, 인라인 어셈블리 예를 보시면 어쩌면 이런 생각이 드실 겁니다. 이런걸 우리가 손댈 필요가 있나? 손댈 기회는 있나? 우린 그냥 쓰면 되는거 아닌가?</span></p>
+
+<p>그런데 분명히 누군가는 이런 작업을 합니다. 또 이런 작업을 해서 어플 개발자들에게 제공하고, 어플 개발자들은&nbsp;편하게 사용합니다. 누굴까요? 그리고 그런 사람들은 돈을 얼마를 벌까요? 그냥 까놓고 말해서 이런 작업을 하는 사람들을 우리는 고급 개발자라고 부릅니다. 리눅스 커널에서 미묘한 동기화 문제나 데드락 문제를 어셈블리 레벨에서 디버깅하는 개발자들, 어플 개발자들에게 좀더 빠른 성능의 라이브러리를 제공하는 사람들, 좀더 최적화를 잘해주는 컴파일러를 만드는 사람들을 고급 개발자라고 부르지 뭐라고 부르겠습니까.</p>
+
+<p>그럼 이런 생각도 듭니다. 그런 사람들을 한국에서 만나본적이 있으신가요? 이렇게도 생각할 수 있습니다. 한국에 고급 개발자가 없는 이유가 수요가 없어서일까요 공급이 없어서일까요? 수요가 있으면 공급이 생길까요 공급이 있으면 수요가 생길까요? 분명한건 많은 고급 개발자들이 이미 해외로 떠나버렸다는 것입니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">한국 책 사이트들과 아마존에서 Write Great Code에 대한 평가를 보세요. 리뷰 숫자를 보세요. 이런 분야에 대한 관심도를 비교할 수 있습니다. 요즘 시대에 누가 어셈블리를 하냐고요? 누가 하고 있을까요?</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">1</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/2004">이전</a></li><li class="next"><a href="http://opentutorials.org/module/2004/11692">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/2004/11691/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="2004">
+				<input type="hidden" name="topic_id" value="11691">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment23337" data-id="23337">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>박도현</strong><a href="#comment23337" name="comment23337"><time datetime="2016-03-09 08:26:42">2개월 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				명언이십니다. 제가 13년전에 이글을 읽고 읽고 어떤 내용인지 알 수 있었런지는 모르겠지만 일찍 잃고 내용을 파악하기 위해서 노력했다면 더 좋은 미래가 있었을 텐데라는 생각을 해봅니다. <br />
+지금 백수로 놀고 있어서 donation을 해드리지 못해서 미안하네요!<br />
+ 이런 분들이 강좌를 많이 올려주셔야 합니다. <br />
+제가 직업학교에서 배울 때에는 4년제 지방대 나온 녀석이 있었는데 프로그램이 무겁네 가볍네 코드길이가 길어지면 속도가 느려지네 하는 헛소리만 잔뜩했었지요. 그리고 그것에 대해서 석사과정을 막 마친 사람에게 물어봐도 모른다라는 대답뿐이라. <br />
+이런 분들이 강좌를 만들어서 인터넷 상의 헛소리가 줄어들기를 바랍니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment22771" data-id="22771">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>LHK</strong><a href="#comment22771" name="comment22771"><time datetime="2016-02-23 08:38:52">2개월 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				고맙습니다. 이런글 너무 좋아해요.~~			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2016-02-15 15:18:11</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2016-02-15 15:18:11</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F2004%2F11691">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

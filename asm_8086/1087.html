@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>태초의 프로그래밍 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="태초의 프로그래밍 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1087">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="태초의 프로그래밍 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_basic/1087';
+		var path_context = 'module/1087';
+		var user_id = 9992;
+		var topic_id = false;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="module_index" class="module sidebar view everystudy cover logged_in controls controls">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1087">태초의 프로그래밍 언어 어셈블리</a></p>
+					<p class="subtitle"><small>assembly, 8086, x86</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1087" title="assembly, 8086, x86">태초의 프로그래밍 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>assembly, 8086, x86</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_basic/1087">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1087" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="breadcrumb_line">
+						태초의 프로그래밍 언어 어셈블리					</span>
+
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">49</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1087/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover selected">
+									<a href="http://opentutorials.org/module/1087">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_7415" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7415" class="depth_0"><span class="title">8086프로세서를 경험하게 해주는 emu8086 프로그램 소개</span></a></div>
+																			</li>
+									<li id="list_7421" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7421" class="depth_0"><span class="title">컴퓨터 세상의 원리: 수</span></a></div>
+																			</li>
+									<li id="list_7423" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7423" class="depth_0"><span class="title">8086의 기본 구조</span></a></div>
+																			</li>
+									<li id="list_7431" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7431" class="depth_0"><span class="title">mov 명령어</span></a></div>
+																			</li>
+									<li id="list_7434" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7434" class="depth_0"><span class="title">메모리 읽고 쓰기</span></a></div>
+																			</li>
+									<li id="list_7436" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7436" class="depth_0"><span class="title">메모리 주소 표현 방법들</span></a></div>
+																			</li>
+									<li id="list_7443" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7443" class="depth_0"><span class="title">mov의 사용법 정리</span></a></div>
+																			</li>
+									<li id="list_7444" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7444" class="depth_0"><span class="title">변수</span></a></div>
+																			</li>
+									<li id="list_7447" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7447" class="depth_0"><span class="title">배열</span></a></div>
+																			</li>
+									<li id="list_7448" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7448" class="depth_0"><span class="title">변수의 주소값 알아내기</span></a></div>
+																			</li>
+									<li id="list_7456" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7456" class="depth_0"><span class="title">어셈블리를 하는 이유</span></a></div>
+																			</li>
+									<li id="list_7460" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7460" class="depth_0"><span class="title">참과 거짓을 구별할때 쓰는 논리 연산</span></a></div>
+																			</li>
+									<li id="list_7473" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7473" class="depth_0"><span class="title">덧셈,뺄셈,곱셈</span></a></div>
+																			</li>
+									<li id="list_7474" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7474" class="depth_0"><span class="title">분량조절실패로 분리된 나눗셈</span></a></div>
+																			</li>
+									<li id="list_7622" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7622" class="depth_0"><span class="title">변태 명령어 inc, dec</span></a></div>
+																			</li>
+									<li id="list_7628" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7628" class="depth_0"><span class="title">이리저리 점프(함수)</span></a></div>
+																			</li>
+									<li id="list_7631" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7631" class="depth_0"><span class="title">필요할 때만 점프하기</span></a></div>
+																			</li>
+									<li id="list_7634" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7634" class="depth_0"><span class="title">같은지 다른지 비교하기</span></a></div>
+																			</li>
+									<li id="list_7635" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7635" class="depth_0"><span class="title">여러번 반복하기</span></a></div>
+																			</li>
+									<li id="list_7637" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7637" class="depth_0"><span class="title">임시 데이터를 보관하는 스택</span></a></div>
+																			</li>
+									<li id="list_7636" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7636" class="depth_0"><span class="title">함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7654" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7654" class="depth_0"><span class="title">함수 호출 규약과 지역변수</span></a></div>
+																			</li>
+									<li id="list_7655" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7655" class="depth_0"><span class="title">바이오스가 제공하는 인터럽트</span></a></div>
+																			</li>
+									<li id="list_7659" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7659" class="depth_0"><span class="title">매크로 함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7661" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7661" class="depth_0"><span class="title">emu8086.inc 사용법</span></a></div>
+																			</li>
+									<li id="list_7662" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7662" class="depth_0"><span class="title">어셈블리 공부하는 방법</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+									<a href="http://opentutorials.org/module/1087/edit" id="edit" class="btn">편집</a>								</div>
+							</div>
+						</div>
+						<article class="hentrypublic">
+							<hgroup>
+								<h1 class="entry-title">태초의 프로그래밍 언어 어셈블리</h1>
+								<div class="props">
+									<time datetime="" pubdate>2016-02-20 18:49:36</time>
+								</div>
+							</hgroup>
+
+						<div id="content" class="entry-content">
+							<p><b>&quot;이 강좌를 마치신 분들께 64비트 어셈블리 강좌&nbsp;&quot;요즘도 쓰는 언어 어셈블리&quot; 를 추천합니다.</b></p>
+
+<p>https://opentutorials.org/module/2004</p>
+
+<hr />
+<p>2014년 8월 5일 현재 &quot;emu8086을 이용한 어셈블리 프로그래밍&quot;이라는 주제로 완결된 상태입니다. <em><strong>보강할 내용이나 좋았던 내용 등에 대해서 피드백</strong></em>을 주시면 큰 도움이 될것입니다. 그 외에 어떤 피드백도 환영합니다.</p>
+
+<p>재밌으셨길~~</p>
+
+<p>PS: 참고로 제 홈페이지에 오시면 16비트 부트로더나 32비트 어셈블리 프로그래밍 등 어셈블리 관련된 문서들이 있습니다.&nbsp;http://gurugio.kldp.net/wiki/wiki.php/asm_basic</p>
+
+<p>PS: 리눅스 환경에서 32비트 어셈블리로 시스템 프로그래밍을 하는 문서입니다. http://www.joinc.co.kr/modules/moniwiki/wiki.php/Site/Assembly/Documents/ProgrammingGroundUp/index.html</p>
+
+<p>PS: 진지하게 어셈블리를 공부하고싶으시면 Art of Assembly Programming을 추천합니다. 1년 정도는 재미있을 수 있습니다.</p>
+
+<p>PS: 전설적인 The Art Of Computer Programming도 어셈블리 유사 언어로 써진 책입니다. 죽기전에 한번쯤은 도전해보자구요 ;-)</p>
+
+<hr />
+<p>컴퓨터 세계의 태초에 말씀이 있었으니 어셈블리 언어입니다.</p>
+
+<p>프로그래밍 언어라기에는 너무 컴퓨터에 가까워서 언어라고 하기 어렵고</p>
+
+<p>그렇다고 0과 1로 이루어진 컴퓨터 신호도 아닌 이상한 언어입니다.</p>
+
+<p>태초의 언어이므로 컴퓨터의 세부적인 동작 하나하나를 직접 지시할 수 있습니다.</p>
+
+<p>그렇기&nbsp;<span style="font-size: 13px; line-height: 1.8;">어셈블리 언어를 배운다는 것은 프로그래밍을 배운다기보다는</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">컴퓨터 그 자체를 배우는 것에 가깝습니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">그런데 그렇게 컴퓨터 그 자체를 배우다보면 세상 모든 프로그래밍 언어가</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">어떤 원리로 돌아가는지 알게됩니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">마치 매트릭스 세계에서 네오가 세상을 코드로 보는 것처럼</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">컴퓨터 세상의 모든게 어셈블리 기호들로 보이기 시작합니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">그래서 너무나 재밌습니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">복잡한 컴퓨터 세상을 이루는 원리들이 눈에 보인다는 것은 새로운 세상이 열리는것 같지요.</span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="line-height: 23.399999618530273px;">어셈블리 언어를 배우면 프로그래밍을 더 잘하거나 실력이 좋아진다는 말은 못합니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">저부터가 프로그래밍을 잘하거나 뛰어난 개발자가 아니기 때문입니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">그래도 처음 어셈블리 언어를 배우고 컴퓨터 세상에 대해 새롭게 눈뜬 순간의 흥분은</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">아직도 저를 이끌어서 리눅스 커널과 컴퓨터 구조를 공부하게 만들고 있습니다.</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">많은 분들이 세상을 다르게 볼 수 있는 기회를 가지셨으면 합니다.</span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="line-height: 23.399999618530273px;">참고로 나중에 기회가 되면 어셈블리와는 완전히 반대로 완전히 추상적인 언어인 LISP에 대해서도</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">글을 쓰게 되길 바랍니다. 어셈블리로 컴퓨터 세상에 대한 눈을 떴다면</span></p>
+
+<p><span style="line-height: 23.399999618530273px;">LISP을 공부한 후로는 컴퓨터 세상과 실제 우리가 사는 세상을 하나로 볼 수 있게 되었습니다.</span></p>
+						</div>
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><span>이전</span></li><li class="next"><a href="http://opentutorials.org/module/1087/7415">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1087">
+				<input type="hidden" name="topic_id" value="0">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment22768" data-id="22768">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>LHK</strong><a href="#comment22768" name="comment22768"><time datetime="2016-02-23 08:05:13">2개월 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				강의 고맙습니다. ~~			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9417" data-id="9417">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment9417" name="comment9417"><time datetime="2014-08-05 17:27:45">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				그런데 어떤 실전 예제가 있을까요?<br />
+MMX같은걸 생각하시는지 아니면 임베디드 프로세서를 생각하시는지요?			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9146">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9415" data-id="9415">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment9415" name="comment9415"><time datetime="2014-08-05 14:15:06">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				반응이 좋으면 64비트로 돌아옵니다 ;-)			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9414" data-id="9414">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment9414" name="comment9414"><time datetime="2014-08-05 14:10:08">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				완결했습니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9262" data-id="9262">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment9262" name="comment9262"><time datetime="2014-07-29 00:01:23">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				저는 최신 x86의 어셈블리로 뭔가를 한 적이 있긴 하지만<br />
+8086으로 실전을 해본적도 없고 한다는 이야기를 들은 적도 없습니다.<br />
+혹시 아신다면 어떤걸 하는지 알려주시면 좋겠습니다.<br />
+<br />
+8086으로 제한된 내용을 쓰기때문에 실전예제라고 할 수 있는게 있을지 모르겠습니다.			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="9146">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9146" data-id="9146">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>UNICORN</strong><a href="#comment9146" name="comment9146"><time datetime="2014-07-24 15:07:12">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				실전 예제도 곁들여 주셨으면 합니다 <br />
+저도 Z-80 계열 Z64180, 80C51, 80C196, TB 386EX 등의 CPU 를 조금 사용하였습니다<br />
+후배들이 공부자료를 요청해서 찾디가 클리앙 에서 보고 사이트방문을 했습니다<br />
+주제넘기만 실전에 사용하셨던 예제로 강좌 부탁드립니다<br />
+<br />
+앞으로도 좋은 강좌 부탁드립니다			</div>
+
+			<dl class="parents">
+				<dt><a href="#" data-parent="8914">대화보기</a><span></span></dt>
+				<dd>
+					<ul></ul>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9038" data-id="9038">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment9038" name="comment9038"><time datetime="2014-07-20 22:44:30">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				많은 피드백 부탁드립니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment9030" data-id="9030">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="0" src="/static/img/common/40_profile.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>단테의신곡</strong><a href="#comment9030" name="comment9030"><time datetime="2014-07-20 15:56:08">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				많이 기대됩니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment8936" data-id="8936">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment8936" name="comment8936"><time datetime="2014-07-16 23:47:46">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				그동안 제 홈페이지에 있는 어셈블리 관련 글들이 썩어가는게 너무 아쉬웠습니다. 그러다가 이런 좋은 공간을 발견하고 저같은 사람도 강좌를 쓸 수 있겠다는 용기를 얻어서 글을 써봤습니다.<br />
+이 글들은 제 홈페이지에 emu8086의 예전 메뉴얼을 번역한게 있는데 그걸 좀더 쉽게 풀어서 쓴 것입니다. 1차로 변수와 배열에 대한 내용까지 써봤습니다. 앞으로 인터럽트, 함수, 루프, 논리 연산, 스택, 외부 장치 제어에 관한 내용이 남았네요. <br />
+이 글로 개발에 조금이라도 재미가 더해지기를 바랍니다.			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment8931" data-id="8931">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="55" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/55.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>happydeveloper</strong><a href="#comment8931" name="comment8931"><time datetime="2014-07-16 20:06:04">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				와~ 기대되는 강좌네요~			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment8923" data-id="8923">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>김기오</strong><a href="#comment8923" name="comment8923"><time datetime="2014-07-16 14:40:00">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				읽어보시고 부족한점을 써주시면 감사하겠습니다. 너무 어려운지 설명이 애매한지 잘 봐주세요 ;-)			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment8917" data-id="8917">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="1627" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/1627.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>아라한사</strong><a href="#comment8917" name="comment8917"><time datetime="2014-07-16 11:50:30">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				기대되네요 ㅎㅎ			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+		<li id="comment8914" data-id="8914">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="1" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/1.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>egoing</strong><a href="#comment8914" name="comment8914"><time datetime="2014-07-16 02:41:21">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				와 너무 기대 됩니다. ^^			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1087">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

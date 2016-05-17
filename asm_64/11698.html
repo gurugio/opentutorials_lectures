@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>gcc 최적화 옵션 실험 - 요즘도 쓰는 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="gcc 최적화 옵션 실험 - 요즘도 쓰는 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/2004/11698">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="요즘도 쓰는 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/2004/11698';
+		var path_context = 'module/2004';
+		var user_id = 9992;
+		var topic_id = 11698;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/syntaxhighlighter/styles/shCore.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/syntaxhighlighter/styles/shThemeOT.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/syntaxhighlighter/scripts/shCore.js?1"></script>
+<script src="/static/js/common/syntaxhighlighter/scripts/shAutoloader.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+	<script>
+		function path() {
+			var args = arguments, result = [];
+
+			for (var i=0; i<args.length; i++)
+				result.push(args[i].replace("@", "/static/js/common/syntaxhighlighter/scripts/"));
+
+			return result
+		}
+
+		DOMLoader.register(function() {
+			SyntaxHighlighter.autoloader.apply(null, path(
+				"applescript						@shBrushAppleScript.js",
+				"actionscript3 as3					@shBrushAS3.js",
+				"sh bash shell						@shBrushBash.js",
+				"coldfusion cf						@shBrushColdFusion.js",
+				"coffee								@shBrushCoffeeScript.js",
+				"cpp c c_cpp						@shBrushCpp.js",
+				"c-sharp csharp						@shBrushCSharp.js",
+				"css								@shBrushCss.js",
+				"delphi pascal						@shBrushDelphi.js",
+				"diff patch pas						@shBrushDiff.js",
+				"erl erlang							@shBrushErlang.js",
+				"groovy								@shBrushGroovy.js",
+				"java								@shBrushJava.js",
+				"jfx javafx							@shBrushJavaFX.js",
+				"js jscript javascript				@shBrushJScript.js",
+				"perl pl							@shBrushPerl.js",
+				"php								@shBrushPhp.js",
+				"text plain							@shBrushPlain.js",
+				"py python							@shBrushPython.js",
+				"ruby rails ror rb					@shBrushRuby.js",
+				"sass scss							@shBrushSass.js",
+				"scala								@shBrushScala.js",
+				"ps powershell powershel1 shell		@shBrushPowerShell.js", // 오타 호환성 ㅠㅠ
+				"sql								@shBrushSql.js",
+				"vb vbnet							@shBrushVb.js",
+				"xml xhtml xslt html				@shBrushXml.js",
+
+				"markdown mkdn mdown				@shBrushMarkdown.js"
+			));
+			SyntaxHighlighter.config.space = ' ';
+			//SyntaxHighlighter.defaults['gutter'] = false;
+			SyntaxHighlighter.all();
+		});
+	</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/2004">요즘도 쓰는 언어 어셈블리</a></p>
+					<p class="subtitle"><small>x86_64, AMD64, 64bit</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/2004" title="x86_64, AMD64, 64bit">요즘도 쓰는 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>x86_64, AMD64, 64bit</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/2004/11698">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/2004/11698" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">4</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/2004/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/2004">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_11691" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11691" class="depth_0"><span class="title">요즘시대에 어셈블리가 필요한가?</span></a></div>
+																			</li>
+									<li id="list_11692" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11692" class="depth_0"><span class="title">좋은 자료들</span></a></div>
+																			</li>
+									<li id="list_11696" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11696" class="depth_0"><span class="title">nasm 어셈블러로 Hello, world! 출력하기</span></a></div>
+																			</li>
+									<li id="list_11710" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11710" class="depth_0"><span class="title">gdb로 어셈블리 실행하기</span></a></div>
+																			</li>
+									<li id="list_11711" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11711" class="depth_0"><span class="title">gdb로 어셈블리 코드 디버깅하기</span></a></div>
+																			</li>
+									<li id="list_11712" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11712" class="depth_0"><span class="title">분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부</span></a></div>
+																			</li>
+									<li id="list_11699" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11699" class="depth_0"><span class="title">16비트 32비트 64비트</span></a></div>
+																			</li>
+									<li id="list_11702" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11702" class="depth_0"><span class="title">64비트 함수 호출 규약</span></a></div>
+																			</li>
+									<li id="list_11698" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11698" class="selected depth_0"><span class="title">gcc 최적화 옵션 실험</span></a></div>
+																			</li>
+									<li id="list_11700" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11700" class="depth_0"><span class="title">리눅스 커널에있는 어셈블리 코드 소개</span></a></div>
+																			</li>
+									<li id="list_11695" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11695" class="depth_0"><span class="title">Protected mode와 Long mode</span></a></div>
+																			</li>
+									<li id="list_11697" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11697" class="depth_0"><span class="title">리눅스 커널 디버깅</span></a></div>
+																			</li>
+									<li id="list_11701" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11701" class="depth_0"><span class="title">MMX 프로그래밍 소개</span></a></div>
+																			</li>
+									<li id="list_11817" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11817" class="depth_0"><span class="title">리눅스 커널에서 ACCESS_ONCE 이해하기 (volatile 키워드)</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/2004/11698/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/2004/11698/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/2004/11698/revision">버전(<span class="count">8</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">gcc 최적화 옵션 실험</h1>
+							<div class="props">
+								<time datetime="">2016-02-16 06:38:56</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>이제 컴파일러의 최적화에 관한 실험을 몇가지 해보겠습니다. 컴파일러의 최적화 기술은 커널이나 데이터베이스만큼 방대하므로 우리는 바닷가 모래에서 한삽 정도 떠보겠습니다.</p>
+
+<p>&nbsp;</p>
+
+<p>이 예제를 한번 빌드해보시기 바랍니다. 소스를 저장하고 gcc -c 옵션으로 빌드하면 됩니다. -O2 옵션을 추가했을 때의 .o 파일과 없을 때의 .o파일을 만들어서 objdump -S 명령으로 비교해도 됩니다. 아니면 main함수를 만들어서 gdb로 디스어셈블해도 됩니다. 편하신대로 하세요.</p>
+
+<pre class="brush: c_cpp">
+void delay(uint64_t count)
+{
+	for (;count &gt; 0; count--)
+		continue;
+}
+</pre>
+
+<p>차이는 한눈에 알아볼 수 있습니다.</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width: 500px;">
+	<tbody>
+		<tr>
+			<td>-O2 최적화</td>
+			<td>최적화 없음</td>
+		</tr>
+		<tr>
+			<td>
+			<pre class="brush: text">
+0000000000000000 &lt;delay&gt;:
+repz retq 
+nopl   0x0(%rax)
+nopw   %cs:0x0(%rax,%rax,1)
+
+</pre>
+			</td>
+			<td>
+			<pre class="brush: text">
+0000000000000000 &lt;delay&gt;:
+push   %rbp
+mov    %rsp,%rbp
+mov    %rdi,-0x8(%rbp)
+jmp    f &lt;delay+0xf&gt;
+subq   $0x1,-0x8(%rbp)
+cmpq   $0x0,-0x8(%rbp)
+jne    a &lt;delay+0xa&gt;
+nop
+pop    %rbp
+retq   </pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>최적화를 하면 루프가 날아가버립니다. 컴파일러 입장에서는 왜 사용하지도 않는 변수의 값을 바꾸는지 이해를 못한 것입니다. 컴파일러의 입장을 이해하지못하고 최적화를 시도했다가는 이런 문제가 발생하게됩니다.</p>
+
+<p>만약 delay()함수를 쓰는 코드를 만들었다가 최적화 옵션을 추가했더니 프로그램 실행 시간이 줄었다고 좋아했다면, delay()가 필요한 곳에 문제가 생긴걸 몰라서일 것입니다. 강좌의 첫 머리에서 이야기했듯이 알고리즘의 최적화가 가장 먼저요, 그 다음에 컴파일러 최적화를 잘 활용하는 것입니다. 이 예제는 컴파일러의 최적화를 이해못한 것입니다.</p>
+
+<p>그렇다고 어설프게 volatile int i로 변수를 만들어서 강제로 딜레이를 만들면 어떻게 될까요? 싱글 스레드 프로그램이라면 상관없겠지만 멀티스레드 프로그램이라면 딜레이함수가 전체 쓰레드의 성능에 영향을 줄 수 있습니다. volatile때문에 메모리 접근이 크게 늘어나면서 다른 쓰레드의 메모리 접근을 방해하게 되니까요. 한 쓰레드가 메모리 버스를 독점해버리는 것입니다. 하나의 쓰레드만 지연시키려다가 전체 프로그램이 지연됩니다. 리눅스 커널은 그래서 이런 루프가 아니라 디바이스 포트를 읽는 등의 방식을 사용합니다.</p>
+
+<p>&nbsp;</p>
+
+<p>다음은 메모리 복사에 대한 실험을 해보겠습니다. 이것도 최적화 옵션을 줬을 때와 안줬을 때 각각의 코드를&nbsp;디스어셈블 해보시기 바랍니다.</p>
+
+<pre class="brush: c_cpp">
+struct ll {
+    uint64_t pad[8];
+};
+
+struct ll_big {
+	uint64_t pad[32];
+};
+
+void copy_struct_ll(struct ll *dst, struct ll *src)
+{
+	*dst++ = *src++;
+}
+
+void copy_struct_ll_big(struct ll_big *dst, struct ll_big *src)
+{
+	*dst++ = *src++;
+}
+</pre>
+
+<p>&nbsp;</p>
+
+<p>copy_struct_ll은 8*8 바이트를 복사합니다. copy_struct_ll_big은 8*32 바이트를 복사합니다. 이런 크기 차이가 컴파일에도 영향을 줄까요?</p>
+
+<p>우선 좀더 깔끔하고 이해하기 쉬운 최적화 옵션이 있을때의 결과를 보겠습니다.</p>
+
+<pre class="brush: text">
+0000000000000010 &lt;copy_struct_ll&gt;:
+  10:	48 8b 06             	mov    (%rsi),%rax
+  13:	48 89 07             	mov    %rax,(%rdi)
+  16:	48 8b 46 08          	mov    0x8(%rsi),%rax
+  1a:	48 89 47 08          	mov    %rax,0x8(%rdi)
+  1e:	48 8b 46 10          	mov    0x10(%rsi),%rax
+  22:	48 89 47 10          	mov    %rax,0x10(%rdi)
+  26:	48 8b 46 18          	mov    0x18(%rsi),%rax
+  2a:	48 89 47 18          	mov    %rax,0x18(%rdi)
+  2e:	48 8b 46 20          	mov    0x20(%rsi),%rax
+  32:	48 89 47 20          	mov    %rax,0x20(%rdi)
+  36:	48 8b 46 28          	mov    0x28(%rsi),%rax
+  3a:	48 89 47 28          	mov    %rax,0x28(%rdi)
+  3e:	48 8b 46 30          	mov    0x30(%rsi),%rax
+  42:	48 89 47 30          	mov    %rax,0x30(%rdi)
+  46:	48 8b 46 38          	mov    0x38(%rsi),%rax
+  4a:	48 89 47 38          	mov    %rax,0x38(%rdi)
+  4e:	c3                   	retq   
+  4f:	90                   	nop
+
+0000000000000050 &lt;copy_struct_ll_big&gt;:
+  50:	b9 20 00 00 00       	mov    $0x20,%ecx
+  55:	f3 48 a5             	rep movsq %ds:(%rsi),%es:(%rdi)
+  58:	c3                   	retq   </pre>
+
+<p>두 함수가 완전히 다릅니다. 각각 dst가 rdi에, src가 rsi에 저장된 것은 동일합니다만 복사하는 명령어를 완전히 다른걸 사용합니다.&nbsp;copy_struct_ll은 src에서&nbsp;rax로&nbsp;8바이트를 읽고 읽은 8바이트를 dst에&nbsp;복사합니다. mov 명령을 씁니다. 그런데 copy_struct_ll_big은 rep movs라는 연속된 메모리를 복사하는 명령을 씁니다. 왜 작은 크기 복사에서는 mov를 쓰고 큰 크기 복사에는 rep movs를 쓸까요?</p>
+
+<p>&nbsp;</p>
+
+<p>이번에는 최적화안된 디스어셈블 코드를 보겠습니다.</p>
+
+<pre class="brush: text">
+0000000000000019 &lt;copy_struct_ll&gt;:
+  19:	55                   	push   %rbp
+  1a:	48 89 e5             	mov    %rsp,%rbp
+  1d:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+  21:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  25:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+  29:	48 8d 50 40          	lea    0x40(%rax),%rdx
+  2d:	48 89 55 f8          	mov    %rdx,-0x8(%rbp)
+  31:	48 8b 55 f0          	mov    -0x10(%rbp),%rdx
+  35:	48 8d 4a 40          	lea    0x40(%rdx),%rcx
+  39:	48 89 4d f0          	mov    %rcx,-0x10(%rbp)
+  3d:	48 8b 0a             	mov    (%rdx),%rcx
+  40:	48 89 08             	mov    %rcx,(%rax)
+  43:	48 8b 4a 08          	mov    0x8(%rdx),%rcx
+  47:	48 89 48 08          	mov    %rcx,0x8(%rax)
+  4b:	48 8b 4a 10          	mov    0x10(%rdx),%rcx
+  4f:	48 89 48 10          	mov    %rcx,0x10(%rax)
+  53:	48 8b 4a 18          	mov    0x18(%rdx),%rcx
+  57:	48 89 48 18          	mov    %rcx,0x18(%rax)
+  5b:	48 8b 4a 20          	mov    0x20(%rdx),%rcx
+  5f:	48 89 48 20          	mov    %rcx,0x20(%rax)
+  63:	48 8b 4a 28          	mov    0x28(%rdx),%rcx
+  67:	48 89 48 28          	mov    %rcx,0x28(%rax)
+  6b:	48 8b 4a 30          	mov    0x30(%rdx),%rcx
+  6f:	48 89 48 30          	mov    %rcx,0x30(%rax)
+  73:	48 8b 52 38          	mov    0x38(%rdx),%rdx
+  77:	48 89 50 38          	mov    %rdx,0x38(%rax)
+  7b:	90                   	nop
+  7c:	5d                   	pop    %rbp
+  7d:	c3                   	retq   
+
+000000000000007e &lt;copy_struct_ll_big&gt;:
+  7e:	55                   	push   %rbp
+  7f:	48 89 e5             	mov    %rsp,%rbp
+  82:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+  86:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  8a:	48 8b 55 f8          	mov    -0x8(%rbp),%rdx
+  8e:	48 8d 82 00 01 00 00 	lea    0x100(%rdx),%rax
+  95:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+  99:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+  9d:	48 8d 88 00 01 00 00 	lea    0x100(%rax),%rcx
+  a4:	48 89 4d f0          	mov    %rcx,-0x10(%rbp)
+  a8:	48 89 c6             	mov    %rax,%rsi
+  ab:	b8 20 00 00 00       	mov    $0x20,%eax
+  b0:	48 89 d7             	mov    %rdx,%rdi
+  b3:	48 89 c1             	mov    %rax,%rcx
+  b6:	f3 48 a5             	rep movsq %ds:(%rsi),%es:(%rdi)
+  b9:	90                   	nop
+  ba:	5d                   	pop    %rbp
+  bb:	c3                   	retq   </pre>
+
+<p>스택에 지역변수를 만들기 위해 rbp 값을 저장하고, 함수 인자들을 저장하는 등 함수가 해야 할 일들이 들어가있습니다. 사실 필요한 코드지만 우리가 만든 예제 코드가 워낙 간단한 코드이기 때문에 지역변수를 만들거나 rbp를 저장할 필요가 없으니 그런 코드들을 제거하는 것도 최적화하는 방법일 것입니다.</p>
+
+<p>그리고 메모리 복사에 mov를 쓰고 rep movs를 쓰는 차이는 없어지지 않습니다. 그런걸 봐서 최적화의 차이가 아니라 복사하는 메모리 크기의 차이인 것이 확실해졌습니다. rep movs가 뭔지 왜 좀더 큰 메모리를 복사하는데 쓰는 것인지, 뭔가 더 큰 메모리 복사에 적당하니까 쓰는 것이겠지만 왜 그런지 등은 다음 장에서 리눅스 커널에서 메모리 복사를 어떻게 구현했는지를 보면서 생각해보겠습니다.</p>
+
+<p>rep movs 로 구글링을 해보세요. 이미 우리가 가진 의문들에 대해서 먼저 의문을 가진 사람들이 있습니다.</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/2004/11702">이전</a></li><li class="next"><a href="http://opentutorials.org/module/2004/11700">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/2004/11698/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="2004">
+				<input type="hidden" name="topic_id" value="11698">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2016-02-17 12:45:20</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2016-02-17 12:45:20</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F2004%2F11698">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

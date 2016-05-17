@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>make - 최종 - 평범한 개발자의 C 프로그래밍 이야기</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="make - 최종 - 평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1329/8580">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1329/8580';
+		var path_context = 'module/1329';
+		var user_id = 9992;
+		var topic_id = 8580;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1329">평범한 개발자의 C 프로그래밍 이야기</a></p>
+					<p class="subtitle"><small></small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1329" title="">평범한 개발자의 C 프로그래밍 이야기<span class="ico ico_public"> </span></a>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1329/8580">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1329/8580" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">12</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1329/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1329">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_8571" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8571" class="ready depth_0"><span class="title">터미널 환경 꾸미기</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8572" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8572" class="depth_0"><span class="title">emacs 설정</span></a></div>
+																			</li>
+									<li id="list_8573" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8573" class="depth_0"><span class="title">emacs 패키지</span></a></div>
+																			</li>
+									<li id="list_8574" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8574" class="depth_0"><span class="title">emacs로 소스 빌드하기</span></a></div>
+																			</li>
+									<li id="list_8575" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8575" class="depth_0"><span class="title">make 시작</span></a></div>
+																			</li>
+									<li id="list_8576" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8576" class="depth_0"><span class="title">make - configure.in 작성</span></a></div>
+																			</li>
+									<li id="list_8577" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8577" class="depth_0"><span class="title">make - 예제 소스</span></a></div>
+																			</li>
+									<li id="list_8578" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8578" class="depth_0"><span class="title">make - 간단한 예제</span></a></div>
+																			</li>
+									<li id="list_8579" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8579" class="depth_0"><span class="title">make - 좀더 복잡하게</span></a></div>
+																			</li>
+									<li id="list_8580" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8580" class="selected depth_0"><span class="title">make - 최종</span></a></div>
+																			</li>
+									<li id="list_8581" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8581" class="depth_0"><span class="title">make - cmake 소개</span></a></div>
+																			</li>
+									<li id="list_8583" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8583" class="depth_0"><span class="title">변하는 것과 변하지 않는 것을 구분하는 프로그래밍</span></a></div>
+																			</li>
+									<li id="list_8582" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8582" class="depth_0"><span class="title">테스트를 위한 입출력 값을 테이블로 정의하기</span></a></div>
+																			</li>
+									<li id="list_8584" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8584" class="depth_0"><span class="title">인증 번호 생성 1/2</span></a></div>
+																			</li>
+									<li id="list_8585" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8585" class="depth_0"><span class="title">인증 번호 생성 2/2</span></a></div>
+																			</li>
+									<li id="list_8645" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8645" class="depth_0"><span class="title">linux kernel 3.16</span></a></div>
+																			</li>
+									<li id="list_8644" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8644" class="ready depth_0"><span class="title">linux kernel - ion에서 사용된 데이터 heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8647" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8647" class="ready depth_0"><span class="title">linux kernel - ion에서 heap을 등록하는 코드</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8654" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8654" class="ready depth_0"><span class="title">linux kernel - ion의 system heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8718" class="private ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8718" class="private ready depth_0"><span class="title">구조체 안에 배열 넣기</span><span class="ready">준비중</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1329/8580/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1329/8580/add" id="add2" class="btn">하위 토픽 추가</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">make - 최종</h1>
+							<div class="props">
+								<time datetime="">2014-11-10 19:56:48</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p><br />
+2단계에서는 빌드와 관련된 모든 정보를 하나의 파일에 모아서 처리해보았습니다. 그런데 아직도 하나가 각 Makefile에 남아있습니다. 바로 빌드 명령입니다. 실제로 컴파일러, 링커를 호출하는 빌드 명령이 각 Makefile에 남아있고, 누군가가 실수로, 혹은 잘 몰라서, 아니면 잠깐 급해서라도 이 명령을 손대면 전체 제품의 빌드에 문제가 생길 수 있습니다. 이번에는 아예 빌드 명령까지 분리해서 각 서브 디렉토리의 Makefile에는 이 디렉토리의 최종 산출물에 대한 정보만 저장되도록 만들어보겠습니다.</p>
+
+<p>예를 들어 test/Makefile는 유닛테스트를 생성합니다. 소스 파일 이름과 빌드될 실행 파일의 이름은 각 유닛테스트마다 고유한 정보이고 빌드 명령이나 옵션 등은 공통된 정보입니다. 따라서 test/Makefile에는 소스 파일 이름과 실행 파일 이름의 쌍만 나열한다면 유닛테스트를 만드는 개발자가 쉽게 유닛테스트 빌드를 추가할 수 있고, 빌드 자체에 대해서는 손댈 수 없을 것입니다. 마찬가지로 src/Makefile에는 오브젝트 파일들의 이름을 지정하고, lib/Makefile에는 라이브러리 파일의 이름만 지정해도 빌드가 되도록 한다면 빌드의 직교성을 높일 수 있습니다.</p>
+
+<p><br />
+먼저 make가 제공하는 내장 함수를 사용하는 방법과 자신만의 함수를 만드는 방법을 알아야 합니다.</p>
+
+<p>make의 함수는 변수 사용과 유사하게 $(함수이름 인자) 형태로 호출하게 됩니다. make의 내장 함수인 경우에는 $(basename a.c)와 같은 형태로 함수 이름을 곧바로 호출합니다. 그리고 사용자가 만든 함수를 호출할 때는 call이라는 내장 함수를 이용해서 $(call obj_template,obj)와 같이 call함수의 인자로 내가 만든 함수 이름과 함수에 전달할 인자를 지정합니다.</p>
+
+<p>make는 일반적인 테스트를 변환이나 파일의 이름 처리, 쉘 명령 실행 등 다양한 내장 함수를 제공합니다. 이런 내장 함수를 잘 활용하면 지능적인 빌드 처리를 만들 수 있습니다. 다음은 앞으로 예제에서 사용할 몇가지 내장 함수의 소개입니다.</p>
+
+<p><br />
+- basename<br />
+파일 경로에서 확장자를 뺀 나머지를 얻어냅니다. a/b/c/d.txt를 전달하면 a/b/c/d를 반환합니다.</p>
+
+<p>- patsubst<br />
+patsubst는 $(patsubst pattern,replacement,text)와 같은 형태로 호출됩니다. text는 원본 텍스트이고 pattern은 text에서 치환할 부분에 대한 패턴이고 replacement는 치환되서 들어갈 텍스트입니다. 흔하게 사용되는 텍스트 치환 명령중에 $(SRCS:%.c=%.o)이 있을 것입니다. SRCS에 저장된 파일 이름들 a.c b.c c.c에서 .c부분을 .o로 치환하는 명령입니다. %는 모든 형태의 텍스트를 의미하므로 확장자를 제외한 파일 이름은 치환하지 않겠다는 것을 의미합니다. 이것을 patsubst를 이용해서 만들어보면 $(patsubst %.c,%.o,a.c b.c c.c)가 됩니다. 텍스트는 a.c b.c c.c입니다. 패턴이 %.c이고 replacement가 %.o이므로 파일 이름 a b c는 그대로 유지되고 .c만이 .o로 치환됩니다.</p>
+
+<p>- foreach<br />
+foreach는 $(foreach var,list,text)와 같은 형태로 호출됩니다. 주로 특정 텍스트를 반복해서 집어넣을 때 많이 사용됩니다. 우리 예제 중에 Makefile에서 다음과 같이 foreach를 사용합니다.</p>
+
+<p>all: $(SUB_DIRS)<br />
+&nbsp;&nbsp; &nbsp;$(foreach dir,$(SUB_DIRS),make -C $(dir);)</p>
+
+<p>$(SUB_DIRS)의 값은 src lib test이므로 dir에는 src lib test값이 한번씩 저장됩니다. 따라서 make -C src;make -C lib;make -C test가 생성됩니다.</p>
+
+<p>- define/endef<br />
+사용자가 함수를 만들 때 사용하는 지시어입니다. 원래는 여러개의 변수 묶음을 하나의 변수로 정의하는 지시어인데 make가 사용자 함수와 변수를 동일하게 취급하므로 다를게 없습니다. 다음과 같은 형태로 함수를 정의할 수 있습니다.</p>
+
+<p>define 함수이름<br />
+함수 본문<br />
+endef</p>
+
+<p>- eval<br />
+우리가 만든 함수를 호출하는 것은 내장함수 call입니다. call은 단순히 우리가 만든 함수를 call이 호출되는 부분에 치환하는 일만을 합니다. 따라서 우리가 만든 함수가 빌드 규칙을 만들기 위한 함수라면 call만으로는 빌드 규칙을 생성할 수 없습니다.</p>
+
+<p>eval을 이해하기 위해 다음과 같이 Makefile을 만들어보겠습니다.</p>
+
+<p><br />
+define ddd<br />
+&nbsp;&nbsp; &nbsp;echo &quot;this is &quot;$(1)<br />
+endef</p>
+
+<p>all:<br />
+&nbsp; &nbsp; $(call ddd,a)</p>
+
+<p>이 Makefile을 실행하면 this is a라는 메시지가 출력됩니다. 그럼 다음과 같이 빌드 규칙을 만들어보겠습니다.</p>
+
+<p>define ddd<br />
+ddd_$(1):<br />
+&nbsp;&nbsp; &nbsp;echo &quot;this is &quot;$(1)<br />
+endef</p>
+
+<p>all: ddd_a</p>
+
+<p>$(call ddd,a)</p>
+
+<p>$(call ddd,a)가 ddd_a라는 빌드 규칙을 생성해서 this is a 메시지가 출력될 것 같지만 막상 실행해보면 에러가 발생하면서 make가 실행되지 않습니다. 다음과 같이 eval을 넣어주면 정상적으로 실행됩니다.</p>
+
+<p>define ddd<br />
+ddd_$(1):<br />
+&nbsp;&nbsp; &nbsp;echo &quot;this is &quot;$(1)<br />
+endef</p>
+
+<p>all: ddd_a</p>
+
+<p>$(eval $(call ddd,a))</p>
+
+<p><br />
+이정도가 예제 코드에서 사용하는 make의 내장함수입니다. 이제 예제 코드를 보겠습니다.</p>
+
+<p>이전 장에 작성한 calib.mk.in에 다음과 같이 빌드 관련 디렉토리 설정이 추가됩니다.</p>
+
+<p>VARIANT = $(BUILD_MODE)-$(COMPILE_BIT)<br />
+BUILD_ROOT = $(ROOT_DIR)/build/$(VARIANT)</p>
+
+<p>CUR_DIR = $(shell pwd)<br />
+WORK_DIR = $(subst $(ROOT_DIR),,$(CUR_DIR))<br />
+# WORK_DIR starts with /<br />
+BUILD_DIR = $(BUILD_ROOT)$(WORK_DIR)<br />
+BUILD_DIR_SRC = $(BUILD_ROOT)/src<br />
+BUILD_DIR_LIB = $(BUILD_ROOT)/lib<br />
+BUILD_DIR_TEST = $(BUILD_ROOT)/test<br />
+빌드 모드 2개와 컴파일 비트 2개를 조합하면 총 4가지 종류의 빌드가 있습니다. 빌드된 파일들이 서로 섞이지 않게 하기 위해서는 각 빌드 종류에 따라 경로를 다르게 만들어야 합니다. VARIANT 변수에 빌드 모드와 컴파일 비트의 조합을 설정합니다. 만약 디버그 모드로 64비트 빌드를 했다면 debug-64가 됩니다.&nbsp;</p>
+
+<p>각 서브 디렉토리에서 빌드 후 생성된 파일들은 BUILD_DIR에 저장됩니다. 결론적으로 src에서 빌드된 오브젝트 파일들은 build/debug-64/src에 저장되고, lib에서 빌드된 라이브러리 파일은 build/debug-64/lib에, test에서 빌드된 유닛 테스트 실행 파일들은 build/debug-64/test에 저장됩니다.</p>
+
+<p>이렇게 빌드 결과물을 분리하면 소스가 저장된 디렉토리를 항상 깨끗하게 유지할 수 있게됩니다. make clean 명령을 실행할 때도 build 디렉토리만 삭제하게됩니다.</p>
+
+<p>다음은 빌드 명령을 모아놓은 template.mk을 보겠습니다. 이 파일은 소스를 오브젝트 파일로 빌드하는 명령과, 오브젝트 파일을 모아서 라이브러리로 만드는 명령, 유닛테스트 소스를 CALIB 라이브러리와 링크해서 실행 파일로 빌드하는 명령, 3가지 타입의 빌드템플릿을 가지고 있습니다. 각 디렉토리의 Makefile에 template.mk를 포함시키고, template.mk가 요구하는 양식에 맞게 소스 파일 이름이나 라이브러리 파일 이름을 정의하면 template.mk가 실행되면서 빌드 명령을 실행합니다. 결국 각 서브디렉토리의 Makefile에는 서브 디렉토리의 고유한 정보만을 가지게되서 각 서브디렉토리의 빌드가 독립적으로 진행되게됩니다. 빌드 명령도 template.mk에만 저장되므로 template.mk만 수정하면 프로젝트 전체의 빌드를 제어할 수 있게됩니다.</p>
+
+<p>&nbsp;</p>
+
+<p>OBJ_SUF=.o<br />
+오브젝트 파일의 확장자를 정의합니다.</p>
+
+<p>LIB_PRE=lib<br />
+라이브러리 파일의 이름은 lib로 시작합니다.</p>
+
+<p>LIB_SUF=.a<br />
+라이브러리 파일의 이름은 .a로 끝납니다.</p>
+
+<p><br />
+define obj_template<br />
+.PHONY: build_objs<br />
+build_objs:$(BUILD_DIR) $(patsubst %,$(BUILD_DIR)/%$(OBJ_SUF),$(basename $($(1)_SRCS)))<br />
+endef</p>
+
+<p>$(foreach target, $(OBJ_TARGETS), $(eval $(call obj_template,$(target))))<br />
+소스 파일을 오브젝트 파일로 빌드하는 obj_template 함수가 정의되어있습니다. obj_template는 특정한 이름을 함수 인자로 전달하면 이름_SRCS 변수에 저장된 소스 파일들을 빌드하는 함수입니다.</p>
+
+<p>현재 디렉토리가 src라고 가정하고 64비트의 디버그 모드로 빌드되는 상황에서 함수의 인자가 abc이고 abc_SRCS라는 변수에 a.c b.c c.c가 저장되어 있다고 가정하고 자세히 설명하겠습니다.</p>
+
+<p>/home/gurugio/calib/src/Makefile에서 obj_template가 실행되는 순간의 $(BUILD_DIR)은 /home/gurugio/calib/build/debug-64/src입니다.</p>
+
+<p>$(1)은 함수의 인자를 의미합니다. 인자가 abc이라면 $(1)_SRCS는 abc_SRCS로 치환됩니다. 따라서 $($(1)_SRCS)는 $(abc_SRCS)가 됩니다. $($(1)_SRCS)는 결국 a.c b.c c.c가 됩니다. 즉 소스 파일의 리스트를 의미합니다.</p>
+
+<p>basename는 make에서 제공하는 함수입니다. basename은 파일의 확장자를 제외한 파일 이름만을 얻어내는 일을 합니다. abc_SRCS에 저장된 파일 이름들에서 확장자를 제거하면 a b c가 됩니다.</p>
+
+<p>patsubst도 make에서 제공하는 함수입니다. $(patsubst pattern,replacement,text) 형태로 사용되는데 text에서 pattern의 형태에 맞는 단어를 찾아서 replacement에 맞게 변환하는 일을 합니다. 특수문자 %는 모든 문자를 의미합니다. 우리 상황에 맞게 써보면 $(patsubst %,/home/gurugio/calib/build/debug-64/%.o,a b c)로 이해할 수 있습니다. 각 파일 이름을 하나씩 replacement에 집어넣으면 /home/gurugio/calib/build/debug-64/a.o /home/gurugio/calib/build/debug-64/b.o /home/gurugio/calib/build/debug-64/c.o가 됩니다.&nbsp;</p>
+
+<p>생성된 빌드 규칙을 정리해보면 다음과 같습니다. 오브젝트 파일이 저장될 디렉토리를 만들고, 각 소스를 컴파일해서 오브젝트 파일을 만드는 규칙이 됩니다.</p>
+
+<p>build_objs: /home/gurugio/calib/build/debug-64/src /home/gurugio/calib/build/debug-64/a.o /home/gurugio/calib/build/debug-64/b.o /home/gurugio/calib/build/debug-64/c.o</p>
+
+<p>각각의 오브젝트 파일과 오브젝트 파일이 저장될 디렉토리를 생성하는데 필요한 빌드 규칙은 template.mk파일의 아래 부분에 다음과 같이 저장되어있습니다.</p>
+
+<p>$(BUILD_DIR):<br />
+&nbsp;&nbsp; &nbsp;mkdir -p $@</p>
+
+<p>$(BUILD_DIR)/%.o: %.c<br />
+&nbsp;&nbsp; &nbsp;$(CC) -c $(CFLAGS) $(INCLUDES) $(DEFINES) -o $@ $&lt;<br />
+build_objs에 정의된 의존성에 따라 만일 build/debug-64/src라는 디렉토리가 없다면 해당 디렉토리를 생성합니다. 그리고 각각의 오브젝트 파일을 컴파일해서 build/debug-64/src 디렉토리에 저장합니다.</p>
+
+<p>obj_template 함수를 활용하는 src/Makefile 파일을 보면 실질적으로 어떻게 활용되는지 알 수 있습니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+OBJ_TARGETS &nbsp; &nbsp; &nbsp;= calib_objs</p>
+
+<p>calib_objs_SRCS &nbsp; &nbsp;= $(CALIB_SRCS)</p>
+
+<p>include $(ROOT_DIR)/template.mk<br />
+OBJ_TARGETS는 template.mk에서 obj_template함수를 호출하는데 사용되기 때문에 항상 선언해주어야 합니다. OBJ_TARGETS변수에 자신이 만든 변수의 이름을 저장합니다. 여기에서는 calib_objs가 됩니다. 그리고 calib_objs_SRCS변수를 만들어서 소스 파일 이름들을 저장합니다.</p>
+
+<p>예제에서처럼 libcalib.a 파일 하나만을 생성하는게 아니라 여러개의 라이브러리 파일을 생성해야하면 각각의 라이브러리마다 소스 파일을 따로 지정해주면 됩니다. 예를 들면 다음과 비슷한 형태가 될 것입니다.</p>
+
+<p>OBJ_TARGETS = calib_objs another_objs</p>
+
+<p>calib_objs_SRCS = $(CALIB_SRCS)<br />
+another_objs_SRCS = $(ANOTHER_SRCS)</p>
+
+<p>사실 calib_objs_SRCS를 따로 선언할 필요없이 calib_objs 변수를 만들어서 소스 파일 이름을 저장하고, obj_template에서는 calib_objs변수를 읽어서 처리해도 동일하게 동작합니다. 굳이 calib_objs_SRCS를 만든 이유는 소스 지정외에 다른 옵션들을 붙일 수 있도록 하기 위해서입니다. 만약 calib의 소스 중에서 cos 함수를 호출하는 코드가 있다면 소스를 빌드할 때 libm 라이브러리를 링크해야합니다. 그 외에도 특정 라이브러리나 빌드 옵션을 다음과 같이 지정할 수 있습니다.</p>
+
+<p>calib_objs_SRCS = $(CALIB_SRCS)<br />
+calib_objs_LIBS = m<br />
+calib_objs_CFLAGS = -I/usr/local/include</p>
+
+<p>이렇게 여러개의 변수들을 선언했다 하더라도 calib_objs라는 이름만 obj_template에 전달하면 상황에 맞게 처리할 수 있습니다. 결국 여러개의 라이브러리를 생성할 경우에 각각에 맞는 소스 이름과 컴파일 옵션, 추가 라이브러리 등 다양한 정보를 전달할 수 있습니다.</p>
+
+<p>template.mk에 구현된 다른 함수들도 비슷한 방식으로 변수 이름의 접두어만 전달받아서 빌드에 필요한 정보를 알아냅니다. 다음으로는 빌드된 오브젝트 파일들을 링크하는 lib_template 함수를 보겠습니다.</p>
+
+<p><br />
+define lib_template<br />
+.PHONY: build_libs<br />
+build_libs: $(BUILD_DIR) $(BUILD_DIR)/$(LIB_PRE)$($(1)_NAME)$(LIB_SUF)<br />
+$(BUILD_DIR)/$(LIB_PRE)$($(1)_NAME)$(LIB_SUF): $(patsubst %,$(BUILD_DIR_SRC)/%,$($(1)_OBJS))<br />
+&nbsp;&nbsp; &nbsp;$(AR) $(AR_FLAGS) $$@ $(patsubst %,$(BUILD_DIR_SRC)/%,$($(1)_OBJS))<br />
+endef</p>
+
+<p>$(foreach target, $(LIB_TARGETS), $(eval $(call lib_template,$(target))))</p>
+
+<p>다음은 lib/Makefile의 내용입니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+LIB_TARGETS = calib</p>
+
+<p>calib_NAME = calib<br />
+calib_OBJS = $(CALIB_OBJS)</p>
+
+<p>include $(ROOT_DIR)/template.mk</p>
+
+<p>lib_template함수가 호출되는 디렉토리 이름이 lib이므로 $(BUILD_DIR)은 /home/gurugio/calib/build/debug-64/lib이 됩니다. lib_template의 인자로 calib이 전달되고 calib_NAME은 calib입니다. 따라서 다음과 같이 build_libs라는 규칙이 생성됩니다.</p>
+
+<p>build_libs: /home/gurugio/calib/build/debug-64/lib /home/gurugio/calib/build/debug-64/lib/libcalib.a</p>
+
+<p>그 다음으로 calib_OBJS 변수에는 src에서 빌드된 오브젝트 파일들의 이름이 저장되어 있으므로 다음과 같이 라이브러리를 빌드하는 규칙이 생성됩니다.</p>
+
+<p>/home/gurugio/calib/build/debug-64/lib/libca.a: /home/gurugio/calib/build/debug-64/src/build_info.o /home/gurugio/calib/build/debug-64/src/sys_info.o</p>
+
+<p>lib디렉토리에서 make가 실행되면 가장 먼저 라이브러리가 저장될 /home/gurugio/calib/build/debug-64/lib 디렉토리를 생성합니다. 그리고 /home/gurugio/calib/build/debug-64/lib/libca.a 파일을 빌드합니다. build_libs의 규칙 바로 밑줄이 바로 라이브러리를 생성하는 빌드 규칙입니다. 이전에 생성된 오브젝트 파일들을 이용해서 ar명령으로 정적 라이브러리를 빌드합니다.</p>
+
+<p>template.mk파일에서 마지막으로 정의된 함수는 유닛테스트를 빌드하고 실행하는 unittest_template입니다. 다음은 unittest_template의 정의와 호출 코드입니다.</p>
+
+<p>define unittest_template<br />
+.PHONY: run_unittest<br />
+run_unittest: $(BUILD_DIR) $(BUILD_DIR)/$(1).unittest<br />
+$(BUILD_DIR)/$(1).unittest: $(2) # new execute-file -&gt; run again<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;&quot;<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;testing [$(1)]&quot;<br />
+&nbsp;&nbsp; &nbsp;@$(2) &amp;&amp; touch $$@<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;&quot;<br />
+$(2): $(patsubst %,$(BUILD_DIR)/%$(OBJ_SUF),$(basename $($(1)_SRCS))) $(BUILD_DIR_LIB)/$(LIB_PRE)$($(1)_LIBS)<br />
+&nbsp;&nbsp; &nbsp;$(CC) $(LD_FLAGS) -o $$@ $$&lt; $(BUILD_DIR_LIB)/$(LIB_PRE)$($(1)_LIBS)$(LIB_SUF)<br />
+endef</p>
+
+<p>$(foreach target, $(UNITTEST_TARGETS), $(eval $(call unittest_template,$(target),$(BUILD_DIR)/$($(target)_NAME))))</p>
+
+<p>run_unittest라는 타겟이 생성되면서 빌드된 실행파일을 저장하는 디렉토리를 만드는 것은 동일합니다. 그리고 $(1).unittest라는 파일을 만듭니다. 이 파일은 아무 내용도 없고 단순히 유닛테스트가 실행되었다는 것을 확인하는 파일입니다. 이 파일이 있다면 유닛테스트가 실행되었다는 것이므로, make 명령을 다시 내려도 동일한 유닛테스트는 실행되지 않습니다. 유닛테스트를 빌드하다가 실패한 경우에 정상적으로 실행되었던 유닛테스트가 다시 실행되서 시간을 낭비하는 일이 없도록하기위해 만들었습니다.</p>
+
+<p>유닛테스트 실행 파일의 빌드 규칙을 보면 의존성에 calib 라이브러리 파일이 걸려있습니다. 라이브러리 파일이 새로 빌드된 경우에 유닛테스트도 다시 실행됩니다. 빌드 명령을 보면 컴파일 명령이 아니라 링크 명령만 실행됩니다. 유닛테스트 소스 파일을 컴파일하는 일은 라이브러리 소스 파일을 빌드하는 것과 동일한 명령이 처리합니다. 의존성에 오브젝트 파일만 걸어놓으면 make가 자동으로 91~92라인에 기록한 빌드 규칙을 적용합니다.</p>
+
+<p>다음은 유닛테스트를 빌드하는 test/Makefile 파일의 내용입니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+UNITTEST_TARGETS = sys_info build_info</p>
+
+<p>sys_info_NAME=test_sys_info<br />
+sys_info_SRCS=test_sys_info.c<br />
+sys_info_LIBS=calib</p>
+
+<p><br />
+build_info_NAME=test_build_info<br />
+build_info_SRCS=test_build_info.c<br />
+build_info_LIBS=calib</p>
+
+<p><br />
+include $(ROOT_DIR)/template.mk</p>
+
+<p><br />
+test_sys_info와 test_build_info라는 2개의 실행 파일을 빌드하고자합니다. sys_info_NAME에는 실행 파일의 이름을 저장하고, sys_info_SRCS에는 소스 파일이 이름을, sys_info_LIBS에는 빌드에 필요한 라이브러리 이름을 저장합니다. 라이브러리 이름에서 lib접두어는 표준이므로 생략합니다. 확장자도 생략합니다.</p>
+
+<p>만약 libcalib.a라는 정적 라이브러리외에 libm.so 등의 동적 라이브러리를 링크하고 싶을 때는 src_info_SOLIBS 등의 추가 변수를 만들고, unittest_template에있는 명령에서 변수 값을 읽어서 링크하도록하면 됩니다. 필요에 따라 얼마든지 추가 정보를 전달할 수 있고, 모든 개발자들이 공유할 수 있습니다.</p>
+
+<p><br />
+다음은 clean 명령입니다.</p>
+
+<p>clean:<br />
+&nbsp;&nbsp; &nbsp;rm -rf $(BUILD_DIR)</p>
+
+<p>clean명령은 다음과 같이 간단하게 BUILD_DIR를 삭제하면 됩니다. 만약 src디렉토리에서 make clean명령을 내렸으면 src디렉토리만 삭제됩니다. 다른 디렉토리도 마찬가지 입니다. 소스의 최상위에서 make clean을 하면 build디렉토리의 바로 하위 디렉토리, 예를 들면 debug-64 디렉토리가 삭제될 것입니다.</p>
+
+<p><br />
+다음은 현재 작성된 모든 파일들의 내용입니다.</p>
+
+<p>Makefile 입니다.</p>
+
+<p><br />
+# config.mk is generated by configure<br />
+include calib.mk<br />
+include config.mk</p>
+
+<p><br />
+all: $(SUB_DIRS)<br />
+&nbsp;&nbsp; &nbsp;$(foreach dir,$(SUB_DIRS),make -C $(dir);)</p>
+
+<p><br />
+package:<br />
+&nbsp;&nbsp; &nbsp;make clean<br />
+&nbsp;&nbsp; &nbsp;$(foreach bit,$(AVAILABLE_COMPILE_BIT),make compile_bit=$(bit) build_mode=debug;)<br />
+&nbsp;&nbsp; &nbsp;$(foreach bit,$(AVAILABLE_COMPILE_BIT),make compile_bit=$(bit) build_mode=release;)</p>
+
+<p><br />
+include template.mk</p>
+
+<p>calib.mk.in 입니다.</p>
+
+<p>&nbsp;</p>
+
+<p># making calib<br />
+# There values are used by every Makefile<br />
+# so that they are defined here.<br />
+CALIB_SRCS = sys_info.c build_info.c<br />
+CALIB_OBJS = $(CALIB_SRCS:.c=.o)</p>
+
+<p>CALIB_NAME = libca.a</p>
+
+<p>&nbsp;</p>
+
+<p>#<br />
+# build option<br />
+#</p>
+
+<p># BUILD_MODE setup<br />
+# eg) make build_mode=debug<br />
+AVAILABLE_BUILD_MODE = debug release<br />
+DEFAULT_BUILD_MODE = debug</p>
+
+<p>ifneq ($(DEFAULT_BUILD_MODE),)<br />
+&nbsp;ifeq ($(origin build_mode), undefined)<br />
+&nbsp; BUILD_MODE = $(DEFAULT_BUILD_MODE)<br />
+&nbsp;else<br />
+&nbsp; BUILD_MODE = $(filter $(build_mode), $(AVAILABLE_BUILD_MODE))<br />
+&nbsp; ifneq ($(BUILD_MODE), $(build_mode))<br />
+&nbsp; &nbsp;$(error Unknown build mode: $(build_mode))<br />
+&nbsp; endif<br />
+&nbsp;endif<br />
+endif</p>
+
+<p># COMPILE_BIT setup<br />
+# eg) make compile_bit=64<br />
+# AVAILABLE_COMPILE_BIT, DEFAULT_COMPILE_BIT are setup at config.mk<br />
+AVAILABLE_COMPILE_BIT=@CALIB_CFG_AVAIL_COMPILE_BIT@<br />
+DEFAULT_COMPILE_BIT=@CALIB_CFG_CPU_BIT@</p>
+
+<p>ifneq ($(DEFAULT_COMPILE_BIT),)<br />
+&nbsp;ifeq ($(origin compile_bit), undefined)<br />
+&nbsp; COMPILE_BIT = $(DEFAULT_COMPILE_BIT)<br />
+&nbsp;else<br />
+&nbsp; COMPILE_BIT = $(filter $(compile_bit), $(AVAILABLE_COMPILE_BIT))<br />
+&nbsp; ifneq ($(COMPILE_BIT), $(compile_bit))<br />
+&nbsp; &nbsp;$(error Unknown compile bit: $(compile_bit))<br />
+&nbsp; endif<br />
+&nbsp;endif<br />
+else<br />
+&nbsp;$(error No setting for compile bit: $(DEFAULT_COMPILE_BIT))<br />
+endif</p>
+
+<p><br />
+#<br />
+# directory setting<br />
+#<br />
+SUB_DIRS = src lib test</p>
+
+<p>ROOT_DIR := @ROOT_DIR@<br />
+LIB_DIR = $(ROOT_DIR)/lib<br />
+SRC_DIR = $(ROOT_DIR)/src<br />
+TEST_DIR = $(ROOT_DIR)/test</p>
+
+<p>VARIANT = $(BUILD_MODE)-$(COMPILE_BIT)<br />
+BUILD_ROOT = $(ROOT_DIR)/build/$(VARIANT)</p>
+
+<p>CUR_DIR = $(shell pwd)<br />
+WORK_DIR = $(subst $(ROOT_DIR),,$(CUR_DIR))<br />
+# WORK_DIR starts with /<br />
+BUILD_DIR = $(BUILD_ROOT)$(WORK_DIR)<br />
+BUILD_DIR_SRC = $(BUILD_ROOT)/src<br />
+BUILD_DIR_LIB = $(BUILD_ROOT)/lib<br />
+BUILD_DIR_TEST = $(BUILD_ROOT)/test</p>
+
+<p><br />
+#<br />
+# compile tools<br />
+#<br />
+CC=@CC@<br />
+LD=@LD@<br />
+AR=@AR@</p>
+
+<p><br />
+#<br />
+# compile options<br />
+#<br />
+INCLUDES_OPT += $(ROOT_DIR)/include</p>
+
+<p>DEFINES_OPT += CALIB_CFG_BUILD_MODE=\&quot;$(BUILD_MODE)\&quot;</p>
+
+<p>ifeq ($(BUILD_MODE), debug)<br />
+&nbsp;DEFINES_OPT += CALIB_CFG_BUILD_MODE_DEBUG<br />
+else<br />
+&nbsp;ifeq ($(BUILD_MODE), release)<br />
+&nbsp; DEFINES_OPT += CALIB_CFG_BUILD_MODE_RELEASE<br />
+&nbsp;endif<br />
+endif</p>
+
+<p>DEFINES_OPT += CALIB_CFG_COMPILE_BIT=$(COMPILE_BIT)<br />
+DEFINES_OPT += CALIB_CFG_COMPILE_BIT_$(COMPILE_BIT)</p>
+
+<p>INCLUDES = $(addprefix -I,$(INCLUDES_OPT))<br />
+DEFINES = $(addprefix -D,$(DEFINES_OPT))</p>
+
+<p>CFLAGS += -Wextra -Wall</p>
+
+<p>ifeq ($(BUILD_MODE), debug)<br />
+&nbsp;CFLAGS += -g<br />
+else<br />
+&nbsp;CFLAGS += -O2<br />
+endif</p>
+
+<p>ifeq ($(COMPILE_BIT), 64)<br />
+&nbsp;CFLAGS += -m64<br />
+else<br />
+&nbsp;CFLAGS += -m32<br />
+endif</p>
+
+<p>ifeq ($(COMPILE_BIT), 64)<br />
+&nbsp;LD_FLAGS += -m64<br />
+else<br />
+&nbsp;LD_FLAGS += -m32<br />
+endif</p>
+
+<p><br />
+AR_FLAGS = sruv</p>
+
+<p><br />
+config.mk.in 입니다.</p>
+
+<p># This file is set by configure<br />
+HOST=@host@<br />
+OS=@host_os@<br />
+CPU=@CALIB_CFG_CPU@<br />
+NASM=@NASM@<br />
+CC=@CC@<br />
+LD=@LD@<br />
+OBJCOPY=@OBJCOPY@<br />
+DD=@DD@<br />
+NM=@NM@<br />
+AR=@AR@</p>
+
+<p>configure.in 입니다.</p>
+
+<p>dnl # Initialize configure<br />
+AC_INIT(calib, 1.0)<br />
+dnl # Check required autoconf version</p>
+
+<p>AC_PREREQ([2.13])</p>
+
+<p><br />
+dnl # platform output file<br />
+AC_CONFIG_HEADER([./include/platform.h])</p>
+
+<p><br />
+dnl # tools</p>
+
+<p><br />
+dnl # gawk<br />
+AC_PROG_AWK</p>
+
+<p><br />
+dnl # nasm install check<br />
+AC_PATH_PROG([NASM], [nasm])</p>
+
+<p>if test -z &quot;$NASM&quot;; then<br />
+&nbsp; &nbsp; AC_MSG_ERROR([Cannot find Netwide Assembler])<br />
+fi</p>
+
+<p>dnl # nasm version check<br />
+AC_MSG_CHECKING([whether NASM version &gt;= 2.0 for 64bit assembly])<br />
+${NASM} -v | grep version &gt; nasm_version.tmp<br />
+result=`cat nasm_version.tmp | awk &#39;{print $3}&#39;`<br />
+nasm_major=`echo $result | awk -F . &#39;{print $1}&#39;`<br />
+rm -f nasm_version.tmp</p>
+
+<p>if test &quot;$nasm_major&quot; -lt 2; then<br />
+&nbsp; &nbsp; AC_MSG_ERROR([nasm version is below than 2.0])<br />
+else<br />
+&nbsp; &nbsp; AC_MSG_RESULT([yes])<br />
+fi<br />
+AC_SUBST(NASM)</p>
+
+<p>dnl # gcc install<br />
+AC_PROG_CC</p>
+
+<p>if test -z &quot;$CC&quot;; then<br />
+&nbsp; &nbsp; CC=gcc<br />
+fi</p>
+
+<p>dnl<br />
+AC_MSG_CHECKING([whether GCC version &gt;= 4.0])</p>
+
+<p>${CC} -v 2&gt; gcc_version.tmp</p>
+
+<p>result=`grep &quot;gcc version&quot; gcc_version.tmp | awk &#39;{print $3}&#39;`<br />
+rm -f gcc_version.tmp<br />
+gcc_major=`echo $result | awk -F . &#39;{print $1}&#39;`<br />
+gcc_minor=`echo $result | awk -F . &#39;{print $2}&#39;`<br />
+gcc_minor_minor=`echo $result | awk -F . &#39;{print $3}&#39;`</p>
+
+<p>if test &quot;$gcc_major&quot; -ge 4 &amp;&amp; test &quot;$gcc_minor&quot; -ge 0<br />
+&nbsp; &nbsp; then<br />
+&nbsp; &nbsp; AC_MSG_RESULT([yes (&quot;$result&quot;)])<br />
+else<br />
+&nbsp; &nbsp; echo &quot;current gcc is \&quot;${CC}\&quot;-${gcc_major}.${gcc_minor}.${gcc_minor_minor}&quot;<br />
+&nbsp; &nbsp; echo &quot;you can define gcc as \&quot;CC=your-gcc ./configure\&quot;&quot;<br />
+&nbsp; &nbsp; AC_MSG_ERROR([current gcc version cannot process 64bit address])<br />
+fi</p>
+
+<p>AC_SUBST(CC)</p>
+
+<p>dnl # ld support x86_64<br />
+AC_MSG_CHECKING([whether ld supports elf_x86_64])</p>
+
+<p>if test -z &quot;${LD}&quot; ; then<br />
+&nbsp; &nbsp; LD=ld<br />
+fi</p>
+
+<p>result=`${LD} -V | grep x86_64`</p>
+
+<p>if test -z &quot;$result&quot; ; then<br />
+&nbsp; &nbsp; echo &quot;current ld is \&quot;${LD}\&quot;&quot;<br />
+&nbsp; &nbsp; echo &quot;you can define ld as \&quot;LD=your-ld ./configure\&quot;&quot;<br />
+&nbsp; &nbsp; AC_MSG_ERROR([current ld do not support elf_x86_64, please install 64bit ld])<br />
+else<br />
+&nbsp; &nbsp; AC_MSG_RESULT([yes])<br />
+fi</p>
+
+<p>AC_SUBST(LD)</p>
+
+<p>dnl # objcopy support x86_64<br />
+AC_MSG_CHECKING([whether objcopy supports elf64-x86-64])</p>
+
+<p>if test -z &quot;$OBJCOPY&quot; ; then<br />
+&nbsp; &nbsp; OBJCOPY=objcopy<br />
+fi</p>
+
+<p>result=`${OBJCOPY} -h | grep elf64-x86-64`</p>
+
+<p>if test -z &quot;$result&quot; ; then<br />
+&nbsp; &nbsp; echo &quot;current objcopy is \&quot;${OBJCOPY}\&quot;&quot;<br />
+&nbsp; &nbsp; echo &quot;you can define objcopy as \&quot;OBJCOPY=your-objcopy ./configure\&quot;&quot;<br />
+&nbsp; &nbsp; AC_MSG_ERROR([current objcopy do not support elf-x86-64, please install<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 64bit objcopy])<br />
+else<br />
+&nbsp; &nbsp; AC_MSG_RESULT([yes])<br />
+fi</p>
+
+<p>AC_SUBST(OBJCOPY)</p>
+
+<p>dnl # extra tools<br />
+AC_PATH_PROG([DD], [dd])<br />
+AC_PATH_PROG([NM], [nm])<br />
+AC_PATH_PROG([AR], [ar])</p>
+
+<p>AC_SUBST(DD)<br />
+AC_SUBST(NM)<br />
+AC_SUBST(AR)</p>
+
+<p>dnl # headers<br />
+AC_CHECK_HEADERS(execinfo.h mcheck.h malloc.h pthread.h stdio.h stdlib.h string.h signal.h unistd.h stdint.h)<br />
+AC_CHECK_HEADERS(sys/types.h sys/stat.h sys/fcntl.h sys/wait.h)</p>
+
+<p>dnl # host</p>
+
+<p>AC_CANONICAL_HOST()</p>
+
+<p>echo &quot;&quot;<br />
+echo &quot;HOST PLATFORM: ${host}&quot;<br />
+echo &quot;HOST OS: &nbsp; &nbsp; &nbsp; ${host_os}&quot;<br />
+echo &quot;HOST CPU: &nbsp; &nbsp; &nbsp;${host_cpu}&quot;<br />
+echo &quot;HOST VENDOR: &nbsp; ${host_vendor}&quot;<br />
+echo &quot;&quot;</p>
+
+<p>CALIB_CFG_CPU=&quot;$host_cpu&quot;<br />
+CALIB_CFG_CPU_BIT=0<br />
+CALIB_CFG_OS=&quot;$host_os&quot;</p>
+
+<p>case &quot;${host}&quot; in<br />
+&nbsp; &nbsp; i[3456]86-* )<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_CPU_BIT=32<br />
+&nbsp; &nbsp; &nbsp; &nbsp; ;;<br />
+&nbsp; &nbsp; amd64-*-* )<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_CPU_BIT=64<br />
+&nbsp; &nbsp; &nbsp; &nbsp; ;;<br />
+&nbsp; &nbsp; x86_64-* )<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_CPU_BIT=64<br />
+&nbsp; &nbsp; &nbsp; &nbsp; ;;<br />
+esac</p>
+
+<p><br />
+if test -e &quot;/etc/issue&quot; ; then<br />
+&nbsp;&nbsp; &nbsp;id=`grep Ubuntu /etc/issue`<br />
+fi</p>
+
+<p>if test -n &quot;$id&quot; ; then<br />
+&nbsp;&nbsp; &nbsp;# for 64bit Ubuntu<br />
+&nbsp;&nbsp; &nbsp;if test &quot;$CALIB_CFG_CPU_BIT&quot; = 64 ; then<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;AC_MSG_CHECKING([whether 32bit build is possible])<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if test -e &quot;/usr/lib32/libstdc++.so.6&quot; ; then<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_AVAIL_COMPILE_BIT=&quot;64 32&quot;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;AC_MSG_RESULT([yes])<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;else<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_AVAIL_COMPILE_BIT=64<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;AC_MSG_RESULT([no])<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;fi<br />
+&nbsp;&nbsp; &nbsp;# for 32bit Ubuntu<br />
+&nbsp;&nbsp; &nbsp;else<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CALIB_CFG_AVAIL_COMPILE_BIT=32<br />
+&nbsp;&nbsp; &nbsp;fi<br />
+else<br />
+&nbsp;&nbsp; &nbsp;# for the other<br />
+&nbsp;&nbsp; &nbsp;CALIB_CFG_AVAIL_COMPILE_BIT=64<br />
+fi</p>
+
+<p>AC_DEFINE_UNQUOTED(CALIB_CFG_OS, &quot;$CALIB_CFG_OS&quot;)<br />
+AC_DEFINE_UNQUOTED(CALIB_CFG_CPU_$CALIB_CFG_CPU, 1)<br />
+AC_DEFINE_UNQUOTED(CALIB_CFG_CPU, &quot;$CALIB_CFG_CPU&quot;)<br />
+AC_DEFINE_UNQUOTED(CALIB_CFG_CPU_BIT_$CALIB_CFG_CPU_BIT, 1)<br />
+AC_DEFINE_UNQUOTED(CALIB_CFG_CPU_BIT, &quot;$CALIB_CFG_CPU_BIT&quot;)</p>
+
+<p>AC_SUBST(CALIB_CFG_CPU)<br />
+AC_SUBST(CALIB_CFG_CPU_BIT)<br />
+AC_SUBST(CALIB_CFG_AVAIL_COMPILE_BIT)</p>
+
+<p>ROOT_DIR=`pwd`<br />
+AC_SUBST(ROOT_DIR)</p>
+
+<p>AC_CONFIG_FILES([config.mk] [calib.mk])<br />
+AC_OUTPUT</p>
+
+<p>dnl # remove temporary files<br />
+rm -f ./config.cache ./config.log ./config.status</p>
+
+<p>template.mk 입니다.</p>
+
+<p>#<br />
+# templates for all build types<br />
+#</p>
+
+<p># rules<br />
+# OBJ_TARGETS: label that defines source files<br />
+# LIB_TARGETS: label that defines library files<br />
+# UNITTEST_TARGETS: label that defines unittest programs</p>
+
+<p>&nbsp;</p>
+
+<p>#<br />
+# 0. naming convention<br />
+#<br />
+OBJ_SUF=.o<br />
+LIB_PRE=lib<br />
+LIB_SUF=.a</p>
+
+<p>&nbsp;</p>
+
+<p>#<br />
+# 1. define howto build<br />
+#</p>
+
+<p><br />
+# obj_template: make obj files<br />
+# A label has object file names that will be linked together<br />
+# so they must be built together<br />
+# $($(1)_SRCS) is source file names<br />
+# (patsubst %,...) make source file names into dir/obj-names format<br />
+# eg) a.c -&gt; build/src/a.o<br />
+# $(1) : label name<br />
+define obj_template<br />
+.PHONY: build_objs<br />
+build_objs:$(BUILD_DIR) $(patsubst %,$(BUILD_DIR)/%$(OBJ_SUF),$(basename $($(1)_SRCS)))<br />
+endef</p>
+
+<p>&nbsp;</p>
+
+<p># lib_template: link objects to generate static-library file<br />
+# $(1) : label name<br />
+define lib_template<br />
+.PHONY: build_libs<br />
+build_libs: $(BUILD_DIR) $(BUILD_DIR)/$(LIB_PRE)$($(1)_NAME)$(LIB_SUF)<br />
+$(BUILD_DIR)/$(LIB_PRE)$($(1)_NAME)$(LIB_SUF): $(patsubst %,$(BUILD_DIR_SRC)/%,$($(1)_OBJS))<br />
+&nbsp;&nbsp; &nbsp;$(AR) $(AR_FLAGS) $$@ $(patsubst %,$(BUILD_DIR_SRC)/%,$($(1)_OBJS))<br />
+endef</p>
+
+<p><br />
+# build unittest and run it<br />
+# $(1): target label<br />
+# $(2): test file name<br />
+define unittest_template<br />
+.PHONY: run_unittest<br />
+run_unittest: $(BUILD_DIR) $(BUILD_DIR)/$(1).unittest<br />
+$(BUILD_DIR)/$(1).unittest: $(2) # new execute-file -&gt; run again<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;&quot;<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;testing [$(1)]&quot;<br />
+&nbsp;&nbsp; &nbsp;@$(2) &amp;&amp; touch $$@<br />
+&nbsp;&nbsp; &nbsp;@echo &quot;&quot;<br />
+$(2): $(patsubst %,$(BUILD_DIR)/%$(OBJ_SUF),$(basename $($(1)_SRCS))) $(BUILD_DIR_LIB)/$(LIB_PRE)$($(1)_LIBS)<br />
+&nbsp;&nbsp; &nbsp;$(CC) $(LD_FLAGS) -o $$@ $$&lt; $(BUILD_DIR_LIB)/$(LIB_PRE)$($(1)_LIBS)$(LIB_SUF)<br />
+endef</p>
+
+<p>&nbsp;</p>
+
+<p>#<br />
+# 2. expand template to define build rules<br />
+#<br />
+# build object<br />
+$(foreach target, $(OBJ_TARGETS), $(eval $(call obj_template,$(target))))</p>
+
+<p># build library<br />
+$(foreach target, $(LIB_TARGETS), $(eval $(call lib_template,$(target))))</p>
+
+<p># build unittest program<br />
+$(foreach target, $(UNITTEST_TARGETS), $(eval $(call unittest_template,$(target),$(BUILD_DIR)/$($(target)_NAME))))</p>
+
+<p>&nbsp;</p>
+
+<p>#<br />
+# 3. implicit rules for compile sources<br />
+#</p>
+
+<p><br />
+# .c files</p>
+
+<p>$(BUILD_DIR):<br />
+&nbsp;&nbsp; &nbsp;mkdir -p $@</p>
+
+<p>$(BUILD_DIR)/%.o: %.c<br />
+&nbsp;&nbsp; &nbsp;$(CC) -c $(CFLAGS) $(INCLUDES) $(DEFINES) -o $@ $&lt;</p>
+
+<p># rules for other language files can be defined here...</p>
+
+<p><br />
+clean:<br />
+&nbsp;&nbsp; &nbsp;rm -rf $(BUILD_DIR)</p>
+
+<p>&nbsp;</p>
+
+<p><br />
+src/Makefile 입니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+OBJ_TARGETS &nbsp; &nbsp; &nbsp;= calib_objs</p>
+
+<p>calib_objs_SRCS &nbsp; &nbsp;= $(CALIB_SRCS)</p>
+
+<p>include $(ROOT_DIR)/template.mk</p>
+
+<p>src/build_info.c 입니다.</p>
+
+<p>/*********************************************************************<br />
+&nbsp;* $Id:&nbsp;<br />
+&nbsp;*********************************************************************/</p>
+
+<p>#include &lt;calib.h&gt;<br />
+#include &lt;platform.h&gt;</p>
+
+<p>/**<br />
+&nbsp;* return compile bit as char string<br />
+&nbsp;* @return char type string show compiled bit<br />
+&nbsp;*/<br />
+int32_t build_info_compile_bit(void)<br />
+{<br />
+&nbsp; &nbsp; return CALIB_CFG_COMPILE_BIT;<br />
+}</p>
+
+<p>/**<br />
+&nbsp;* return build mode as char string<br />
+&nbsp;* @return char type string show build mode<br />
+&nbsp;*/<br />
+char *build_info_build_mode(void)<br />
+{<br />
+&nbsp; &nbsp; return CALIB_CFG_BUILD_MODE;<br />
+}</p>
+
+<p>&nbsp;</p>
+
+<p><br />
+src/sys_info.c 입니다.</p>
+
+<p>/*********************************************************************<br />
+&nbsp;* $Id$<br />
+&nbsp;*********************************************************************/</p>
+
+<p>#include &lt;sys_info.h&gt;<br />
+#include &lt;platform.h&gt;</p>
+
+<p><br />
+/**<br />
+&nbsp;* return CPU information as char string<br />
+&nbsp;* @return char type string show CPU type<br />
+&nbsp;*/<br />
+char *sys_info_cpu_type(void)<br />
+{<br />
+&nbsp; &nbsp; return CALIB_CFG_CPU;<br />
+}</p>
+
+<p>/**<br />
+&nbsp;* return OS information as char string<br />
+&nbsp;* @return char type string show OS type<br />
+&nbsp;*/<br />
+char *sys_info_os_type(void)<br />
+{<br />
+&nbsp; &nbsp; return CALIB_CFG_OS;<br />
+}</p>
+
+<p>&nbsp;</p>
+
+<p>include/calib.h 입니다.</p>
+
+<p>#ifndef __CALIB_H__<br />
+#define __CALIB_H__</p>
+
+<p>/*<br />
+&nbsp;* system-library headers common for all sources<br />
+&nbsp;*/</p>
+
+<p>#include &lt;execinfo.h&gt;<br />
+#include &lt;mcheck.h&gt;<br />
+#include &lt;malloc.h&gt;<br />
+#include &lt;pthread.h&gt;<br />
+#include &lt;stdio.h&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+#include &lt;string.h&gt;<br />
+#include &lt;signal.h&gt;<br />
+#include &lt;unistd.h&gt;<br />
+#include &lt;stdint.h&gt;</p>
+
+<p>#include &lt;sys/types.h&gt;<br />
+#include &lt;sys/stat.h&gt;<br />
+#include &lt;sys/fcntl.h&gt;<br />
+#include &lt;sys/wait.h&gt;</p>
+
+<p><br />
+#endif /* end of file */</p>
+
+<p>include/calib_common.h 입니다.</p>
+
+<p>#ifndef __CALIB_COMMON_H__<br />
+#define __CALIB_COMMON_H__</p>
+
+<p>/*<br />
+&nbsp;* system-library headers common for all sources<br />
+&nbsp;*/</p>
+
+<p>#include &lt;execinfo.h&gt;<br />
+#include &lt;mcheck.h&gt;<br />
+#include &lt;malloc.h&gt;<br />
+#include &lt;pthread.h&gt;<br />
+#include &lt;stdio.h&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+#include &lt;string.h&gt;<br />
+#include &lt;signal.h&gt;<br />
+#include &lt;unistd.h&gt;<br />
+#include &lt;stdint.h&gt;</p>
+
+<p>#include &lt;sys/types.h&gt;<br />
+#include &lt;sys/stat.h&gt;<br />
+#include &lt;sys/fcntl.h&gt;<br />
+#include &lt;sys/wait.h&gt;</p>
+
+<p><br />
+#endif /* end of file */</p>
+
+<p>include/platform.h.in 입니다.</p>
+
+<p>#undef CALIB_CFG_OS<br />
+#undef CALIB_CFG_CPU_x86_64<br />
+#undef CALIB_CFG_CPU_i386<br />
+#undef CALIB_CFG_CPU_AMD64<br />
+#undef CALIB_CFG_CPU<br />
+#undef CALIB_CFG_CPU_BIT<br />
+#undef CALIB_CFG_CPU_BIT_32<br />
+#undef CALIB_CFG_CPU_BIT_64</p>
+
+<p>include/sys_info.h 입니다.</p>
+
+<p>#ifndef __SYS_INFO_H__<br />
+#define __SYS_INFO_H__</p>
+
+<p>#include &lt;calib.h&gt;</p>
+
+<p>char *sys_info_cpu_type(void);<br />
+int32_t build_info_compile_bit(void);<br />
+char *build_info_build_mode(void);</p>
+
+<p>#endif</p>
+
+<p>lib/Makefile 입니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+LIB_TARGETS = calib</p>
+
+<p>calib_NAME = calib<br />
+calib_OBJS = $(CALIB_OBJS)</p>
+
+<p>include $(ROOT_DIR)/template.mk</p>
+
+<p>test/Makefile 입니다.</p>
+
+<p><br />
+include ../calib.mk<br />
+include $(ROOT_DIR)/config.mk</p>
+
+<p><br />
+UNITTEST_TARGETS = sys_info build_info</p>
+
+<p>sys_info_NAME=test_sys_info<br />
+sys_info_SRCS=test_sys_info.c<br />
+sys_info_LIBS=calib</p>
+
+<p><br />
+build_info_NAME=test_build_info<br />
+build_info_SRCS=test_build_info.c<br />
+build_info_LIBS=calib</p>
+
+<p><br />
+include $(ROOT_DIR)/template.mk</p>
+
+<p><br />
+test/test_build_info.c 입니다.</p>
+
+<p>/*********************************************************************<br />
+&nbsp;* $Id:&nbsp;<br />
+&nbsp;*********************************************************************/</p>
+
+<p>#include &lt;calib.h&gt;<br />
+#include &lt;sys_info.h&gt;</p>
+
+<p>int main(void)<br />
+{<br />
+&nbsp; &nbsp; printf(&quot;== Build information ==\n&quot;);<br />
+&nbsp; &nbsp; printf(&quot;Build mode &nbsp;= %s\n&quot;, build_info_build_mode());<br />
+&nbsp; &nbsp; printf(&quot;Compile bit = %d\n&quot;, build_info_compile_bit());<br />
+&nbsp; &nbsp; return 0;<br />
+}</p>
+
+<p>test/sys_info.c 입니다.</p>
+
+<p>/*********************************************************************<br />
+&nbsp;* $Id:&nbsp;<br />
+&nbsp;*********************************************************************/</p>
+
+<p>#include &lt;calib.h&gt;<br />
+#include &lt;sys_info.h&gt;</p>
+
+<p>int main(void)<br />
+{<br />
+&nbsp; &nbsp; printf(&quot;== Platform information ==\n&quot;);<br />
+&nbsp; &nbsp; printf(&quot;Found CPU is &lt;%s&gt;\n&quot;, sys_info_cpu_type());<br />
+&nbsp; &nbsp; printf(&quot;sizeof(int) &nbsp; &nbsp; &nbsp; = %d\n&quot;, (int32_t)sizeof(int));<br />
+&nbsp; &nbsp; printf(&quot;sizeof(long) &nbsp; &nbsp; &nbsp;= %d\n&quot;, (int32_t)sizeof(long));<br />
+&nbsp; &nbsp; printf(&quot;sizeof(long long) = %d\n&quot;, (int32_t)sizeof(long long));</p>
+
+<p>&nbsp; &nbsp; return 0;<br />
+}</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1329/8579">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1329/8581">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1329/8580/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1329">
+				<input type="hidden" name="topic_id" value="8580">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+		<li id="comment10938" data-id="10938">
+			<div class="profile_image">
+				<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+			</div>
+
+
+			<div class="name time">
+				<strong>gurugio</strong><a href="#comment10938" name="comment10938"><time datetime="2014-11-10 19:57:04">1년 전</time></a>
+			</div>
+
+			<div class="comment_content">
+				<a href="https://github.com/gurugio/calib_book/tree/master/ch02/ch02.3/ch02.3.4">https://github.com......3.4</a>			</div>
+
+			<div class="buttons">
+				<a class="icon block reply" href="#"><span class="ico ico_reply"></span> 답글</a> <a class="icon block edit" href="#"><span class="ico ico_modify"></span> 수정</a> <a class="icon block delete" href="#"><span class="ico ico_close"></span> 삭제</a>
+			</div>
+		</li>
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1329%2F8580">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

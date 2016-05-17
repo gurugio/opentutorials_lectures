@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>linux kernel - ion의 system heap 소개 - 평범한 개발자의 C 프로그래밍 이야기</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="linux kernel - ion의 system heap 소개 - 평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1329/8654">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1329/8654';
+		var path_context = 'module/1329';
+		var user_id = 9992;
+		var topic_id = 8654;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1329">평범한 개발자의 C 프로그래밍 이야기</a></p>
+					<p class="subtitle"><small></small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1329" title="">평범한 개발자의 C 프로그래밍 이야기<span class="ico ico_public"> </span></a>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1329/8654">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1329/8654" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">12</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1329/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1329">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_8571" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8571" class="ready depth_0"><span class="title">터미널 환경 꾸미기</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8572" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8572" class="depth_0"><span class="title">emacs 설정</span></a></div>
+																			</li>
+									<li id="list_8573" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8573" class="depth_0"><span class="title">emacs 패키지</span></a></div>
+																			</li>
+									<li id="list_8574" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8574" class="depth_0"><span class="title">emacs로 소스 빌드하기</span></a></div>
+																			</li>
+									<li id="list_8575" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8575" class="depth_0"><span class="title">make 시작</span></a></div>
+																			</li>
+									<li id="list_8576" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8576" class="depth_0"><span class="title">make - configure.in 작성</span></a></div>
+																			</li>
+									<li id="list_8577" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8577" class="depth_0"><span class="title">make - 예제 소스</span></a></div>
+																			</li>
+									<li id="list_8578" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8578" class="depth_0"><span class="title">make - 간단한 예제</span></a></div>
+																			</li>
+									<li id="list_8579" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8579" class="depth_0"><span class="title">make - 좀더 복잡하게</span></a></div>
+																			</li>
+									<li id="list_8580" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8580" class="depth_0"><span class="title">make - 최종</span></a></div>
+																			</li>
+									<li id="list_8581" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8581" class="depth_0"><span class="title">make - cmake 소개</span></a></div>
+																			</li>
+									<li id="list_8583" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8583" class="depth_0"><span class="title">변하는 것과 변하지 않는 것을 구분하는 프로그래밍</span></a></div>
+																			</li>
+									<li id="list_8582" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8582" class="depth_0"><span class="title">테스트를 위한 입출력 값을 테이블로 정의하기</span></a></div>
+																			</li>
+									<li id="list_8584" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8584" class="depth_0"><span class="title">인증 번호 생성 1/2</span></a></div>
+																			</li>
+									<li id="list_8585" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8585" class="depth_0"><span class="title">인증 번호 생성 2/2</span></a></div>
+																			</li>
+									<li id="list_8645" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8645" class="depth_0"><span class="title">linux kernel 3.16</span></a></div>
+																			</li>
+									<li id="list_8644" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8644" class="ready depth_0"><span class="title">linux kernel - ion에서 사용된 데이터 heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8647" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8647" class="ready depth_0"><span class="title">linux kernel - ion에서 heap을 등록하는 코드</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8654" class="ready selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8654" class="ready selected depth_0"><span class="title">linux kernel - ion의 system heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8718" class="private ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8718" class="private ready depth_0"><span class="title">구조체 안에 배열 넣기</span><span class="ready">준비중</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1329/8654/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1329/8654/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/1329/8654/revision">버전(<span class="count">1</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<div class="head_notifier">본 토픽은 현재 준비중입니다. <a id="recall_btn_everystudy" href="#">공동공부</a>에 참여하시면 완성 되었을 때 알려드립니다.</div>
+							<h1 class="entry-title">linux kernel - ion의 system heap 소개</h1>
+							<div class="props">
+								<time datetime="">2014-11-18 16:45:10</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag ready">준비중</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>여러 타입의 힙 중에서 가장 간단한 ION_HEAP_TYPE_SYSTEM 타입의 힙에 대해서 좀더 보겠습니다.&nbsp;</p>
+
+<div>
+<p style="font-size: 13px; line-height: 23.7600002288818px;">ion_heap_create() 함수를 보면 사용자가 작성한 ion_platform_heap 데이터에 ION_HEAP_TYPE_SYSTEM 항목이 있을 때 ion_system_heap_create()를 호출해서 힙을 만드는 코드가 있습니다.</p>
+
+<pre class="done" id="a2/28/8d8e6cafd895855edd1c1cb5ac130c970f8b_3/0" style="margin-top: 0px; margin-bottom: 0px; color: rgb(0, 0, 0); line-height: normal; background-color: rgb(255, 255, 255);">
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L320" id="L320" name="L320" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 320</a>struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap" style="font-size: 12px;">ion_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap_create" style="font-size: 12px;">ion_heap_create</a>(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_platform_heap" style="font-size: 12px;">ion_platform_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap_data" style="font-size: 12px;">heap_data</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L321" id="L321" name="L321" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 321</a>{
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L322" id="L322" name="L322" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 322</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap" style="font-size: 12px;">ion_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap" style="font-size: 12px;">heap</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=NULL" style="font-size: 12px;">NULL</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L323" id="L323" name="L323" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 323</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L324" id="L324" name="L324" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 324</a>        switch (<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap_data" style="font-size: 12px;">heap_data</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=type" style="font-size: 12px;">type</a>) {
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L325" id="L325" name="L325" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 325</a>        case <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ION_HEAP_TYPE_SYSTEM_CONTIG" style="font-size: 12px;">ION_HEAP_TYPE_SYSTEM_CONTIG</a>:
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L326" id="L326" name="L326" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 326</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap" style="font-size: 12px;">heap</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_contig_heap_create" style="font-size: 12px;">ion_system_contig_heap_create</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap_data" style="font-size: 12px;">heap_data</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L327" id="L327" name="L327" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 327</a>                break;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L328" id="L328" name="L328" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 328</a>        case <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ION_HEAP_TYPE_SYSTEM" style="font-size: 12px;">ION_HEAP_TYPE_SYSTEM</a>:
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L329" id="L329" name="L329" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 329</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap" style="font-size: 12px;">heap</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_create" style="font-size: 12px;">ion_system_heap_create</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap_data" style="font-size: 12px;">heap_data</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_heap.c#L330" id="L330" name="L330" style="margin-right: 7px; padding-right: 3px; padding-left: 3px; border-style: solid; border-color: rgb(0, 0, 0); font-size: 12px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 330</a>                break;</pre>
+
+<p>&nbsp;</p>
+
+<p>switch-case 문이 사용되었다는 것은 변화가 생겼을 때 수정되어야 한다는 것을 말합니다. 만약 새로운 타입의 힙이 개발된다면 여기에 새로운 case 문이 생겨야 할 것입니다. 변하는 부분과 변하지 않는 부분이 만나는 지점이 됩니다.</p>
+
+<p style="font-size: 13px; line-height: 23.7600002288818px;">http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c 이 파일에 ION_HEAP_TYPE_SYSTEM 타입의 힙의 내부 구현이 있습니다.</p>
+
+<pre class="done" id="e3/61/07ce6349c0e80f8729ed7577b38b6cfe1792_3/0" style="margin-top: 0px; margin-bottom: 0px; color: rgb(0, 0, 0); line-height: normal; background-color: rgb(255, 255, 255);">
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L281" id="L281" name="L281" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 281</a>struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap">ion_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_create">ion_system_heap_create</a>(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_platform_heap">ion_platform_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=unused">unused</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L282" id="L282" name="L282" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 282</a>{
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L283" id="L283" name="L283" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 283</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap">ion_system_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L284" id="L284" name="L284" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 284</a>        int <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L285" id="L285" name="L285" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 285</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L286" id="L286" name="L286" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 286</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kzalloc">kzalloc</a>(sizeof(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap">ion_system_heap</a>), <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=GFP_KERNEL">GFP_KERNEL</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L287" id="L287" name="L287" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 287</a>        if (!<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L288" id="L288" name="L288" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 288</a>                return <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ERR_PTR">ERR_PTR</a>(-<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ENOMEM">ENOMEM</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L289" id="L289" name="L289" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 289</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>.<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ops">ops</a> = &amp;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=system_heap_ops">system_heap_ops</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L290" id="L290" name="L290" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 290</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>.<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=type">type</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ION_HEAP_TYPE_SYSTEM">ION_HEAP_TYPE_SYSTEM</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L291" id="L291" name="L291" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 291</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>.<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=flags">flags</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ION_HEAP_FLAG_DEFER_FREE">ION_HEAP_FLAG_DEFER_FREE</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L292" id="L292" name="L292" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 292</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kzalloc">kzalloc</a>(sizeof(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_page_pool">ion_page_pool</a> *) * <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=num_orders">num_orders</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L293" id="L293" name="L293" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 293</a>                              <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=GFP_KERNEL">GFP_KERNEL</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L294" id="L294" name="L294" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 294</a>        if (!<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L295" id="L295" name="L295" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 295</a>                goto <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=free_heap">free_heap</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L296" id="L296" name="L296" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 296</a>        for (<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a> = 0; <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a> &lt; <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=num_orders">num_orders</a>; <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>++) {
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L297" id="L297" name="L297" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 297</a>                struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_page_pool">ion_page_pool</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pool">pool</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L298" id="L298" name="L298" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 298</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=gfp_t">gfp_t</a> <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=gfp_flags">gfp_flags</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=low_order_gfp_flags">low_order_gfp_flags</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L299" id="L299" name="L299" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 299</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L300" id="L300" name="L300" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 300</a>                if (<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=orders">orders</a>[<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>] &gt; 4)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L301" id="L301" name="L301" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 301</a>                        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=gfp_flags">gfp_flags</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=high_order_gfp_flags">high_order_gfp_flags</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L302" id="L302" name="L302" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 302</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pool">pool</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_page_pool_create">ion_page_pool_create</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=gfp_flags">gfp_flags</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=orders">orders</a>[<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>]);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L303" id="L303" name="L303" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 303</a>                if (!<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pool">pool</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L304" id="L304" name="L304" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 304</a>                        goto <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=destroy_pools">destroy_pools</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L305" id="L305" name="L305" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 305</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a>[<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>] = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pool">pool</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L306" id="L306" name="L306" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 306</a>        }
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L307" id="L307" name="L307" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 307</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L308" id="L308" name="L308" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 308</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>.<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=debug_show">debug_show</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_debug_show">ion_system_heap_debug_show</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L309" id="L309" name="L309" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 309</a>        return &amp;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L310" id="L310" name="L310" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 310</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L311" id="L311" name="L311" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 311</a><a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=destroy_pools">destroy_pools</a>:
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L312" id="L312" name="L312" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 312</a>        while (<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>--)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L313" id="L313" name="L313" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 313</a>                <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_page_pool_destroy">ion_page_pool_destroy</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a>[<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>]);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L314" id="L314" name="L314" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 314</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kfree">kfree</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L315" id="L315" name="L315" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 315</a><a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=free_heap">free_heap</a>:
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L316" id="L316" name="L316" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 316</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kfree">kfree</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L317" id="L317" name="L317" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 317</a>        return <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ERR_PTR">ERR_PTR</a>(-<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ENOMEM">ENOMEM</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L318" id="L318" name="L318" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 318</a>}</pre>
+
+<p>ion_system_heap_create()에서 우리가 봐야할 부분은 ion_system_heap이라는 데이터 구조와 system_heap_ops라는 데이터입니다.</p>
+
+<p>먼저 ion_system_heap이라는 데이터 구조를 보겠습니다.</p>
+
+<pre class="done" id="e3/61/07ce6349c0e80f8729ed7577b38b6cfe1792_3/0" style="margin-top: 0px; margin-bottom: 0px; color: rgb(0, 0, 0); line-height: normal; background-color: rgb(255, 255, 255);">
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L50" id="L50" name="L50" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;">  50</a>struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap">ion_system_heap</a> {
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L51" id="L51" name="L51" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;">  51</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap">ion_heap</a> <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L52" id="L52" name="L52" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;">  52</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_page_pool">ion_page_pool</a> **<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=pools">pools</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L53" id="L53" name="L53" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;">  53</a>};</pre>
+
+<p>ion_system_heap이라는 구조체 내부에는 ion_heap라는 공통 데이터가 있습니다. 모든 타입의 힙들이 공통으로 가지는 속성들은 ion_heap 구조체를 만들어서 관리하므로 상위 계층에서는 ion_heap 데이터만 알면 힙을 사용할 수 있습니다.</p>
+
+<p>ion_heap 구조체에 ops라는 항목이 있는데 여기에 힙의 코드를 등록합니다. SYSTEM 타입 힙에서는 system_heap_ops를 등록합니다.</p>
+
+<pre class="done" id="e3/61/07ce6349c0e80f8729ed7577b38b6cfe1792_3/0" style="margin-top: 0px; margin-bottom: 0px; color: rgb(0, 0, 0); line-height: normal; background-color: rgb(255, 255, 255);">
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L248" id="L248" name="L248" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 248</a>static struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap_ops">ion_heap_ops</a> <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=system_heap_ops">system_heap_ops</a> = {
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L249" id="L249" name="L249" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 249</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=allocate">allocate</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_allocate">ion_system_heap_allocate</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L250" id="L250" name="L250" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 250</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=free">free</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_free">ion_system_heap_free</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L251" id="L251" name="L251" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 251</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=map_dma">map_dma</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_map_dma">ion_system_heap_map_dma</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L252" id="L252" name="L252" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 252</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=unmap_dma">unmap_dma</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_unmap_dma">ion_system_heap_unmap_dma</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L253" id="L253" name="L253" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 253</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=map_kernel">map_kernel</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap_map_kernel">ion_heap_map_kernel</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L254" id="L254" name="L254" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 254</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=unmap_kernel">unmap_kernel</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap_unmap_kernel">ion_heap_unmap_kernel</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L255" id="L255" name="L255" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 255</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=map_user">map_user</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap_map_user">ion_heap_map_user</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L256" id="L256" name="L256" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 256</a>        .<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=shrink">shrink</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_system_heap_shrink">ion_system_heap_shrink</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion_system_heap.c#L257" id="L257" name="L257" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 257</a>};</pre>
+
+<p>모든 힙이 동일한 ion_heap_ops 데이터에 자신만의 인터페이스를 등록하게됩니다. SYSTEM 힙에서는 위와 같이 .allocate 인터페이스에 ion_system_heap_allocate() 함수를 등록합니다.</p>
+
+<p>그리고 가장 상위 인터페이스인 ion_alloc() 함수에서 ion_buffer_create()함수를 호출하고, ion_buffer_create()에서 다음과 같이 allocate 인터페이스가 호출됩니다.</p>
+
+<pre class="done" id="78/74/cfa9743656cd68ab79de5b4ed4edf69e5d5a_3/0" style="margin-top: 0px; margin-bottom: 0px; color: rgb(0, 0, 0); line-height: normal; background-color: rgb(255, 255, 255);">
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L176" id="L176" name="L176" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 176</a>static struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_buffer">ion_buffer</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_buffer_create">ion_buffer_create</a>(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_heap">ion_heap</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L177" id="L177" name="L177" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 177</a>                                     struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_device">ion_device</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=dev">dev</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L178" id="L178" name="L178" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 178</a>                                     unsigned long <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=len">len</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L179" id="L179" name="L179" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 179</a>                                     unsigned long <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=align">align</a>,
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L180" id="L180" name="L180" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 180</a>                                     unsigned long <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=flags">flags</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L181" id="L181" name="L181" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 181</a>{
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L182" id="L182" name="L182" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 182</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_buffer">ion_buffer</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L183" id="L183" name="L183" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 183</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=sg_table">sg_table</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=table">table</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L184" id="L184" name="L184" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 184</a>        struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=scatterlist">scatterlist</a> *<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=sg">sg</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L185" id="L185" name="L185" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 185</a>        int <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=i">i</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ret">ret</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L186" id="L186" name="L186" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 186</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L187" id="L187" name="L187" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 187</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kzalloc">kzalloc</a>(sizeof(struct <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ion_buffer">ion_buffer</a>), <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=GFP_KERNEL">GFP_KERNEL</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L188" id="L188" name="L188" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 188</a>        if (!<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>)
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L189" id="L189" name="L189" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 189</a>                return <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ERR_PTR">ERR_PTR</a>(-<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ENOMEM">ENOMEM</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L190" id="L190" name="L190" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 190</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L191" id="L191" name="L191" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 191</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L192" id="L192" name="L192" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 192</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=flags">flags</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=flags">flags</a>;
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L193" id="L193" name="L193" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 193</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=kref_init">kref_init</a>(&amp;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ref">ref</a>);
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L194" id="L194" name="L194" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 194</a>
+<a class="line" href="http://lxr.linux.no/linux+v3.16/drivers/staging/android/ion/ion.c#L195" id="L195" name="L195" style="border-style: solid; border-color: rgb(0, 0, 0); margin-right: 7px; padding-left: 3px; padding-right: 3px; background-image: initial; background-color: rgb(240, 240, 240); background-size: initial; background-position: initial; background-repeat: initial;"> 195</a>        <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ret">ret</a> = <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=ops">ops</a>-&gt;<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=allocate">allocate</a>(<a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=heap">heap</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=buffer">buffer</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=len">len</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=align">align</a>, <a class="sref" href="http://lxr.linux.no/linux+v3.16/+code=flags">flags</a>);</pre>
+
+<p>힙마다 allocate 인터페이스에 등록하는 함수들이 다릅니다. SYSTEM 힙은 ion_system_heap_allocate함수를 등록하고, SYSTEM_CONTIG 타입의 힙은 ion_system_contig_heap_allocate 함수를 등록합니다.</p>
+
+<p>이렇게 힙마다 변하는 코드들은 개별적으로 구현하되 변하지 않는 공통의 인터페이스를 만들면 상위 계층에서는 힙의 코드가 변하거나 새로운 힙이 추가되거나할때 영향을 받지 않습니다.</p>
+
+<p>MYWAY라는 새로운 힙을 추가한다고 생각해보면 가장 먼저 할 일은 구현 부분을 만드는 일입니다. ion_myway_heap_create()함수를 만들고 ion_heap_ops 데이터를 만들어서 .allocate 등의 인터페이스를 정의합니다. 그리고 ion_heap_create에 case를 추가하고 ion_myway_heap_create()가 호출되도록 합니다.</p>
+
+<p>그렇게 내부 구현이 완성되면 가장 윗 계층 ion_dummy_driver에서 dummy_heap에 새로 만든 힙 타입을 추가해주기만 하면 새로운 타입의 힙을 사용할 수 있습니다. ion이라는 프레임워크의 구현을 손대지 않고 손쉽게 새로운 타입의 힙을 추가할 수 있습니다.</p>
+
+<p>&nbsp;</p>
+</div>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<span class="marking disabled tipTip" title="아직 준비중인 토픽입니다."><span class="action">봤어요</span> (<span class="count">0</span>명)</span>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1329/8647">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1329/8718">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1329">
+				<input type="hidden" name="topic_id" value="8654">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2014-11-18 08:15:08</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2014-11-18 08:15:08</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1329%2F8654">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

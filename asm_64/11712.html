@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부 - 요즘도 쓰는 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부 - 요즘도 쓰는 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/2004/11712">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="요즘도 쓰는 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/2004/11712';
+		var path_context = 'module/2004';
+		var user_id = 9992;
+		var topic_id = 11712;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/syntaxhighlighter/styles/shCore.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/syntaxhighlighter/styles/shThemeOT.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/syntaxhighlighter/scripts/shCore.js?1"></script>
+<script src="/static/js/common/syntaxhighlighter/scripts/shAutoloader.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+	<script>
+		function path() {
+			var args = arguments, result = [];
+
+			for (var i=0; i<args.length; i++)
+				result.push(args[i].replace("@", "/static/js/common/syntaxhighlighter/scripts/"));
+
+			return result
+		}
+
+		DOMLoader.register(function() {
+			SyntaxHighlighter.autoloader.apply(null, path(
+				"applescript						@shBrushAppleScript.js",
+				"actionscript3 as3					@shBrushAS3.js",
+				"sh bash shell						@shBrushBash.js",
+				"coldfusion cf						@shBrushColdFusion.js",
+				"coffee								@shBrushCoffeeScript.js",
+				"cpp c c_cpp						@shBrushCpp.js",
+				"c-sharp csharp						@shBrushCSharp.js",
+				"css								@shBrushCss.js",
+				"delphi pascal						@shBrushDelphi.js",
+				"diff patch pas						@shBrushDiff.js",
+				"erl erlang							@shBrushErlang.js",
+				"groovy								@shBrushGroovy.js",
+				"java								@shBrushJava.js",
+				"jfx javafx							@shBrushJavaFX.js",
+				"js jscript javascript				@shBrushJScript.js",
+				"perl pl							@shBrushPerl.js",
+				"php								@shBrushPhp.js",
+				"text plain							@shBrushPlain.js",
+				"py python							@shBrushPython.js",
+				"ruby rails ror rb					@shBrushRuby.js",
+				"sass scss							@shBrushSass.js",
+				"scala								@shBrushScala.js",
+				"ps powershell powershel1 shell		@shBrushPowerShell.js", // 오타 호환성 ㅠㅠ
+				"sql								@shBrushSql.js",
+				"vb vbnet							@shBrushVb.js",
+				"xml xhtml xslt html				@shBrushXml.js",
+
+				"markdown mkdn mdown				@shBrushMarkdown.js"
+			));
+			SyntaxHighlighter.config.space = ' ';
+			//SyntaxHighlighter.defaults['gutter'] = false;
+			SyntaxHighlighter.all();
+		});
+	</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/2004">요즘도 쓰는 언어 어셈블리</a></p>
+					<p class="subtitle"><small>x86_64, AMD64, 64bit</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/2004" title="x86_64, AMD64, 64bit">요즘도 쓰는 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>x86_64, AMD64, 64bit</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/2004/11712">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/2004/11712" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">4</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/2004/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/2004">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_11691" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11691" class="depth_0"><span class="title">요즘시대에 어셈블리가 필요한가?</span></a></div>
+																			</li>
+									<li id="list_11692" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11692" class="depth_0"><span class="title">좋은 자료들</span></a></div>
+																			</li>
+									<li id="list_11696" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11696" class="depth_0"><span class="title">nasm 어셈블러로 Hello, world! 출력하기</span></a></div>
+																			</li>
+									<li id="list_11710" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11710" class="depth_0"><span class="title">gdb로 어셈블리 실행하기</span></a></div>
+																			</li>
+									<li id="list_11711" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11711" class="depth_0"><span class="title">gdb로 어셈블리 코드 디버깅하기</span></a></div>
+																			</li>
+									<li id="list_11712" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11712" class="selected depth_0"><span class="title">분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부</span></a></div>
+																			</li>
+									<li id="list_11699" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11699" class="depth_0"><span class="title">16비트 32비트 64비트</span></a></div>
+																			</li>
+									<li id="list_11702" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11702" class="depth_0"><span class="title">64비트 함수 호출 규약</span></a></div>
+																			</li>
+									<li id="list_11698" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11698" class="depth_0"><span class="title">gcc 최적화 옵션 실험</span></a></div>
+																			</li>
+									<li id="list_11700" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11700" class="depth_0"><span class="title">리눅스 커널에있는 어셈블리 코드 소개</span></a></div>
+																			</li>
+									<li id="list_11695" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11695" class="depth_0"><span class="title">Protected mode와 Long mode</span></a></div>
+																			</li>
+									<li id="list_11697" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11697" class="depth_0"><span class="title">리눅스 커널 디버깅</span></a></div>
+																			</li>
+									<li id="list_11701" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11701" class="depth_0"><span class="title">MMX 프로그래밍 소개</span></a></div>
+																			</li>
+									<li id="list_11817" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/2004/11817" class="depth_0"><span class="title">리눅스 커널에서 ACCESS_ONCE 이해하기 (volatile 키워드)</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/2004/11712/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/2004/11712/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/2004/11712/revision">버전(<span class="count">4</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">분량조절실패로 쓰는 gdb로 어셈블리 코드 디버깅하기 2부</h1>
+							<div class="props">
+								<time datetime="">2016-02-17 03:02:03</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>3가지 의문이 있었습니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">1. 어셈블리 프로그래밍은 mov rax, 1로 구현했는데 왜 gdb에서는 mov&nbsp;&nbsp;eax, 1이 되서 32비트 레지스터에&nbsp;1을 저장하고있을까?</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">2. fd 값이 0이면 stdin을 의미해서 메세지가 출력이 안되야될것 같은데 왜 출력이 될까?</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">3. 왜 세그먼트 폴트가 발생할까?</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">하나씩 실험으로 밝혀보겠습니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<h2 style="font-size: 16.5px; line-height: 27px;">mov rax,1이 왜 mov eax,1이 될까?</h2>
+
+<p style="font-size: 16.5px; line-height: 27px;">mov eax, 1이 32비트 명령인지 64비트 명령인지 확인을 위해서 소스 첫 부분에 mov rax, 0x1234567812345678을 추가했습니다. 그리고 mov rax, 4를 합니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<pre class="brush: text">
+section .data
+
+message:
+db      &#39;hello, world!&#39;, 0
+
+section .text
+
+global _start
+_start:
+    mov     rax, 0x1234567812345678
+    mov     rax, 4
+	mov     rdi, 1
+	mov     rsi, message
+	mov     rdx, 13
+	syscall
+
+	mov     rax, 1
+	xor     rdi, rdi
+	syscall
+	ret
+</pre>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">다시 빌드해서 gdb를 실행합니다.</p>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">$ nasm -f elf64 p.nasm</div>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">$ ld -o p p.o</div>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">$ gdb p</div>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">(gdb) disassemble _start<br />
+Dump of assembler code for function _start:<br />
+&nbsp; &nbsp;0x00000000004000b0 &lt;+0&gt;:&nbsp;&nbsp; &nbsp;movabs $0x1234567812345678,%rax<br />
+&nbsp; &nbsp;0x00000000004000ba &lt;+10&gt;:&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x4,%eax<br />
+&nbsp; &nbsp;0x00000000004000bf &lt;+15&gt;:&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x1,%edi<br />
+&nbsp; &nbsp;0x00000000004000c4 &lt;+20&gt;:&nbsp;&nbsp; &nbsp;movabs $0x6000e0,%rsi<br />
+&nbsp; &nbsp;0x00000000004000ce &lt;+30&gt;:&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0xd,%edx<br />
+&nbsp; &nbsp;0x00000000004000d3 &lt;+35&gt;:&nbsp;&nbsp; &nbsp;syscall&nbsp;<br />
+&nbsp; &nbsp;0x00000000004000d5 &lt;+37&gt;:&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x1,%eax<br />
+&nbsp; &nbsp;0x00000000004000da &lt;+42&gt;:&nbsp;&nbsp; &nbsp;xor &nbsp; &nbsp;%rdi,%rdi<br />
+&nbsp; &nbsp;0x00000000004000dd &lt;+45&gt;:&nbsp;&nbsp; &nbsp;syscall&nbsp;<br />
+&nbsp; &nbsp;0x00000000004000df &lt;+47&gt;:&nbsp;&nbsp; &nbsp;retq &nbsp;&nbsp;<br />
+End of assembler dump.</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p>ni명령으로 한줄씩 실행하면서 rax 레지스터의 값을 확인해봅니다.</p>
+
+<div class="note">(gdb) b _start<br />
+Breakpoint 1 at 0x4000b0<br />
+(gdb) r<br />
+Starting program: /home/gohkim/assembly_64bit/p&nbsp;</div>
+
+<div class="note">Breakpoint 1, 0x00000000004000b0 in _start ()<br />
+(gdb) ni<br />
+0x00000000004000ba in _start ()<br />
+(gdb) info registers rax<br />
+rax &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;0x1234567812345678&nbsp;&nbsp; &nbsp;1311768465173141112<br />
+(gdb) ni<br />
+0x00000000004000bf in _start ()<br />
+(gdb) info registers rax<br />
+rax &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;0x4&nbsp;&nbsp; &nbsp;4</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">만약&nbsp;mov &nbsp; &nbsp;$0x4,%eax 명령이 정말로 eax 레지스터에만 값을 쓰는 명령이라면 rax의 값은 0x1234567800000004가 되야하는데 0x4가 되었습니다. 64비트 전체의 값이 바뀐 것입니다. 왜 그런지는 nasm메뉴얼&nbsp;http://www.nasm.us/xdoc/2.11.08/html/nasmdo11.html#section-11.2 에 나와있습니다. 상수값이&nbsp;64비트 값이거나 주소값이 아닌 경우에는 32비트 명령으로 어셈블링한다고 나와있습니다. 왜 그럴까요? 이유는 disassemble /r _start 명령을 실행해보면 알 수 있습니다.</p>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">(gdb) disassemble /r _start<br />
+Dump of assembler code for function _start:<br />
+&nbsp; &nbsp;0x00000000004000b0 &lt;+0&gt;:&nbsp;&nbsp; &nbsp;48 b8 78 56 34 12 78 56 34 12&nbsp;&nbsp; &nbsp;movabs $0x1234567812345678,%rax<br />
+&nbsp; &nbsp;0x00000000004000ba &lt;+10&gt;:&nbsp;&nbsp; &nbsp;b8 04 00 00 00&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x4,%eax<br />
+&nbsp; &nbsp;0x00000000004000bf &lt;+15&gt;:&nbsp;&nbsp; &nbsp;bf 01 00 00 00&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x1,%edi<br />
+&nbsp; &nbsp;0x00000000004000c4 &lt;+20&gt;:&nbsp;&nbsp; &nbsp;48 be e0 00 60 00 00 00 00 00&nbsp;&nbsp; &nbsp;movabs $0x6000e0,%rsi<br />
+&nbsp; &nbsp;0x00000000004000ce &lt;+30&gt;:&nbsp;&nbsp; &nbsp;ba 0d 00 00 00&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0xd,%edx<br />
+&nbsp; &nbsp;0x00000000004000d3 &lt;+35&gt;:&nbsp;&nbsp; &nbsp;0f 05&nbsp;&nbsp; &nbsp;syscall&nbsp;<br />
+&nbsp; &nbsp;0x00000000004000d5 &lt;+37&gt;:&nbsp;&nbsp; &nbsp;b8 01 00 00 00&nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x1,%eax<br />
+&nbsp; &nbsp;0x00000000004000da &lt;+42&gt;:&nbsp;&nbsp; &nbsp;48 31 ff&nbsp;&nbsp; &nbsp;xor &nbsp; &nbsp;%rdi,%rdi<br />
+&nbsp; &nbsp;0x00000000004000dd &lt;+45&gt;:&nbsp;&nbsp; &nbsp;0f 05&nbsp;&nbsp; &nbsp;syscall&nbsp;<br />
+&nbsp; &nbsp;0x00000000004000df &lt;+47&gt;:&nbsp;&nbsp; &nbsp;c3&nbsp;&nbsp; &nbsp;retq &nbsp;&nbsp;<br />
+End of assembler dump.</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">/r 명령은 기계어를 출력하는 명령입니다. 첫줄에 48 b8이 mov에 해당하는 기계여이고 그 다음 78 56 34 12 78 56 34 12가 메모리에 써진 상수값입니다. 리틀엔디안 기억하시나요? 그래서 거꾸로 표시된 것입니다. 64비트 레지스터에 값을 쓰는 명령은 총 길이가 10바이트입니다. mov $0x6000e0, %rsi 명령을 보시면 상수값이 64비트가 아니지만 주소값이므로 64비트 명령을 만들어서 총 길이가 10바이트인 명령어가 생성된 것을 알 수 있습니다.&nbsp;반면에 32비트 명령어를 보시면 길이가 5바이트입니다.&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">만약 모든 명령어를 64비트 명령어로 생성했다면 프로그램의 크기가 얼마나 커졌을까요? 프로그램이 커지면 왜 안좋은지 아시나요? 작은 프로그램이면 메모리에서 한번 읽어서 캐시 한두개에 들어갈게, 프로그램이 2배로 커지면 메모리에서 두번 읽어서 캐시 서너개에 들어가야합니다. 캐시를 많이 잡아먹을 수록 캐시 미스의 확률도 커지고 시스템 전체의 성능에 악영향을 줍니다. 지금은 작은 프로그램이니까 몇바이트 차이가 안나겠지만 시스템의 모든 프로그램이 다 2배로 커진다고 생각해보세요. 캐시도 2배로 큰 프로세서를 사야 동일한 성능이 나올 것이고, 같은 패밀리 프로세서인데 캐시가 2배인 프로세서의 값을 찾아보세요. 데스크탑을 조립해본 사람은 알겁니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">결국 64비트 레지스터를 쓰는 명령이지만 32비트 레지스터로 표기함으로써 명령어 길이가 짧아진다는 것을 알 수 있습니다. greet 프로그램도 확인해볼 수 있습니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">objdump -S greet 명령을 실행해보세요. 엄청 긴 디스어셈블 코드가 나타납니다. 너무 기니까 mov 만 비교해보겠습니다.</p>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">$ objdump -s greet | grep mov&nbsp;</div>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">&nbsp; 4003e4:&nbsp;&nbsp; &nbsp;48 8b 05 0d 0c 20 00 &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;0x200c0d(%rip),%rax &nbsp; &nbsp; &nbsp; &nbsp;# 600ff8 &lt;_DYNAMIC+0x1d0&gt;<br />
+&nbsp; 400442:&nbsp;&nbsp; &nbsp;49 89 d1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rdx,%r9<br />
+&nbsp; 400446:&nbsp;&nbsp; &nbsp;48 89 e2 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rdx<br />
+&nbsp; 40044f:&nbsp;&nbsp; &nbsp;49 c7 c0 e0 05 40 00 &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x4005e0,%r8<br />
+&nbsp; 400456:&nbsp;&nbsp; &nbsp;48 c7 c1 70 05 40 00 &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x400570,%rcx<br />
+&nbsp; 40045d:&nbsp;&nbsp; &nbsp;48 c7 c7 52 05 40 00 &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x400552,%rdi<br />
+&nbsp; 400470:&nbsp;&nbsp; &nbsp;b8 57 10 60 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x601057,%eax<br />
+&nbsp; 400480:&nbsp;&nbsp; &nbsp;48 89 e5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rbp<br />
+&nbsp; 400485:&nbsp;&nbsp; &nbsp;b8 00 00 00 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x0,%eax<br />
+&nbsp; 400490:&nbsp;&nbsp; &nbsp;bf 50 10 60 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x601050,%edi<br />
+&nbsp; 4004b0:&nbsp;&nbsp; &nbsp;be 50 10 60 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x601050,%esi<br />
+&nbsp; 4004c1:&nbsp;&nbsp; &nbsp;48 89 e5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rbp<br />
+&nbsp; 4004c4:&nbsp;&nbsp; &nbsp;48 89 f0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsi,%rax<br />
+&nbsp; 4004d3:&nbsp;&nbsp; &nbsp;b8 00 00 00 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x0,%eax<br />
+&nbsp; 4004de:&nbsp;&nbsp; &nbsp;bf 50 10 60 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x601050,%edi<br />
+&nbsp; 4004fa:&nbsp;&nbsp; &nbsp;48 89 e5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rbp<br />
+&nbsp; 400503:&nbsp;&nbsp; &nbsp;c6 05 46 0b 20 00 01 &nbsp;&nbsp; &nbsp;movb &nbsp; $0x1,0x200b46(%rip) &nbsp; &nbsp; &nbsp; &nbsp;# 601050 &lt;__TMC_END__&gt;<br />
+&nbsp; 400510:&nbsp;&nbsp; &nbsp;bf 20 0e 60 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x600e20,%edi<br />
+&nbsp; 400520:&nbsp;&nbsp; &nbsp;b8 00 00 00 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x0,%eax<br />
+&nbsp; 40052b:&nbsp;&nbsp; &nbsp;48 89 e5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rbp<br />
+&nbsp; 400541:&nbsp;&nbsp; &nbsp;48 bf 40 10 60 00 00 &nbsp;&nbsp; &nbsp;movabs $0x601040,%rdi<br />
+&nbsp; 400553:&nbsp;&nbsp; &nbsp;48 89 e5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsp,%rbp<br />
+&nbsp; 40055b:&nbsp;&nbsp; &nbsp;b8 00 00 00 00 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;$0x0,%eax<br />
+&nbsp; 400574:&nbsp;&nbsp; &nbsp;41 89 ff &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%edi,%r15d<br />
+&nbsp; 40058b:&nbsp;&nbsp; &nbsp;49 89 f6 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rsi,%r14<br />
+&nbsp; 40058e:&nbsp;&nbsp; &nbsp;49 89 d5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%rdx,%r13<br />
+&nbsp; 4005b0:&nbsp;&nbsp; &nbsp;4c 89 ea &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%r13,%rdx<br />
+&nbsp; 4005b3:&nbsp;&nbsp; &nbsp;4c 89 f6 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%r14,%rsi<br />
+&nbsp; 4005b6:&nbsp;&nbsp; &nbsp;44 89 ff &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;mov &nbsp; &nbsp;%r15d,%edi</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">대강 살펴보면 같은 mov 명령이라도 레지스터가 rax와 같이 64비트로&nbsp;표시된게 있고 eax같이 32비트로 표시된게 있습니다. 각각 7바이트 5바이트로 길이가 다릅니다. 64비트로 표시된 mov 명령은 상수값이 그냥 숫자가 아니라 주소값이라는 의미입니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<h2 style="font-size: 16.5px; line-height: 27px;">fd가 0이어도 메세지 출력이 될까?</h2>
+
+<p style="font-size: 16.5px; line-height: 27px;">이런 소스를 만들어서 write 시스템콜이 fd가 0일때도 메세지를 출력하는지 확인해보겠습니다.</p>
+
+<pre class="brush: c_cpp">
+
+#include &lt;unistd.h&gt;
+#include &lt;sys/syscall.h&gt;   /* For SYS_xxx definitions */
+
+int main(void)
+{
+    syscall(1, 1, &quot;hello&quot;, 6);    
+    return 0;
+}
+</pre>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">$ gcc a.c<br />
+$ ./a.out<br />
+hello$&nbsp;</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">출력이 되네요.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">커널 소스를 보니 확실하진않지만 stdin, stdout일 경우 번호와는 상관이 없이 동작하게 구현이 된것 같습니다. 어쨌든 되는건 되는거니까 그냥 구현상 그렇게 되도록 만들거라고 생각해야될것 같습니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">&nbsp;</p>
+
+<h2 style="font-size: 16.5px; line-height: 27px;">왜 세그먼트 폴트가 발생할까?</h2>
+
+<p style="font-size: 16.5px; line-height: 27px;">원래 블로그 저자의 의도는 exit 시스템콜을 호출해서 프로그램을 종료하는 것이었습니다. 그런데 BSD와 리눅스의 시스템콜 테이블의 차이를 생각하지않고 BSD에서만 동작하는 소스를 우리는 리눅스에서 실행시킨 것이었습니다. 그럼 exit 시스템콜이 없는 프로그램은 어떻게되나 한번 끝까지 실행시켜볼까요?</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">아래는 제가 세그먼트 폴트가 발생할때까지 ni를 실행한 결과입니다.</p>
+
+<pre class="brush: text">
+(gdb) disassemble _start
+Dump of assembler code for function _start:
+   0x00000000004000b0 &lt;+0&gt;:    movabs $0x1234567812345678,%rax
+   0x00000000004000ba &lt;+10&gt;:	mov    $0x4,%eax
+   0x00000000004000bf &lt;+15&gt;:	mov    $0x1,%edi
+   0x00000000004000c4 &lt;+20&gt;:	movabs $0x6000e0,%rsi
+   0x00000000004000ce &lt;+30&gt;:	mov    $0xd,%edx
+   0x00000000004000d3 &lt;+35&gt;:	syscall 
+   0x00000000004000d5 &lt;+37&gt;:	mov    $0x1,%eax
+   0x00000000004000da &lt;+42&gt;:	xor    %rdi,%rdi
+   0x00000000004000dd &lt;+45&gt;:	syscall 
+   0x00000000004000df &lt;+47&gt;:	retq   
+End of assembler dump.
+(gdb) b *0x4000df
+Breakpoint 1 at 0x4000df
+(gdb) r
+Starting program: /home/gohkim/assembly_64bit/p 
+hello, world!
+Breakpoint 1, 0x00000000004000df in _start ()
+(gdb) info registers 
+rax            0xd	13
+rbx            0x0	0
+rcx            0x4000df	4194527
+rdx            0xd	13
+rsi            0x6000e0	6291680
+rdi            0x0	0
+rbp            0x0	0x0
+rsp            0x7fffffffdeb0	0x7fffffffdeb0
+r8             0x0	0
+r9             0x0	0
+r10            0x0	0
+r11            0x246	582
+r12            0x0	0
+r13            0x0	0
+r14            0x0	0
+r15            0x0	0
+rip            0x4000df	0x4000df &lt;_start+47&gt;
+eflags         0x246	[ PF ZF IF ]
+cs             0x33	51
+ss             0x2b	43
+ds             0x0	0
+es             0x0	0
+fs             0x0	0
+gs             0x0	0
+(gdb) ni
+0x0000000000000001 in ?? ()
+(gdb) ni
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000000001 in ?? ()
+(gdb) info registers 
+rax            0xd	13
+rbx            0x0	0
+rcx            0x4000df	4194527
+rdx            0xd	13
+rsi            0x6000e0	6291680
+rdi            0x0	0
+rbp            0x0	0x0
+rsp            0x7fffffffdeb8	0x7fffffffdeb8
+r8             0x0	0
+r9             0x0	0
+r10            0x0	0
+r11            0x246	582
+r12            0x0	0
+r13            0x0	0
+r14            0x0	0
+r15            0x0	0
+rip            0x1	0x1
+eflags         0x10246	[ PF ZF IF RF ]
+cs             0x33	51
+ss             0x2b	43
+ds             0x0	0
+es             0x0	0
+fs             0x0	0
+gs             0x0	0
+</pre>
+
+<p style="font-size: 16.5px; line-height: 27px;">마지막에서 두번째 ni를 실행하니</p>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">0x0000000000000001 in ?? ()</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">이런 메세지가 나타났습니다. ni 명령은 실행하고나면 다음에 실행할 주소를 알려줍니다. 그러면 이 메세지는 다음에 실행할 주소가 0x1번지라는 것입니다. 0x1번지에 프로그램이 있을까요?</p>
+
+<div class="note" style="font-size: 16.5px; line-height: 27px;">(gdb) x 0x1<br />
+0x1:&nbsp;&nbsp; &nbsp;Cannot access memory at address 0x1</div>
+
+<p style="font-size: 16.5px; line-height: 27px;">0x1번지에 뭐가 있나 보려했더니 접근할 수 없는 메모리라고 나오네요.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">수많은 버그들이 엉뚱한 주소를 접근하기 때문에 발생하는데 0x0이나 0x1이나 0x5123같이 일반적인 데이터를 잘못써서 포인터&nbsp;변수에 넣기때문에 발생합니다. 그래서 리눅스등 많은 운영체제가 시스템의 첫번째 페이지, 즉 주소로 따지면 0x0 ~ 0xFFF번지에 접근하면 세그먼트 폴트가 나도록해서 자동으로 버그를 감지할 수 있도록 해줍니다. 지금도 그런 경우입니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">그러면 왜 ret 명령을 실행했더니 rip값이 1이 되었을까요? ret 명령은 무슨 일을 하나요? 스택에서 다음에 실행할 명령의 주소를 꺼내오는 일을 합니다. rip가 1이 되었다는 것은 결국 스택에 1이 저장되어있었고, ret명령으로 그 값이 rip에 저장되었다는 것을 의미합니다.</p>
+
+<p style="font-size: 16.5px; line-height: 27px;">그럼 gdb를 다시 실행해서 정말 스택에 1이 저장되어있었는지 확인해볼까요?</p>
+
+<pre class="brush: text">
+(gdb) disassemble 0x4000df
+Dump of assembler code for function _start:
+   0x00000000004000b0 &lt;+0&gt;:    movabs $0x1234567812345678,%rax
+   0x00000000004000ba &lt;+10&gt;:	mov    $0x4,%eax
+   0x00000000004000bf &lt;+15&gt;:	mov    $0x1,%edi
+   0x00000000004000c4 &lt;+20&gt;:	movabs $0x6000e0,%rsi
+   0x00000000004000ce &lt;+30&gt;:	mov    $0xd,%edx
+   0x00000000004000d3 &lt;+35&gt;:	syscall 
+   0x00000000004000d5 &lt;+37&gt;:	mov    $0x1,%eax
+   0x00000000004000da &lt;+42&gt;:	xor    %rdi,%rdi
+   0x00000000004000dd &lt;+45&gt;:	syscall 
+=&gt; 0x00000000004000df &lt;+47&gt;:	retq   
+End of assembler dump.
+(gdb) info registers rsp
+rsp            0x7fffffffdeb0	0x7fffffffdeb0
+(gdb) x 0x7fffffffdeb0
+0x7fffffffdeb0:	0x00000001
+</pre>
+
+<p>rsp값을 확인해서 메모리를 읽어보니 정말 1이 들어있었습니다. 어디서 1을 저장한건지는 더 디버깅을 해봐야겠지만 어쨌든 잘못된 지점에서 함수가 종료되었다는 것을 알 수 있습니다.</p>
+
+<p>나중에 개발하다가 이상한 주소로 점프하는 버그가 생긴다면 스택을 조사하고 함수의 종료가 제대로 처리되는지를 조사하면 된다는 것을 알 수 있습니다. 어디선가 다른 함수의&nbsp;스택을 덮어쓰고, 그래서 함수가 종료될때 엉뚱한 주소로 점프하게되는게 보통의 경우입니다. 어디서 스택을 덮어쓰는지는 valgrind나 asan등의 툴을 이용하면 찾을 수 있습니다.</p>
+
+<p>참고로 이상없이 동작하는 소스는 참고한 블로그의 댓글에 있습니다.</p>
+
+<p>&nbsp;</p>
+
+<p>분량이 좀 길어졌지만 나름 실전적인 내용이 들어가게되서 재밌으셨을거라 믿습니다. 이제 대강 64비트의 맛을 봤으니 다음은&nbsp;조금 원론적인 이야기를 하겠습니다.</p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/2004/11711">이전</a></li><li class="next"><a href="http://opentutorials.org/module/2004/11699">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/2004/11712/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="2004">
+				<input type="hidden" name="topic_id" value="11712">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2016-02-16 21:00:43</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2016-02-16 21:00:43</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F2004%2F11712">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

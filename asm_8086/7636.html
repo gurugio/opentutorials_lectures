@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>함수 만들기 - 태초의 프로그래밍 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="함수 만들기 - 태초의 프로그래밍 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1087/7636">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="태초의 프로그래밍 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1087/7636';
+		var path_context = 'module/1087';
+		var user_id = 9992;
+		var topic_id = 7636;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1087">태초의 프로그래밍 언어 어셈블리</a></p>
+					<p class="subtitle"><small>assembly, 8086, x86</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1087" title="assembly, 8086, x86">태초의 프로그래밍 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>assembly, 8086, x86</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1087/7636">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1087/7636" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">49</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1087/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1087">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_7415" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7415" class="depth_0"><span class="title">8086프로세서를 경험하게 해주는 emu8086 프로그램 소개</span></a></div>
+																			</li>
+									<li id="list_7421" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7421" class="depth_0"><span class="title">컴퓨터 세상의 원리: 수</span></a></div>
+																			</li>
+									<li id="list_7423" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7423" class="depth_0"><span class="title">8086의 기본 구조</span></a></div>
+																			</li>
+									<li id="list_7431" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7431" class="depth_0"><span class="title">mov 명령어</span></a></div>
+																			</li>
+									<li id="list_7434" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7434" class="depth_0"><span class="title">메모리 읽고 쓰기</span></a></div>
+																			</li>
+									<li id="list_7436" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7436" class="depth_0"><span class="title">메모리 주소 표현 방법들</span></a></div>
+																			</li>
+									<li id="list_7443" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7443" class="depth_0"><span class="title">mov의 사용법 정리</span></a></div>
+																			</li>
+									<li id="list_7444" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7444" class="depth_0"><span class="title">변수</span></a></div>
+																			</li>
+									<li id="list_7447" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7447" class="depth_0"><span class="title">배열</span></a></div>
+																			</li>
+									<li id="list_7448" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7448" class="depth_0"><span class="title">변수의 주소값 알아내기</span></a></div>
+																			</li>
+									<li id="list_7456" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7456" class="depth_0"><span class="title">어셈블리를 하는 이유</span></a></div>
+																			</li>
+									<li id="list_7460" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7460" class="depth_0"><span class="title">참과 거짓을 구별할때 쓰는 논리 연산</span></a></div>
+																			</li>
+									<li id="list_7473" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7473" class="depth_0"><span class="title">덧셈,뺄셈,곱셈</span></a></div>
+																			</li>
+									<li id="list_7474" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7474" class="depth_0"><span class="title">분량조절실패로 분리된 나눗셈</span></a></div>
+																			</li>
+									<li id="list_7622" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7622" class="depth_0"><span class="title">변태 명령어 inc, dec</span></a></div>
+																			</li>
+									<li id="list_7628" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7628" class="depth_0"><span class="title">이리저리 점프(함수)</span></a></div>
+																			</li>
+									<li id="list_7631" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7631" class="depth_0"><span class="title">필요할 때만 점프하기</span></a></div>
+																			</li>
+									<li id="list_7634" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7634" class="depth_0"><span class="title">같은지 다른지 비교하기</span></a></div>
+																			</li>
+									<li id="list_7635" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7635" class="depth_0"><span class="title">여러번 반복하기</span></a></div>
+																			</li>
+									<li id="list_7637" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7637" class="depth_0"><span class="title">임시 데이터를 보관하는 스택</span></a></div>
+																			</li>
+									<li id="list_7636" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7636" class="selected depth_0"><span class="title">함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7654" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7654" class="depth_0"><span class="title">함수 호출 규약과 지역변수</span></a></div>
+																			</li>
+									<li id="list_7655" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7655" class="depth_0"><span class="title">바이오스가 제공하는 인터럽트</span></a></div>
+																			</li>
+									<li id="list_7659" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7659" class="depth_0"><span class="title">매크로 함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7661" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7661" class="depth_0"><span class="title">emu8086.inc 사용법</span></a></div>
+																			</li>
+									<li id="list_7662" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7662" class="depth_0"><span class="title">어셈블리 공부하는 방법</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1087/7636/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1087/7636/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/1087/7636/revision">버전(<span class="count">2</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">함수 만들기</h1>
+							<div class="props">
+								<time datetime="">2014-08-03 01:52:18</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>함수를 어떻게 만드는지 설명하겠습니다. 어셈블리 언어에서는 함수를 프로시저라고 부릅니다. 파스칼같은 옛날 언어들은 함수를 프로시저라고 부르던데 사실 무슨 차이인지는 모르겠습니다. 어셈블리에서는 proc 이라는 키워드를 사용하므로 프로시저라고 말하는게 더 맞는 것이긴 하지만 요즘 시대에 맞지 않으므로 저는 함수라고 부르겠습니다.</p>
+
+<h2>함수 만들기</h2>
+
+<p>함수는 이렇게 만듭니다.</p>
+
+<p>&nbsp;</p>
+
+<p>함수이름 PROC</p>
+
+<p>; 함수 내용</p>
+
+<p>ret</p>
+
+<p>함수이름 ENDP</p>
+
+<p>&nbsp;</p>
+
+<p>PROC과 ENDP는 키워드입니다. 실제로 실행되는 명령어가 아니라 어셈블러에게 여기부터 여기까지가 함수의 내용이라고 알려주는 역할을 합니다.</p>
+
+<p>함수이름은 PROC와 ENDP에서 두번 나타납니다. 이름을 다르게쓰면 안됩니다. 이름에 대한 규칙이 있습니다만 어셈블러마다 다르므로 굳이 복잡하게생각하지 않고 영문과 숫자와 _ 기호 정도만 사용하도록 하겠습니다.</p>
+
+<p>ret 명령이 나왔는데 지금까지 역할이 뭔지 모르고 있었지만 지금에서 말씀드리면 함수를 호출한 위치로 되돌아가는 명령입니다. 어떻게 되돌아가는지 세부적인 내용은 스택의 개념을 알아야 하므로 또 다시 완벽한 설명을 뒤로 미룰 수밖에 없습니다. 지금은 함수의 마지막에는 항상 ret을 써야한다는 걸로 넘어가겠습니다.</p>
+
+<p>함수를 호출하는 명령은 call 입니다. 예제를 한번 보시겠습니다.</p>
+
+<p>&nbsp;</p>
+
+<div><span style="line-height: 19.601999282836914px;">ORG &nbsp; &nbsp;100h</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; m1</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">MOV &nbsp; &nbsp;AX, 2</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to operating system.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">m1 &nbsp; &nbsp; PROC</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">MOV &nbsp; &nbsp;BX, 5</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">m1 &nbsp; &nbsp; ENDP</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">END</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">m1이라는 함수를 만듭니다. call m1 명령이 함수를 호출하는 명령입니다. m1함수는 bx 에 5를 저장하고 되돌아갑니다. 함수가 끝나면 call 명령의 다음으로 이동하므로 mov ax, 2 명령이 실행됩니다. 그러면 ax에 2가 써지고 ret이 실행됩니다.</span></div>
+
+<div>주석에는 운영체제로 복귀한다고 써있는데 무슨 뜻이냐면 운영체제가 이 프로그램을 함수 호출처럼 호출했다는 뜻입니다. 운영체제에서 call 명령으로 프로그램을 실행한다는 것입니다. 우리 프로그램의 이름을 어떻게할고 함수처럼 호출했을까요? 또 또 이름이 주소라는 설명을 해야됩니다. 이제 좀 지겹네요. m1이라는 함수 이름도 mov bx, 5 라는 명령이 있는 메모리 주소로 변환됩니다. 우리 프로그램에서는 아마 107h일 것입니다. 그럼 운영체제가 우리 프로그램의 이름을 알 필요가 없다는걸 알 수 있습니다. 대신 call 700h:100h 명령을 실행하면 우리 프로그램이 실행됩니다. 심심하신 분은 예제 프로그램에서 call m1을 call 700h:100h로 바꿔보세요. 무한히 프로그램이 실행되는 것을 볼 수 있습니다. 700h는 cs의 값이고 100h의 ip의 값을 지정하는 것입니다. cs, ip 레지스터의 값은 직접 바꿀 수 없다고 설명했었습니다. 대신에 call 명령으로 바꿀 수 있고 바로 프로세서가 실행해야할 위치를 지정하는 것입니다. 실행 위치또한 메모리의 주소입니다.</div>
+
+<div>마지막은 ret 명령으로 운영체제로 복귀하는 것입니다. 운영체제가 하던 일을 계속하는 것입니다. 요즘 운영체제라면 다른 프로그램을 실행할 것이고 도스같은 운영체제라면 아무것도 안하고 사용자가 다른 프로그램을 실행시키길 기다릴 것입니다. 그건 운영체제가 알아서 할 일이니까 우리가 할 일은 우리 프로그램이 끝났다는 표시만 하면 되는 것입니다.</div>
+
+<div>&nbsp;</div>
+
+<h2>레지스터로 함수 인자 전달하기</h2>
+
+<p>함수에서 빠지면 안되는게 함수 인자입니다. 인자가 없다면 함수가 별로 필요없겠지요.</p>
+
+<p>그런데 함수 인자를 전달하는 방법은 매우 다양합니다. 레지스터에 저장해서 전달하는 방법이 가장 간단합니다. 그런데 인자가 5개면 어떻게 해야할까요? si나 di 레지스터를 써야할까요? 또 함수 호출 전에 각 레지스터에 있던 값들은 어떻게 해야할까요? 인자가 4개라면 ax, bx, cx, dx 레지스터를 모두 써야되는데 기존에 있던 값들이 지워지지 않게 해야되는데 어떻게 해야할까요? 이런 사항들을 고려해서 함수 호출에 대한 규칙을 정한게 Calling convention 호출 규약이라는 것입니다. 언어마다 운영체제마다 다른 호출 규약을 씁니다.&nbsp;</p>
+
+<p>지금은 간단하게 레지스터에 인자를 저장하고 함수를 호출하겠습니다. 다음 예제는 al, bl 레지스터에 값을 저장하고 함수를 호출하면 함수는 곱셈을 하고 결과 값을 ax 레지스터에 저장해주는 예제입니다.</p>
+
+<p>&nbsp;</p>
+
+<div><span style="line-height: 19.601999282836914px;">ORG &nbsp; &nbsp;100h</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">MOV &nbsp; &nbsp;AL, 1</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">MOV &nbsp; &nbsp;BL, 2</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; m2</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; m2</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; m2</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; m2</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to operating system.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">m2 &nbsp; &nbsp; PROC</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">MUL &nbsp; &nbsp;BL &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; AX = AL * BL.</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">m2 &nbsp; &nbsp; ENDP</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">END</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">bl 레지스터의 값은 바뀌지 않겠지요. al 레지스터의 값은 2의 제곱, 세제곱, 네제곱이 되서 ax 레지스터에는 2^4의 값이 저장됩니다.</span></div>
+
+<div>&nbsp;</div>
+
+<h2>쬐끔 고급 예제</h2>
+
+<p>&nbsp;</p>
+
+<p>그냥 눈으로만 보셔도 좋은 예제입니다. 화면에&nbsp;<span style="font-size: 13px;">Hello World! 라는 메세지를 출력하는 프로그램입니다. lea, call, cmp, byte ptr, jmp 명령어를 쓰고 함수도 만들고 함수 인자로 si를 사용하고 있는 종합선물세트입니다. int 10h 명령어만 대강 화면에 al 레지스터에 있는 문자를 출력한다고만 생각하시고 읽어보시기 바랍니다.</span></p>
+
+<p>&nbsp;</p>
+
+<div><span style="line-height: 19.601999282836914px;">ORG &nbsp; &nbsp;100h</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">LEA &nbsp; &nbsp;SI, msg &nbsp; &nbsp; &nbsp; &nbsp;; load address of msg to&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">SI.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">CALL &nbsp; print_me</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to operating&nbsp;</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">system.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">=================================================</span><span style="font-size: 13px; line-height: 19.601999282836914px;">=========</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">; this procedure prints a string, the string&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">should be null</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">; terminated (have zero in the end),</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">; the string address should be in SI register:</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">print_me &nbsp; &nbsp; PROC</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">next_char:</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; CMP &nbsp;byte ptr [SI], 0 &nbsp; &nbsp;; check for zero to stop</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; JE &nbsp; stop &nbsp; &nbsp; &nbsp; &nbsp; ;</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; MOV &nbsp;AL, [SI] &nbsp; &nbsp; ; next get ASCII char.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; MOV &nbsp;AH, 0Eh &nbsp; &nbsp; &nbsp;; teletype function number.</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; INT &nbsp;10h &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;; using interrupt to print&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">a char in AL.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; ADD &nbsp;SI, 1 &nbsp; &nbsp; &nbsp; &nbsp;; advance index of string&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">array.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">&nbsp; &nbsp; JMP &nbsp;next_char &nbsp; &nbsp;; go back, and type another&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">char.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">stop:</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">print_me &nbsp; &nbsp; ENDP</span></div>
+
+<div><span style="line-height: 19.601999282836914px;">;&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">=================================================</span><span style="font-size: 13px; line-height: 19.601999282836914px;">=========</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">msg &nbsp; &nbsp;DB &nbsp;&#39;Hello World!&#39;, 0 &nbsp; ; null terminated&nbsp;</span><span style="font-size: 13px; line-height: 19.601999282836914px;">string.</span></div>
+
+<div>&nbsp;</div>
+
+<div><span style="line-height: 19.601999282836914px;">END</span></div>
+
+<div>&nbsp;</div>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">1</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1087/7637">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1087/7654">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1087/7636/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1087">
+				<input type="hidden" name="topic_id" value="7636">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2014-08-05 01:23:41</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2014-08-05 01:23:41</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1087%2F7636">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>함수 호출 규약과 지역변수 - 태초의 프로그래밍 언어 어셈블리</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="함수 호출 규약과 지역변수 - 태초의 프로그래밍 언어 어셈블리">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1087/7654">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="태초의 프로그래밍 언어 어셈블리">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1087/7654';
+		var path_context = 'module/1087';
+		var user_id = 9992;
+		var topic_id = 7654;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script src="/static/js/desktop/revision.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls revision">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1087">태초의 프로그래밍 언어 어셈블리</a></p>
+					<p class="subtitle"><small>assembly, 8086, x86</small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1087" title="assembly, 8086, x86">태초의 프로그래밍 언어 어셈블리<span class="ico ico_public"> </span></a>
+						<summary>assembly, 8086, x86</summary>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1087/7654">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1087/7654" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">49</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1087/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1087">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_7415" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7415" class="depth_0"><span class="title">8086프로세서를 경험하게 해주는 emu8086 프로그램 소개</span></a></div>
+																			</li>
+									<li id="list_7421" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7421" class="depth_0"><span class="title">컴퓨터 세상의 원리: 수</span></a></div>
+																			</li>
+									<li id="list_7423" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7423" class="depth_0"><span class="title">8086의 기본 구조</span></a></div>
+																			</li>
+									<li id="list_7431" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7431" class="depth_0"><span class="title">mov 명령어</span></a></div>
+																			</li>
+									<li id="list_7434" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7434" class="depth_0"><span class="title">메모리 읽고 쓰기</span></a></div>
+																			</li>
+									<li id="list_7436" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7436" class="depth_0"><span class="title">메모리 주소 표현 방법들</span></a></div>
+																			</li>
+									<li id="list_7443" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7443" class="depth_0"><span class="title">mov의 사용법 정리</span></a></div>
+																			</li>
+									<li id="list_7444" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7444" class="depth_0"><span class="title">변수</span></a></div>
+																			</li>
+									<li id="list_7447" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7447" class="depth_0"><span class="title">배열</span></a></div>
+																			</li>
+									<li id="list_7448" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7448" class="depth_0"><span class="title">변수의 주소값 알아내기</span></a></div>
+																			</li>
+									<li id="list_7456" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7456" class="depth_0"><span class="title">어셈블리를 하는 이유</span></a></div>
+																			</li>
+									<li id="list_7460" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7460" class="depth_0"><span class="title">참과 거짓을 구별할때 쓰는 논리 연산</span></a></div>
+																			</li>
+									<li id="list_7473" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7473" class="depth_0"><span class="title">덧셈,뺄셈,곱셈</span></a></div>
+																			</li>
+									<li id="list_7474" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7474" class="depth_0"><span class="title">분량조절실패로 분리된 나눗셈</span></a></div>
+																			</li>
+									<li id="list_7622" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7622" class="depth_0"><span class="title">변태 명령어 inc, dec</span></a></div>
+																			</li>
+									<li id="list_7628" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7628" class="depth_0"><span class="title">이리저리 점프(함수)</span></a></div>
+																			</li>
+									<li id="list_7631" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7631" class="depth_0"><span class="title">필요할 때만 점프하기</span></a></div>
+																			</li>
+									<li id="list_7634" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7634" class="depth_0"><span class="title">같은지 다른지 비교하기</span></a></div>
+																			</li>
+									<li id="list_7635" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7635" class="depth_0"><span class="title">여러번 반복하기</span></a></div>
+																			</li>
+									<li id="list_7637" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7637" class="depth_0"><span class="title">임시 데이터를 보관하는 스택</span></a></div>
+																			</li>
+									<li id="list_7636" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7636" class="depth_0"><span class="title">함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7654" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7654" class="selected depth_0"><span class="title">함수 호출 규약과 지역변수</span></a></div>
+																			</li>
+									<li id="list_7655" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7655" class="depth_0"><span class="title">바이오스가 제공하는 인터럽트</span></a></div>
+																			</li>
+									<li id="list_7659" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7659" class="depth_0"><span class="title">매크로 함수 만들기</span></a></div>
+																			</li>
+									<li id="list_7661" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7661" class="depth_0"><span class="title">emu8086.inc 사용법</span></a></div>
+																			</li>
+									<li id="list_7662" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1087/7662" class="depth_0"><span class="title">어셈블리 공부하는 방법</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1087/7654/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1087/7654/add" id="add2" class="btn">하위 토픽 추가</a><a id="version" class="btn" href="http://opentutorials.org/module/1087/7654/revision">버전(<span class="count">3</span>)</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">함수 호출 규약과 지역변수</h1>
+							<div class="props">
+								<time datetime="">2014-08-05 10:21:56</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<div><span style="font-size: 17px; line-height: 29.700000762939453px;">이전에는 함수 호출을 위한 call,ret 명령에 대해서만 알아보기위해 개략적인 내용만 설명했습니다. 이제는 함수가 어떻게 호출되는지 제대로 알아보겠습니다. 함수를 호출할 때는 스택을 활용합니다. 스택이 어떻게 사용되는지를 설명하겠습니다.</span></div>
+
+<div>
+<h2>함수 호출</h2>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px;">함수를 배울 때 실습했던 예제가 있었습니다. 레지스터에 함수 인자를 저장하고 함수를 호출해서 함수내에서 곱셈을 실행하고 결과값을 ax 레지스터로 반환하는 예제입니다. 이 예제를 다음처럼 스택을 이용해서 인자를 전달하도록 바꿔보겠습니다. 사실은 이 예제처럼 스택에 인자를 저장하고 함수 내부에서는 스택 메모리에 접근해서 인자를 읽는 방식이 C의 표준적인 함수 호출 규약중 하나입니다. 이 규약을 잘 지키면 어셈블리 코드에서 libc의 라이브러리 함수를 호출하는 것도 가능합니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">일단 에물레이터로 실행해보시기 바랍니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ORG &nbsp; &nbsp;100h</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">MOV &nbsp; &nbsp;dx, 1<br />
+push dx<br />
+MOV &nbsp; &nbsp;dx, 2<br />
+push dx<br />
+CALL &nbsp; m2<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">push ax<br />
+mov dx, 2<br />
+push dx<br />
+call m2<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to operating system.<br />
+&nbsp;<br />
+m2 &nbsp; &nbsp; PROC</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov bp, sp<br />
+mov bx, [bp+2]<br />
+mov ax, [bp+4]</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">MUL &nbsp; &nbsp;Bx &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; AX = AL * BL.<br />
+RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.<br />
+m2 &nbsp; &nbsp; ENDP<br />
+&nbsp;<br />
+END</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">좀 복잡하지만 에물레이터로 한줄한줄 실행해보면 어렵지 않습니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">가장 먼저 dx에 1을 저장한 후 스택에 저장합니다. 꼭 dx 레지스터를 사용할 필요는 없습니다. 그냥 스택에 1을 저장하기 위해 아무 레지스터나 사용한 것입니다.&nbsp;<span style="font-size: 17px; line-height: 1.8;">그리고 스택에 2를 저장합니다. 이제 함수에 전달할 인자 1과 2가 스택에 저장되었습니다. 인자를 준비했으니 함수 m2를 호출합니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 1.8;">에물레이터에서 stack 버튼을 눌러서 스택의 상황을 보고 계신가요? 그럼 call 명령이 호출된 후에 스택에 내가 저장하지 않은 이상한 값이 들어간 것을 볼 수 있습니다. 스택 메모리 0fffch에 1이 저장되고 0fffah에 2가 저장되고 그리고 0fff8h에 10bh 값이 저장되었을 것입니다. 10bh값이 뭔지는 잠시 후에 말씀드리기로 하고 지금은 함수 인자가 스택에 있다는 것만 기억하시기 바랍니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 30.600000381469727px;">이제 함수에서 함수 인자를 읽어야 합니다. 그런데 pop 명령을 사용하면 스택에 있는 10bh 값이 읽혀집니다. 뭔가 역할이 있는 값일테니 pop 명령을 써서 날려버리면 안되겠지요. 그래서 스택을 건드리지않고 메모리에 있는 값만 읽도록 해야합니다. 이럴 때는 주로 bp 레지스터를 씁니다. bp 레지스터는 그냥 변수 주소를 넣을 때도 쓸 수 있지만 사실은 이렇게 스택에 있는 함수의 인자를 읽기 위해서 스택의 포인터의 복사본을 저장하는데 주로 사용됩니다. [bp]로 메모리의 값을 읽으면 10bh 값이 읽어질거니까 그건 건너뜁니다. 그래서 함수의 인자는 [bp+2] 와 [bp+4]가 됩니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 30.600000381469727px;">혹시 굳이 bp를 사용하지 않고 [sp+2], [sp+4]로 읽어도 된다고 생각하지 않으시나요? bp를 사용하는 이유는 지역변수를 이야기할 때 말씀드리겠습니다. 무조건 bp를 사용해서 함수 인자를 읽는다고 생각하셔야 합니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 30.600000381469727px;">함수의 첫번째 인자는 [bp+4]이고 두번째 인자는 [bp+2]입니다. 처음 스택에 넣은 데이터가 좀더 큰 주소에 있습니다. 두개의 인자를 적당히 읽어서 함수가 해야하는 처리를 합니다. 예제에서는 곱셈입니다. 그리고 곱셈의 결과가 ax에 저장됩니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 30.600000381469727px;">이제 함수가 끝납니다. ret 명령이 함수의 끝에 반드시 있어야 된다고 말씀드렸고 ret 명령이 실행되면 call 명령의 다음 명령으로 점프한다고 말씀드렸습니다. 에물레이터에서 ret 명령을 single step으로 실행하고 sp 레지스터의 값을 확인해보겠습니다. 0fff8h였던 sp의 값이 0fffah가 되었습니다. 즉 ret 명령은 스택에서 10bh 값을 꺼내는 일을 합니다. 그리고 ip 값을 보시면 10bh 가 되어있습니다. 10bh는 어디인가요? call m2 다음 명령인 add sp, 4 명령이 있는 위치입니다. 즉 call 명령은 자기 다음의 명령의 주소를 스택에 저장하고 ret 명령은 스택에서 복귀 주소를 꺼내서 실행하는 것입니다. 이렇게</span><span style="font-size: 17px; line-height: 30.600000381469727px;">&nbsp;call 명령과 ret 명령이 함수를 호출하고 복귀하는 것입니다. 별로 어렵지 않은 것을 좀 어렵게 설명한 기분이지만 기분탓입니다.</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">그리고 함수가 끝나고 해야할 일은 스택에 있던 인자들을 지워주는 것입니다. 인자들을 지우지 않으면 함수를 호출 할 때마다 스택이 점점 작아지겠지요. pop 을 두번해서 스택을 되돌리는 방법도 있고 예제처럼 sp 레지스터에 4를 더해서 sp의 값을 예전 값으로 되돌리는 방법도 있습니다. 이왕이면 2개보다는 1개 명령이 실행되는게 좋겠지요.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">또다시 m2를 호출하겠습니다. 이번에는 이전의 결과값이 ax에 있으므로 ax를 스택에 넣습니다. 그리고 다시 2를 넣습니다. 그리고 m2를 호출하면 ax에는 2*2=4가 저장되겠네요. 마지막으로 다시 스택을 복구시킵니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">스택은 이렇게 함수 호출에 이용됩니다. 심심하신 분들은 C로 무한 재귀 함수를 만들어보시기 바랍니다. 스택 복구하는 코드가 실행되지 않고 계속 스택을 사용하기만 하므로 스택 영역을 모두 사용해서 세그먼트 폴트가 발생합니다. 스택을 몰랐다면 함수가 무한히 재귀적으로 실행되도 무한히 실행되고 문제가 없을것 같은데 그게 아니라메모리 문제가 발생한다는 것을 알 수 있습니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">&nbsp;</p>
+
+<h2>함수의 지역 변수</h2>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">이제 함수 내부에서 인자에 접근하기 위해 왜 sp가 아닌 bp를 사용하는지 말씀드리겠습니다. 바로 함수의 지역 변수를 스택에 만들기 때문입니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">다음 예제는 인자로 받은 값을 swap해주는 함수입니다. swap함수는 무조건 지역 변수가 하나 있어야 된다는거 아시지요?</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ORG &nbsp; &nbsp;100h</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">lea ax, var1 ; push &amp;var1<br />
+push ax<br />
+lea bx, var2 ; push &amp;var2<br />
+push bx<br />
+CALL &nbsp; swap<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ret</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">var1 dw 11h<br />
+var2 dw 22h</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">&nbsp;<br />
+swap &nbsp; &nbsp; PROC</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov bp, sp<br />
+mov si, [bp+2] ;si = &amp;var2<br />
+mov di, [bp+4] ;di = &amp;var1</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov ax, 0 ; temp=[bp-4]<br />
+push ax</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov ax, word ptr [si] ; ax = var1<br />
+mov bx, word ptr [di] ; bx = var2<br />
+mov word ptr [bp-2], ax ; temp = var1<br />
+mov word ptr [si], bx ; *&amp;var1 = var2<br />
+mov dx, word ptr [bp-2] ; dx = temp<br />
+mov word ptr [di], dx ; *&amp;var2=temp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov sp, bp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.<br />
+swap &nbsp; &nbsp; ENDP<br />
+&nbsp;<br />
+&nbsp;</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">두개의 변수 var1, var2를 만듭니다. 각각 11h, 22h 값이 들어있습니다. 이제 swap을 호출해서 22h, 11h로 값을 바꾸겠습니다. 값을 바꾸려면 swap 함수에 변수의 값을 넘겨야할까요 아니면 변수의 주소를 넘겨야 할까요? 당연히 주소를 넘겨야합니다. C 언어를 모르셔서 주소를 넘기는 이유를 모르시는 분들은 그냥 그렇다고만 생각하셔도 좋습니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">swap 함수가 시작됩니다. bp에 스택 주소를 저장합니다. 함수 인자는 변수의 주소입니다. 따라서 [bp+2]는 var2의 주소이고 [bp+4]는 var1의 주소입니다. 각각 읽어서 si와 di에 저장합니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">그리고 스택에 0을 집어넣습니다. 값이 0인 것은 중요하지 않습니다. 단지 스택에 공간을 하나 만든 것입니다. 그리고 이게바로 함수의 지역 변수입니다. C언어를 아시는 분은 지역 변수의 정의를 생각해보시면 왜 스택에 지역변수를 저정하는지 아실겁니다. 지역 변수는 함수 내부에서만 사용하다가 함수가 끝나면 사라지는 변수입니다. 따로 메모리를 할당하고 해지할 필요가 없는 특징이 있습니다. 바로 스택 메모리의 특징과 같습니다. 스택에 지역 변수를 저장하므로 그런 특징들이 생겨난 것입니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">sp 의 값은 지역 변수를 만들 때마다 계속 바뀔 것입니다. 따라서 함수가 호출된 직후에 초기 sp의 값을 저장해놓았다가 함수가 끝났을 때 복구해야합니다. 그래야 ret 명령으로 복귀 주소를 읽을 수가 있습니다. 그래서 초기 sp의 값을 bp에 저장해놓는 것입니다. 그리고 bp는 항상 일정한 값이므로 bp를 기준으로 +를 하면 함수 인자를 읽게되고 -를 하면 지역 변수를 읽을 수 있습니다. [bp]를 그대로 읽으면 복귀 주소가 되겠지요. 결국 [bp-2]가 지역 변수가 됩니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">si에서 워드값을 읽으면 var1 변수의 값입니다. di에서 읽으면 var2의 값입니다. 그리고 지역 변수 [bp-2]에 var1 값을 저장합니다. 여기까지가 temp = a 동작입니다. C로 한줄이면 되는게 몇줄이 되버립니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">si에는 var1의 주소가 있으므로 mov word ptr [si], bx 명령으로 var1의 값을 바꿉니다. 그리고 dx에 지역 변수에 저장했던 var1의 값을 읽어와서 [di]에 저장합니다. 그러면 var2의 값이 바뀌는 것입니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">마지막으로 sp를 bp로 바꾸면 스택이 초기화되고 복귀 주소를 꺼낼 수 있게 됩니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">좀 복잡하지만 뭔가 생각나는게 많으시리라 믿습니다. C 언어의 포인터가 뭔지 간접 레퍼런스니 하는 개념들이 뭔지 등등 C의 주요 개념들을 다시한번 되새겨보시는 기회가 되었으면 합니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">&nbsp;</p>
+
+<h2>레지스터 복구</h2>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">swap 프로그램에서 만약에 swap을 2번 호출한다면 어떻게 해야할까요?</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ORG &nbsp; &nbsp;100h</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">lea ax, var1 ; push &amp;var1<br />
+push ax<br />
+lea bx, var2 ; push &amp;var2<br />
+push bx<br />
+CALL &nbsp; swap<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">lea ax, var1 ; push &amp;var1<br />
+push ax<br />
+lea bx, var2 ; push &amp;var2<br />
+push bx<br />
+CALL &nbsp; swap<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ret</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">이렇게 똑같은 호출을 2번 하면 될까요? 그래도 되긴 합니다. 하지만 ax, bx 레지스터에 값을 설정하는 부분이 중복됩니다. 따라서 중복 부분을 없애면 더 좋겠지요.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ORG &nbsp; &nbsp;100h</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px; line-height: 29.700000762939453px;">lea bx, var2 ; push &amp;var2</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">lea ax, var1 ; push &amp;var1</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">push ax<br />
+push bx<br />
+CALL &nbsp; swap<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">push ax<br />
+push bx<br />
+CALL &nbsp; swap<br />
+add sp, 4</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ret</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">ax, bx를 설정하고 필요할 때마다 함수 호출을 반복하면 더 좋을것 같습니다. 그런데 막상 실행해보면 안됩니다. 왜냐면 첫번째 swap이 ax, bx 의 값이 바꾸기 때문입니다. 함수들은 항상 레지스터를 쓰기 마련인데 그렇게 되면 함수 호출 이전에 있는 레지스터의 값들이 날아가 버립니다. 따라서 라이브러리 함수일 경우 호출된 다음에 레지스터가 어떻게 바뀌었는지 모르게 될 수도 있고, 내가 만든 함수라도 일일이 함수 호출 전에 레지스터의 값들을 스택에 넣어줘야하는 불편도 있습니다.&nbsp;</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">그래서 이런 불편을 없애기 위해 모든 함수는 자기가 사용할 레지스터들을 스택에 보존했다가 함수 종료 직전에 복구하는 규칙이 있습니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">swap을 다시 만들어보겠습니다. swap에서는 bp, si, di, ax, bx, dx를 사용합니다. 따라서 함수 초기에 이런 레지스터들을 스택에 보존하는 일을 해야합니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">&nbsp;<br />
+swap &nbsp; &nbsp; PROC</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov bp, sp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov ax, 0 ; temp=[bp-4]<br />
+push ax</p>
+
+<p>push bp</p>
+
+<p>push si</p>
+
+<p>push di</p>
+
+<p>push ax</p>
+
+<p>push bx</p>
+
+<p>push dx</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px;">mov si, [bp+2] ;si = &amp;var2</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov di, [bp+4] ;di = &amp;var1</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;"><span style="font-size: 17px;">mov ax, word ptr [si] ; ax = var1</span></p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov bx, word ptr [di] ; bx = var2<br />
+mov word ptr [bp-2], ax ; temp = var1<br />
+mov word ptr [si], bx ; *&amp;var1 = var2<br />
+mov dx, word ptr [bp-2] ; dx = temp<br />
+mov word ptr [di], dx ; *&amp;var2=temp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop dx</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop bx</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop ax</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop di</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop si</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop bp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">pop ax</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">mov sp, bp</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">RET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; return to caller.<br />
+swap &nbsp; &nbsp; ENDP</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">이렇게 각 함수들이 자기들이 사용할 레지스터의 값들을 복구시켜주면 함수를 호출하는 입장에서는 함수가 무슨 레지스터를 사용할지 신경쓸 필요가 없으므로 편리합니다.</p>
+
+<p style="font-size: 17px; line-height: 29.700000762939453px;">이렇게 함수 호출할때 인자 전달 방법, 지역 변수 생성과 레지스터의 복구까지가 함수 호출 규약에 정해져있는 것들입니다.</p>
+</div>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">1</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1087/7636">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1087/7655">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1087/7654/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1087">
+				<input type="hidden" name="topic_id" value="7654">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+<div class="revision-control layerbox">
+	<div class="pin pin_big_right"></div>
+	<div class="wrapper table">
+		<hgroup class="head">
+			버전 관리
+			<button class="btn_close"><span>닫기</span></button>
+		</hgroup>
+		
+		<div class="layout scrollbox">
+			<table class="select">
+				<tbody>
+					<tr data-value="0" class="current">
+						<td class="updated"><time>2014-08-05 04:52:17</time></td>
+						<td class="user">gurugio</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="selected">
+			<table>
+				<tbody>
+					<tr class="current">
+						<th class="name">현재 버전</th>
+						<td class="datetime"><time>2014-08-05 04:52:17</time></td>
+					</tr>
+					<tr class="selected">
+						<th class="name">선택 버전</th>
+						<td class="datetime"><time id="selected-revision"></time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="btns">
+			<button class="btn_small restore" disabled>선택한 버전으로 복원</button>
+			<input type="checkbox" name="compare" id="compare" checked="checked" disabled/><label for="compare">버전 비교</label>
+		</div>
+	</div>
+</div>
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1087%2F7654">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>

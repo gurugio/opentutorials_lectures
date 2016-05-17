@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="Author" content="OpenTutorials">
+	<meta http-equiv="x-ua-compatible" content="IE=EDGE">
+	<meta name="viewport" content="width=1280">
+	<title>emacs 패키지 - 평범한 개발자의 C 프로그래밍 이야기</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/common/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/common/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/common/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/common/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/common/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/common/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/common/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/common/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/common/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/img/common/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/common/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/common/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/common/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/img/common/favicon/apple-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+	<link rel="icon" href="/static/img/common/favicon/favicon-32x32.png" type="image/x-icon">
+	<meta property="og:title" content="emacs 패키지 - 평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="og:type" content="university">
+	<meta property="og:url" content="http://opentutorials.org/module/1329/8573">
+	<meta property="og:image" content="">
+	<meta property="og:site_name" content="평범한 개발자의 C 프로그래밍 이야기">
+	<meta property="fb:admins" content="1015740740">
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('section');
+		document.createElement('article');
+		document.createElement('aside');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		var outpath = '/admin/module_topic_edit/1329/8573';
+		var path_context = 'module/1329';
+		var user_id = 9992;
+		var topic_id = 8573;
+		var base_url = "http://opentutorials.org/";
+		var file_url = "/static/";
+		var user_file_url = "https://s3-ap-northeast-1.amazonaws.com/opentutorialsfile/";
+		var hash = window.location.hash == undefined ? '' : window.location.hash.substr(1);
+		var cmt_paging_unit = 50;
+		var autosave_interval = 1;
+		var CKEDITOR_BASEPATH = base_url + 'static/js/common/ckeditor/';
+	</script>
+<link href="/static/css/common/reset.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/common/tipTip.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/common.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/menus.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/style.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/content.css?1" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/desktop/everystudy.css?1" rel="stylesheet" type="text/css" media="all" />
+<script src="/static/js/common/jquery/jquery-1.8.3.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js?1"></script>
+<script src="/static/js/common/jquery.browser.min.js?1"></script>
+<script src="/static/js/common/jquery.mousewheel.js?1"></script>
+<script src="/static/js/common/jquery.tipTip.min.js?1"></script>
+<script src="/static/js/common/spin.min.js?1"></script>
+<script src="/static/js/common/common.js?1"></script>
+<script src="/static/js/desktop/controls.js?1"></script>
+<script src="/static/js/common/jquery.mjs.nested-sortable.js?1"></script>
+<script src="/static/js/desktop/topic-ordering.js?1"></script>
+<script src="/static/js/common/raphael/raphael.js?1"></script>
+<script src="/static/js/desktop/everystudy.js?1"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-25079901-2', 'auto');
+  ga('require', 'displayfeatures');
+</script>
+</head>
+<body id="topic_index" class="module view sidebar everystudy logged_in controls">
+	<!-- div class="devwarning" onclick="$('.devwarning, .devwarning_spacer').remove();">개발서버를 수정하고 있습니다</div -->
+
+	<div id="whole_wrapper">
+		<div class="head">
+			<header>
+				<hgroup>
+					<p class="title"><a href="http://opentutorials.org/module/1329">평범한 개발자의 C 프로그래밍 이야기</a></p>
+					<p class="subtitle"><small></small></p>
+
+					<div class="title">
+						<a class="icon bg" href="http://opentutorials.org/module/1329" title="">평범한 개발자의 C 프로그래밍 이야기<span class="ico ico_public"> </span></a>
+					</div>
+					<!-- small class="return">&dash; <a href="http://opentutorials.org/module">모듈 목록으로 돌아가기</a></small -->
+				</hgroup>
+
+				<ul id="left_nav">
+					<li id="to_home"><a class="title" href="http://opentutorials.org/"><span>Open</span>tutorials.org</a></li> 
+					<li id="btn_create_module"><a class="title" href="http://opentutorials.org/admin/module_basic/0">모듈 만들기</a>
+						<form id="new_module_layer" class="submenu layerbox" method="post" action="http://opentutorials.org/admin/module_basic_ajax/0">
+							<div class="pin pin_big_top"> </div>
+							<div class="wrapper table">
+								<div class="head">
+									<strong class="icon"><span class="ico_module"></span>새 모듈 만들기</strong>
+									<button class="btn_close"><span>닫기</span></button>									
+								</div>
+								<div class="body">
+									<dl>
+										<dt><label for="new_module_title">제목</label></dt>
+										<dd><input type="text" id="new_module_title" name="title" class="text"/></dd>
+									</dl>
+									<dl>
+										<dt><label for="new_module_cover">커버 내용</label></dt>
+										<dd><textarea id="new_module_cover" name="description"></textarea></dd>
+									</dl>
+									<dl class="new_license">
+										<dt><label for="new_license">라이센스</label></dt>
+										<dd>
+											<input type="checkbox" class="chk" id="new_license" name="license" value="1"/><label for="new_license">오픈 라이센스 사용에 동의합니다.</label>
+										</dd>
+									</dl>
+								</div>
+								<div class="tail">
+									<button type="submit" class="btn btn_submit">저장</button>
+								</div>
+
+								<input type="hidden" name="summary" value=""/>
+								<input type="hidden" name="public" value="public"/>
+								<input type="hidden" name="skip_cover" value="0"/>
+								<input type="hidden" name="cominfo" value=""/>
+								<input type="hidden" name="everystudy_label" value=""/>
+								<input type="hidden" name="marking_label" value=""/>
+							</div>
+						</form>
+					</li>
+					<li id="notify_count">
+						<a id="notify_counter" class="title" href="#"><span class="label">알림</span> <span class="count">0</span></a>
+						<div id="notifier_layer" class="submenu layerbox">
+							<div class="triangle">
+								<div class="pin pin_big_top">
+
+								</div>
+							</div>
+							<div class="wrapper table">
+								<div class="head">
+									<a href="#" data-type="all" class="notify_cate selected">전체</a> | <a href="#" data-type="comment" class="notify_cate">댓글</a> | <a data-type="mark_topic_marked" class="notify_cate" href="#">봤어요</a>
+									<button class="btn_close cancel"><span>닫기</span></button>
+								</div>
+								<div class="body scrollbox">
+									<ul>
+										<li class="empty"></li>
+									</ul>
+									<a class="more_notifier" href="#">더 불러오기</a>
+								</div>
+								<div class="tail">
+								</div>
+							</div>	
+						</div>
+					</li>
+				</ul>			<nav id="right_nav">
+				<ul>
+
+					<li id="settings">
+						<span class="title">gurugio</span>
+						<div id="settings_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<div class="table">
+								<menu>
+									<li><a href="http://opentutorials.org/profile/9992">프로필 보기</a></li>
+									<li><a href="/admin/module_topic_edit/1329/8573">관리자</a></li>
+									<li><a href="http://opentutorials.org/module/180">도움말</a></li>
+									<li><a href="http://opentutorials.org/auth?mode=logout&returnURL=module/1329/8573" id="logout">로그아웃</a></li>
+								</menu>
+							</div>
+						</div>
+					</li>
+					<li id="activity">
+						<span class="title">참여활동</span>
+						<div id="activity_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="everystudy"><span class="inner">공동공부</span></th>
+										<th class="marking"><span class="inner">봤어요</span> <span class="subtitle">누적봤어요 <span class="count">0</span>번</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="everystudy">
+											<div id="p_everystudy_nest" class="scrollbox"></div>
+										</td>
+										<td class="marking">
+											<div id="p_marking_nest" class="scrollbox"> </div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+					<li id="my_content">
+						<span class="title">내 컨텐츠</span>
+						<div id="my_content_submenu" class="submenu layerbox">
+							<div class="pin pin_big_top"></div>
+							<table>
+								<thead>
+									<tr>
+										<th class="course"><span class="inner">코스</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/course_basic">설정</a><a class="add" href="http://opentutorials.org/admin/course_basic/0">추가</a></div></th>
+										<th class="module"><span class="inner">모듈</span> <div class="controls"><a class="setting" href="http://opentutorials.org/admin/module_basic">설정</a><a class="add" href="http://opentutorials.org/admin/module_basic/0">추가</a></div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="course">
+											<div id="p_course_nest" class="scrollbox"></div>
+										</td>
+										<td class="module">
+											<div id="p_module_nest" class="scrollbox"></div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</li>
+				</ul>
+			</nav>
+			</header>
+
+</div>		<div id="body">
+			<div id="breadcrumb">
+				<div class="wrapper">
+
+					<span id="study_count">
+						<a id="btn_everystudy" href="#everystudy" mode="module">
+							<span class="label">공동공부</span> <small>(<span class="count">12</span>명)</small>
+						</a>
+					</span>
+
+				</div>
+			</div>
+
+			<div id="cols">
+				<div class="wrapper">
+
+					<aside>
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="left_ctrs">
+									<a href="http://opentutorials.org/module/1329/add" id="add" class="btn">토픽 추가</a><a href="http://opentutorials.org/#topic_move" id="order" class="btn">토픽 순서</a>								</div>
+							</div>
+						</div>
+						<div id="topic_list_index" class="index">
+								<div class="module_cover">
+									<a href="http://opentutorials.org/module/1329">커버 페이지</a>
+								</div>
+							<h2>토픽 목록</h2>
+
+							<nav class="sub_nav">
+								<ol id="topic_list_tree" class="no_draggable">
+									<li id="list_8571" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8571" class="ready depth_0"><span class="title">터미널 환경 꾸미기</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8572" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8572" class="depth_0"><span class="title">emacs 설정</span></a></div>
+																			</li>
+									<li id="list_8573" class="selected depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8573" class="selected depth_0"><span class="title">emacs 패키지</span></a></div>
+																			</li>
+									<li id="list_8574" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8574" class="depth_0"><span class="title">emacs로 소스 빌드하기</span></a></div>
+																			</li>
+									<li id="list_8575" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8575" class="depth_0"><span class="title">make 시작</span></a></div>
+																			</li>
+									<li id="list_8576" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8576" class="depth_0"><span class="title">make - configure.in 작성</span></a></div>
+																			</li>
+									<li id="list_8577" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8577" class="depth_0"><span class="title">make - 예제 소스</span></a></div>
+																			</li>
+									<li id="list_8578" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8578" class="depth_0"><span class="title">make - 간단한 예제</span></a></div>
+																			</li>
+									<li id="list_8579" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8579" class="depth_0"><span class="title">make - 좀더 복잡하게</span></a></div>
+																			</li>
+									<li id="list_8580" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8580" class="depth_0"><span class="title">make - 최종</span></a></div>
+																			</li>
+									<li id="list_8581" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8581" class="depth_0"><span class="title">make - cmake 소개</span></a></div>
+																			</li>
+									<li id="list_8583" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8583" class="depth_0"><span class="title">변하는 것과 변하지 않는 것을 구분하는 프로그래밍</span></a></div>
+																			</li>
+									<li id="list_8582" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8582" class="depth_0"><span class="title">테스트를 위한 입출력 값을 테이블로 정의하기</span></a></div>
+																			</li>
+									<li id="list_8584" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8584" class="depth_0"><span class="title">인증 번호 생성 1/2</span></a></div>
+																			</li>
+									<li id="list_8585" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8585" class="depth_0"><span class="title">인증 번호 생성 2/2</span></a></div>
+																			</li>
+									<li id="list_8645" class="depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8645" class="depth_0"><span class="title">linux kernel 3.16</span></a></div>
+																			</li>
+									<li id="list_8644" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8644" class="ready depth_0"><span class="title">linux kernel - ion에서 사용된 데이터 heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8647" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8647" class="ready depth_0"><span class="title">linux kernel - ion에서 heap을 등록하는 코드</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8654" class="ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8654" class="ready depth_0"><span class="title">linux kernel - ion의 system heap 소개</span><span class="ready">준비중</span></a></div>
+																			</li>
+									<li id="list_8718" class="private ready depth_0">
+										<div class="label"><a href="http://opentutorials.org/module/1329/8718" class="private ready depth_0"><span class="title">구조체 안에 배열 넣기</span><span class="ready">준비중</span></a></div>
+																			</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div id="author_identity">
+							<h3>생산자</h3>
+
+							<ul>
+								<li>
+									<div class="profile_image">
+										<img class="profile_icon" data-id="9992" src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+									</div>
+									<div class="name"><strong>gurugio</strong></div>
+									<div class="statistics">토픽 59 &nbsp;/&nbsp; 봤어요 0</div>
+
+								</li>
+							</ul>
+						</div>
+					</aside>
+					<div class="entry-area">
+						<div class="controllers">
+							<div class="wrapper">
+								<div id="right_ctrs">
+<a href="http://opentutorials.org/module/1329/8573/edit" id="edit" class="btn">편집</a><a href="http://opentutorials.org/#" id="delete" class="btn amplify">삭제</a><a href="http://opentutorials.org/module/1329/8573/add" id="add2" class="btn">하위 토픽 추가</a>								</div>
+							</div>
+						</div>
+						<article class="hentry">
+
+						<hgroup>
+							<h1 class="entry-title">emacs 패키지</h1>
+							<div class="props">
+								<time datetime="">2014-11-10 19:43:21</time>
+								<span class="tags">
+									| <span class="tag public">공개</span>
+									| <span class="tag complete">완료</span>
+								</span>
+							</div>
+						</hgroup>
+
+						<div id="content" class="entry-content">
+							<p>svn-status(update, diff, revert 등등), gtags, gdb, tramp, 컴파일 및 에러 이동, eshell,</p>
+
+<p><br />
+C프로그래밍에 필요한 emacs 기능들을 몇가지 소개하겠습니다. emacs는 사실 편집기라고 생각하기 어색할 정도로 기능이 많습니다. 하드웨어 부팅만 안할뿐이지 운영체제가 하는 일을 거의 다 할 수 있습니다. 웹 브라우징도 되고 스케줄 관리, 통합 개발 툴, 터미널, e-메일, ftp, telnet, ssh 등등 뭐가 지원 안되는지를 알기 힘듭니다. GUI기반 통합개발툴처럼 개발 환경을 꾸밀수도 있습니다. 제가 익숙하지 않아서 못쓸 뿐이지 개발에 필요한 기능은 모두 있다고 생각하면 됩니다. GUI 개발툴처럼 버전이 달라질때마다 동작이 달라지거나, 추가 비용이 들어가는 일도 없습니다. 한번 익숙해지면 운영체제에 상관없이 어디에서나 똑같은 개발 환경을 무료로 꾸밀 수 있습니다.</p>
+
+<p>그래서 제가 사용하는 기능들만 소개합니다만 emacs의 기능 중에 아주 기본적인 기능 중에 일부분이라고 생각하시면 됩니다. 여기서 소개하는 몇가지 기능들이 익숙해지시면 조금씩 다른 기능들을 시험해보시기 바랍니다. 시간이 흐를 수록 더 생산성이 높아지는 것을 경험하실 겁니다.&nbsp;</p>
+
+<p>또한 비슷한 기능을 가지면서 더 편리한 것들이 있을 수 있습니다. emacs에 이런 기능이 있다라는 것을 확인하시고, 자신에게 더 잘 맞는 라이브러리를 찾아보시기 바랍니다.</p>
+
+<p><br />
+1.3.1 psvn 라이브러리</p>
+
+<p>emacs에서 subversion을 사용하기 위한 라이브러리중에 psvn.el 이라는 것이 있습니다. 여러개의 파일을 한꺼번에 처리할 수 있고, subversion 개발자가 직접 참여해서 개발된 라이브러리이므로 안정적이고 편리하게 subversion을 사용할 수 있습니다.&nbsp;</p>
+
+<p>emacs를 실행한 후 M-x svn-status를 입력합니다. 실행할 디렉토리를 묻는 메시지가 나오면 원하는 디렉토리를 입력합니다. 이 디렉토리는 이미 svn으로 관리되고 있는 디렉토리어야 합니다. 파일의 리스트가 나타날 것입니다.</p>
+
+<p>파일 리스트가 출력되면 svn의 기능을 동일하게 사용할 수 있습니다. 다음은 제가 주로 사용하는 명령어입니다.</p>
+
+<p>&lsquo;g&rsquo;<br />
+- svn-status를 다시 실행해서 정보를 갱신합니다.</p>
+
+<p>&lsquo;U&rsquo;<br />
+- svn update 명령을 실행합니다.</p>
+
+<p>&lsquo;C-u U REVISION RET&rsquo;<br />
+- 특정 리비전으로 업데이트합니다.<br />
+Update the files to &lsquo;REVISION&rsquo;.<br />
+&lsquo;M-- U&rsquo;<br />
+- 선택된 파일들만 업데이트합니다.</p>
+
+<p>&lsquo;m&rsquo;<br />
+- 커서가 위치한 파일을 선택합니다.</p>
+
+<p>&lsquo;u&rsquo;<br />
+- 커서가 위치한 파일의 선택을 해지합니다.</p>
+
+<p>&lsquo;c&rsquo;<br />
+- 선택된 파일들이나 커서가 위치한 파일을 커밋합니다. 명령을 실행하면 새로운 버퍼가 열리고 로그 메시지를 입력할 수 있습니다. 메시지 입력을 종료하려면 C-c C-c를 입력합니다.</p>
+
+<p>`=&rsquo;<br />
+- 선택된 파일이나 커서가 위치한 파일에 svn diff를 실행합니다. 새로운 버퍼가 열리고 diff 결과가 출력됩니다.</p>
+
+<p>`C-u = REVISION RET&rsquo;<br />
+- 특정 리비전과 diff를 실행합니다.</p>
+
+<p>&#39;i&#39;<br />
+- svn info를 실행합니다.</p>
+
+<p>&#39;r&#39;<br />
+svn revert를 실행합니다.</p>
+
+<p>&#39;a&#39;<br />
+- svn add --non-recursive를 실행합니다.<br />
+A<br />
+- svn add&#39;를 실행합니다.<br />
++<br />
+- svn mkdir를 실행합니다.<br />
+R<br />
+- svn mv를 실행합니다.</p>
+
+<p>C<br />
+- svn cp를 실행합니다.</p>
+
+<p>D<br />
+- svn rm를 실행합니다.<br />
+b<br />
+- svn blame를 실행합니다.</p>
+
+<p>&lsquo;l&rsquo;<br />
+- log를 출력합니다.</p>
+
+<p><br />
+로그를 출력하면 각 리비전별로 어떤 파일들이 수정되었는지가 나타납니다. 파일 이름이 있는 줄에 커서를 대고 실행할 수 있는 명령어가 있습니다.</p>
+
+<p>&#39;엔터키&#39;<br />
+- 파일을 엽니다.</p>
+
+<p>&#39;=&#39;<br />
+- 해당 리비전과 그 이전 리비전의 diff 출력</p>
+
+<p>psvn에도 subversion 서버에서 체크아웃할 수 있는 기능이 있습니다. M-x load-library를 실행한 후 라이브러리 이름을 묻는 메시지가 나오면 psvn을 입력압니다. 그리고 M-x svn-checkout을 실행하면 됩니다. 그 외에 M-x svn-까지 입력하고 탭키를 누르면 다양한 명령들이 있다는 것을 알 수 있습니다.</p>
+
+<p>더 자세한 설명과 그외 기능들의 목록은 psvn.el 파일을 열어서 확인할 수 있습니다.</p>
+
+<p>1.3.2 GNU global 프로그램과 gtags 라이브러리</p>
+
+<p>소스 태깅을 위한 다양한 라이브러리가 있습니다. cscope용으로 xcscope라는 라이브러리가 있지만 저는 global이라는 태깅 프로그램을 주로 사용하므로 gtags라는 라이브러리를 사용합니다. global 5.9.3 버전을 기준으로 설명하겠습니다.</p>
+
+<p>gtags를 사용하기 위해서는 먼저 다음 코드를 .emacs에 추가해줍니다. /usr/share/emacs/site-lisp/global은 global의 패키지에 포함된 gtags.el의 위치입니다. 다른 위치에 gtags.el를 저장하셨다면 수정해서 사용하시기 바랍니다.</p>
+
+<p>;; GNU GLOBAL for source tag<br />
+(setq load-path (cons &quot;/usr/share/emacs/site-lisp/global/&quot; load-path))<br />
+(autoload &#39;gtags-mode &quot;gtags&quot;<br />
+&nbsp; &quot;Minor mode for browsing source code using GLOBAL&quot; t)<br />
+(add-hook &#39;c-mode-common-hook<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (lambda () (gtags-mode 1)))</p>
+
+<p>그리고 소스가 있는 디렉토리에서 태그 파일을 생성해야합니다. global 프로그램을 설치하셨다면 gtags라는 실행파일이 설치됩니다. 터미널에서 gtags파일을 실행하면 실행된 디렉토리에 GTAGS, GPATH, GRTAGS 등의 파일이 생성됩니다. 편집할 소스는 반드시 이 파일들이 있는 디렉토리의 하위 디렉토리에 있어야 합니다. 여기까지가 gtags 라이브러리를 사용하기 위한 준비과정입니다.</p>
+
+<p>emacs를 실행하고 gtags-mode로 진입하면 그때부터 gtags를 사용할 수 있습니다. M-x gtags-mode를 실행하면 gtags-mode로 진입합니다. .emacs에서 c-mode로 진입할때마다 자동으로 gtags-mode로 진입하도록 설정했으므로 .c 파일을 열면 자동으로 gtags-mode가 되어있을 것입니다.&nbsp;</p>
+
+<p>gtags-mode에서는 다음 명령어들을 사용할 수 있습니다. M-x를 입력한 후 원하는 명령어를 입력하면 됩니다.</p>
+
+<p>gtags-find-tag (단축키 C-.)<br />
+- 태그를 찾습니다. 태그를 찾게되면 새로운 버퍼가 나타나면서 검색된 태그의 위치가 나타납니다. 여러개일때는 원하는 위치로 커서를 옮기고 엔터키를 누르면 해당 위치로 이동합니다.</p>
+
+<p>gtags-find-rtag<br />
+- 검색하고자하는 태그를 참조하는 소스를 검색합니다. printf를 입력하면 printf를 호출한 함수들의 목록이 나타납니다.</p>
+
+<p>gtags-pop-stack (단축키 C-*)<br />
+- 이전 화면으로 넘어갑니다. 태그를 검색하고 여러개의 위치 중에 특정 위치로 넘어갔을 때 이 명령을 실행하면 다시 선택 버퍼로 넘어갑니다. 그리고 다른 위치를 선택할 수 있습니다.</p>
+
+<p>그 외에도 다양한 명령이 있습니다. M-x gtags-를 입력하고 탭키를 누르면 모든 명령이 출력됩니다. 텍스트를 검색하는 gtags-find-with-grep, 파일을 찾는 gtags-find-file 등 다양한 명령이 있습니다.</p>
+
+<p><br />
+1.3.3 Grand Unified Debugger (GUD)</p>
+
+<p>gdb의 가장 큰 문제점이 손으로 해야 할 일이 너무 많다는 것 같습니다. 저도 그래서 ddd같은 gdb의 프론트엔드 제품을 자주 사용합니다. emacs 사용자들도 비슷한 생각을 한것 같습니다. GUD는 gdb를 ddd와 유사하게 사용할 수 있는 모드를 제공합니다.</p>
+
+<p>emacs안에서 gdb를 실행시키는 방법은 M-x gdb입니다. 터미널에서 gdb를 실행시키는 것과 같은 화면이 출력됩니다. 사용법도 터미널에서 gdb를 사용하는 것과 동일합니다.</p>
+
+<p>이번에는 다른 방식으로 gdb를 실행시켜 보겠습니다. 우선 .emacs 파일에 다음 코드를 추가합니다.</p>
+
+<p>(setq gdb-many-windows t)</p>
+
+<p>그리고 M-x gdb를 실행해보시면, 자동으로 지역변수, 스택 프레임, 브레이크 포인트, 소스를 보여주는 창이 생깁니다.</p>
+
+<p>&quot;실행 이미지 넣을 것&quot;</p>
+
+<p>주로 저는 여기에 변수 출력 창 하나를 더 실행해서 사용합니다. 프로그램 소스가 있는 창으로 이동한 다음 보이길 원하는 변수에 커서를 가져갑니다. 그리고 C-x C-a C-w를 입력하면 speedbar라는 새로운 창에 Watch Expressions이라는 버퍼가 생성되면서 변수와 변수 값이 보입니다. 변수의 값이 바뀌면 빨간색으로 출력되는 것도 쓸모가 있습니다.</p>
+
+<p>Watch Expression 버퍼에서 변수의 값을 바꾸려면 해당 변수가 있는 줄로 이동한 다음 엔터키를 누르면 됩니다. 새로운 값을 입력하라는 메시지가 나오고 새로운 값을 입력합니다. 곧바로 바뀐 값이 보이지는 않습니다. speedbar가 아닌 다른 창을 선택하면 새로운 값이 보이는데, 이것은 아마도 리눅스의 윈도우 매니저의 문제로 보입니다. 어쨌든 값을 바꾸고 Alt+Tab을 눌러서 gdb가 실행된 창으로 옮겨오면 새로운 값이 보입니다.</p>
+
+<p>또 Watch Expression 버퍼에서 구조체를 볼 때, 구조체의 내부 변수들을 보고 싶을 때는 라인 왼쪽 끝에 있는 +표시로 커서를 옮기고 스페이스바를 누릅니다. 그러면 곧바로 구조체가 펼쳐지지 않고, Alt+Tab을 눌러서 다른 창으로 옮겼을 때 펼쳐진 모습이 보입니다. 내부 변수의 값을 바꾸는 것은 다른 변수들의 값을 바꾸는 것과 동일합니다.</p>
+
+<p>gdb의 실행이 끝났으면 gdb의 실행 창에서 q를 입력합니다. 터미널에서 gdb를 종료시키는 것과 동일합니다. 그러면 다른 창들이 자동으로 닫히고 소스 편집 창만 남게됩니다.&nbsp;</p>
+
+<p>emacs의 메뉴바에서 GUD를 클릭하시면 그 외에도 많은 기능을 볼 수 있습니다. GUD는 GUI적인 환경을 제공하므로 더 많은 기능을 사용하기 위해서는 마우스를 같이 이용하시기 바랍니다. gdb가 제공하는 거의 모든 기능을 간편하게 사용할 수 있습니다.</p>
+
+<p><br />
+1.3.4 tramp</p>
+
+<p>원격 서버에 저장된 파일을 편집하기 위한 라이브러리입니다. 터미널에서 ssh나 telnet으로 서버에 접속하지 않고 emacs안에서 로컬 머신의 파일을 여는 것과 같은 방식으로 원격 파일을 열 수 있습니다. 그래서 라이브러리 이름이 tramp(Transparent Remote Access, Multiple Protocols)입니다.&nbsp;</p>
+
+<p>최신 버전의 emacs는 tramp를 기본적으로 내장하고 있습니다. 다음 명령으로 서버에 있는 파일을 열 수 있습니다.</p>
+
+<p>M-x M-f /ssh:myid@myserver:</p>
+
+<p>M-x M-f 는 파일을 여는 명령입니다. tramp는 로컬 머신의 파일을 여는 것이나 동일한 인터페이스를 제공한다는 것을 알 수 있습니다. ssh는 접속에 사용할 프로토콜입니다. telnet도 사용가능합니다. myid는 서버에 접속할 아이디이고, myserver는 서버의 호스트 네임이나 IP주소입니다. 마지막에 :를 입력하는 것을 잊지 말아야 합니다.</p>
+
+<p>여기까지 입력하고 실행하면 패스워드를 물어봅니다. 패스워드를 입력하면 서버에서 홈 디렉토리가 열립니다. 이때부터는 로컬 머신에서 emacs를 사요하는 것과 동일합니다.</p>
+
+<p>접속 프로토콜을 ssh로 사용할 일이 많다면 다음 코드를 .emacs에 추가해서 기본 프로토콜을 ssh로 설정할 수 있습니다.</p>
+
+<p>(setq tramp-default-method &quot;ssh&quot;)</p>
+
+<p>이렇게 기본 프로토콜이 설정되면 다음과 같이 프로토콜을 생략했을 때 자동으로 ssh를 사용하게 됩니다.</p>
+
+<p>M-x M-f /myid@myserver:<br />
+그리고 현재 사용하는 아이디와 접속 아이디가 같다면 접속 아이디까지도 생략할 수 있습니다.</p>
+
+<p>M-x M-f /myserver:<br />
+다음과 같이 특정 파일을 곧바로 편집할 수도 있습니다.<br />
+M-x M-f /myserver:.emacs<br />
+M-x M-f /myserver:env/bashrc<br />
+tramp를 사용하기 위해서 가장 중요한 사항이 있습니다. 서버의 기본 쉘을 bash로 설정하는 것입니다. tramp는 서버에서 전송되는 메시지를 가공해서 emacs에 출력하는 방식으로 동작합니다. 만약 bash외의 다른 쉘이 사용된다면 tramp는 메시지를 인식하지 못하고, 잘못 동작하게 됩니다. 동작이 정지한다거나 아무 출력도 나오지 않는 등의 문제가 생길 수 있습니다. 그럴때는 C-g를 입력해서 접속 시도를 취소하고 쉘 프롬프트를 확인하시기 바랍니다. 이전 장에서 설정한 호스트네임과 아이디를 출력하는 정도의 프롬프트라면 문제없이 사용할 수 있을 것입니다.<br />
+그리고 구형 유닉스 머신에도 접속이 안될 경우가 있습니다. 그럴때는 ssh대신에 telnet을 사용해보거나 접속시 아이디를 물어보는 login: 메시지가 출력되는지 확인해야 합니다. login: 외에 다른 메시지가 출력되거나 ssh가 불안정해서 tramp를 사용하지 못하는 경우가 있습니다.</p>
+
+<p>1.3.5 compile<br />
+emacs에서 컴파일을 실행하고, 결과도 emacs에서 확인할 수 있습니다.&nbsp;<br />
+컴파일은 M-x compile 명령으로 실행할 수 있습니다. M-x compile 명령을 실행하면 Compile command: make -k 라는 메시지가 출력됩니다. 기본적으로 make -k 를 실행하겠다는 의미입니다. Makefile을 작성해놓았으면 그대로 엔터키를 눌러서 make -k가 실행되도록 합니다. -k 외에 -s 등 다른 옵션을 지정할 수도 있습니다. make 명령을 실행하지 않고 메시지를 지운 후 gcc a.c 등으로 컴파일러를 호출할 수도 있습니다.<br />
+다음과 같이 .emacs를 설정하면 F9키를 compile을 위한 단축키로 설정할 수 있습니다.<br />
+(global-set-key [f9] &#39;compile)<br />
+compile 명령을 실행하고 빌드가 완료되면 *compilation*이라는 버퍼가 나타납니다. 빌드에 아무런 문제가 없으면 마지막에 &#39;Compilation finished at 날짜&#39;라는 메시지가 출력됩니다. 에러나 경고가 발생했다면 컴파일러가 출력한 에러 메시지가 출력되고 마지막으로 &#39;Compilation exited abnormally with code 에러번호 at 날짜&#39;라는 메시지가 출력됩니다.<br />
+각 에러 메시지는 에러가 발생한 소스 파일과 줄 번호로 시작합니다. 여기에 마우스를 클릭하거나 엔터키를 누르면 해당 위치로 자동으로 이동합니다. 그리고 previous-error, next-error 명령도 사용할 수 있습니다. previous-error 명령은 현재 보다 이전에 발생한 에러나 경고의 위치로 이동합니다. next-error 명령은 다음 위치로 이동합니다.<br />
+다음 코드를 .emacs에 추가해서 단축키 F7, F8로 에러 위치들을 살펴볼 수 있도록 설정하면 더 편리하게 소스를 확인할 수 있습니다.<br />
+(global-set-key [f7] &#39;previous-error)<br />
+(global-set-key [f8] &#39;next-error) &nbsp;&nbsp;</p>
+
+<p>1.3.6 eshell<br />
+emacs에서 터미널을 사용할 수 있는 라이브러리는 shell, term, eshell 등이 있습니다. 저는 주로 eshell을 사용합니다. eshell은 실제 터미널 환경을 Emacs LISP으로 다시 구현한 것입니다. 따라서 어떤 운영체제에서든지 동일하게 동작하므로 윈도우나 구현 유닉스와 같이 터미널이 불편한 환경에서도 편리하게 사용할 수 있습니다. 유니코드나 하이라이팅이 지원되므로 실제 터미널과 별 차이없이 편리하게 사용할 수 있습니다.<br />
+실행방법은 M-x eshell 입니다.</p>
+
+<p>git 사용자를 위한 magit도 있습니다.</p>
+
+<p><span style="color:#FF0000;">magit에 대한 내용은 추후 추가하겠습니다.</span></p>
+						</div>
+
+						</article>
+					<div id="social_group">
+						<ul>
+							<li id="facebook_like"><div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-height="20" data-show-faces="false"></div></li>
+							<li id="readit">
+								<a class="marking" href="#" data-mark-id="0"><span class="action">봤어요</span> (<span class="count">0</span>명)</a>
+							</li>
+							<li id="topic_navigator">
+								<ul>
+									<li class="prev"><a href="http://opentutorials.org/module/1329/8572">이전</a></li><li class="next"><a href="http://opentutorials.org/module/1329/8574">다음</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div id="fb-root"></div>
+					<script>
+						(function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0];
+							if (d.getElementById(id)) return;
+							js = d.createElement(s); js.id = id;
+							js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1";
+							js.async = true;
+							fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));
+
+						function doMarking() {
+							var marker = $('#social_group a.marking');
+							var markType = marker.hasClass('marked') ? 'unmark' : 'marking';
+							ga('send', 'event', 'Participation', 'mark_'+markType, path_context+(topic_id ? '/'+topic_id : '')+', '+document.title , {useBeacon:true});
+							$.ajax({
+								url: "http://opentutorials.org/module/1329/8573/marking_ajax",
+								data: {'type':'saw', 'marktype':markType, 'mark_id':marker.data('mark-id')},
+								type: 'post',
+								dataType: 'json',
+								success: function (response) {
+									if (response.result) {
+										if (response.data.status == 'unmarked'){
+											marker.removeClass('marked');
+											marker.find('span.action').html("봤어요");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count - 1);
+										} else {
+											marker.addClass('marked');
+											marker.find('span.action').html("봤어요 취소");
+											var count = Number(marker.find('span.count').text());
+											marker.find('span.count').text(count + 1);
+										}
+
+										marker.data('mark-id', response.data.id);
+									} else {
+										if (response.errorCode == 1) {
+											var dialog = LoginDialogManager.get();
+											dialog.show(true);
+										} else {
+											xalert(NULL, response.msg, {modal:true});
+										}
+									}
+								}
+							})
+						}
+
+						function handleMarking(event) {
+							event.preventDefault();
+							doMarking();
+						}
+
+						$('#readit a.marking').click(handleMarking);
+					</script>
+<div id="comment" data-role="collapsible">
+	<h3>댓글</h3>
+
+	<form id="comment_new_form" method="post" action="http://opentutorials.org/comment/add_ajax" data-ajax="true">
+		<div class="profile_image">
+			<img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/avatar/40/9992.png" alt="">
+		</div>
+
+		<div class="form_wrapper">
+			<dl class="comment_form_content">
+				<dt>댓글 본문</dt>
+				<dd>
+					<div id="reply_indicator">
+						<a>리체님의 댓글에 대한 답글입니다.</a>
+						<input type="hidden" name="parent" value="">
+						<a class="btn btn_unchain" href="#">삭제</a>
+					</div>
+					<textarea name="cmt_content"></textarea>
+				</dd>
+			</dl>
+			<div class="buttons">
+				<input type="hidden" name="course_id" value="0">
+				<input type="hidden" name="module_id" value="1329">
+				<input type="hidden" name="topic_id" value="8573">
+
+				<button type="submit"><span>댓글 올리기</span></button>
+			</div>
+		</div>
+	</form>
+	
+	<ol id="comment_list">
+	</ol>
+
+	<div id="cmt_more" class="hidden">
+		<a href="#"><span>더 보기</span></a>
+	</div>
+</div>					</div>
+					<div style="clear: both"></div>
+				
+				
+					<div id="footer">
+						<a href="http://opentutorials.org/home/viewmode_mobile?returnURL=http%3A%2F%2Fopentutorials.org%2Fmodule%2F1329%2F8573">모바일 버전</a>
+					</div>
+
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="author_balloon">
+		<div class="box">
+			<img class="avatar" src="http://opentutorials.org/static/img/common/blank.gif" alt="" style="background-image: none">
+		</div>
+
+		<div class="header">
+			<strong>graphittie</strong>
+			<a href="#">자세히 보기</a>
+		</div>
+
+		<div class="body">
+			<ul id="statistics">
+				<li class="topic"><span class="text"><i></i>토픽</span> <span class="count">0</span></li>
+				<li class="module"><span class="text"><i></i>모듈</span> <span class="count">0</span></li>
+				<li class="course"><span class="text"><i></i>코스</span> <span class="count">0</span></li>
+				<li class="readit"><span class="text"><i></i>봤어요</span> <span class="count">0</span></li>
+				<li class="comment"><span class="text"><i></i>댓글</span> <span class="count">0</span></li>
+				<li class="hof"><span class="text"><i></i>명예의 전당</span> <span class="count">0</span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="holder">
+
+	</div>
+
+<script src="/static/js/desktop/comment.js?1"></script>
+<script src="/static/js/desktop/script.js?1"></script>
+	<script>
+		if (DOMLoader.callbacks.length) {
+			for (var i=0, max=DOMLoader.callbacks.length; i<max; i++)
+				DOMLoader.callbacks[i]();
+		}
+
+	</script>
+	<script>
+	if(window.google_analytics_page_set_object) {
+		ga('set', google_analytics_page_set_object);
+	};
+	if(ga) {
+		ga('send', 'pageview');
+	}
+</script>
+</body>
+</html>
